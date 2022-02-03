@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width">
+    <title>LastNeo</title>
+</head>
+<style type="text/css">
+    @font-face {
+        src: url("../static/fonts/NotoSansKR-Medium.otf");
+        font-family: "NotoSansKR-Medium";
+    }
+    @font-face {
+        src: url("../static/fonts/NotoSansKR-Regular.otf");
+        font-family: "NotoSansKR-Regular";
+    }
+    body { -ms-overflow-style: none; margin: 0px auto;}
+    ::-webkit-scrollbar { display: none; }
+    @media screen and (max-width: 600px) {
+        #body-middle-container-1 {
+            text-align: center;
+        }
+        #body-middle-container-2 {
+            text-align: center;
+        }
+        #NFT_1 {
+            text-align: center;
+        }
+        #body_title_1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #body_text_1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #NFT_2 {
+            text-align: center;
+            margin-top: 60px;
+        }
+        #body_title_2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #body_text_2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #footer-container {
+            background-color: #EBEDF0;
+            height: 300px;
+            width: 100%;
+            text-align: center;
+        }
+        #footer-info-container {
+            padding-top: 50px
+        }
+        #footer-image{
+            width: 129px;
+            height: 48px;
+            text-align: center;
+        }
+        .footer-text {
+            font-family: "NotoSansKR-Regular";
+            font-size: 12px;
+            color: #9599A2;
+            text-align: center;
+        }
+        #footer-name {
+            font-family: "NotoSansKR-Medium";
+            font-size: 16px;
+            color: #4784FF;
+            text-align: center;
+            margin-top: 20px;
+        }
+        #footer-text-copyright {
+            margin-top: 20px;
+        }
+    }
+    @media screen and (min-width: 601px) {
+        #body-middle-container-1 {
+            max-width: 640px;
+            height: 320px;
+            margin: 0 auto;
+        }
+        #body-middle-container-2 {
+            max-width: 640px;
+            height: 320px;
+            margin: 0 auto;
+            margin-top: 120px;
+        }
+        #NFT_1 {
+            float: left;
+        }
+        #body_title_1 {
+            float: left;
+            margin-left: 60px;
+        }
+        #body_text_1 {
+            float: left;
+            margin-left: 60px;
+            margin-top: 20px;
+        }
+        #NFT_2 {
+            float: right;
+        }
+        #body_title_2 {
+            float: left;
+        }
+        #body_text_2 {
+            float: left;
+            margin-top: 20px;
+        }
+        #footer-container {
+            background-color: #EBEDF0;
+            height: 308px;
+            width: 100%;
+        }
+        #footer-info-container {
+            height: 60%;
+            width: 44.7%;
+            margin-left: 33%;
+            padding-top: 100px
+        }
+        #footer-image{
+            width: 129px;
+            height: 48px;
+            float: left;
+            margin-right: 100px;
+        }
+        .footer-text {
+            font-family: "NotoSansKR-Regular";
+            font-size: 12px;
+            color: #9599A2;
+            float: left;
+        }
+        #footer-text-info {
+            float: left;
+        }
+        #footer-name {
+            font-family: "NotoSansKR-Medium";
+            font-size: 16px;
+            color: #4784FF;
+            float: left;
+            margin-right: 100px;
+            margin-top: 20px;
+        }
+        #footer-text-copyright {
+            margin-top: 20px;
+        }
+    }
+    #main-container {
+        width: 100%;
+    }
+    #header-container {
+        text-align: center;
+    }
+    #nav-logo {
+        width: 65px;
+        height: 24px;
+        margin-top: 24px;
+    }
+    #main-header {
+        background-color: #3C4047;
+        height: 504px;
+        margin-top: 24px;
+    }
+    #header-box {
+        font-family: "NotoSansKR-Medium";
+        font-size: 36px;
+        color: #F7F8FA;
+        padding-top: 200px;
+        padding-bottom: 200px;
+    }
+    #body-top-container {
+        text-align: center;
+    }
+    #main-logo {
+        width: 226px;
+        height: 84px;
+        margin-top: 100px;
+    }
+    #main-text {
+        font-family: "NotoSansKR-Medium";
+        font-size: 24px;
+        color: #9599A2;
+        margin-top: 20px;
+        margin-bottom: 200px;
+    }
+    .body-title {
+        font-family: "NotoSansKR-Medium";
+        font-size: 24px;
+        color: #3C4047;
+    }
+    .body-text {
+        font-family: "NotoSansKR-Regular";
+        font-size: 16px;
+        color: #9599A2;
+    }
+    .NFT {
+        max-width: 100%;
+    }
+    #body-bottom-container {
+        margin-top: 120px;
+        text-align: center;
+    }
+    #body_text_3 {
+        margin-top: 20px;
+    }
+    #NFT_3 {
+        margin-top: 40px;
+        margin-bottom: 200px;
+    }
+</style>
+<body>
+    <div id="main-container">
+        <header>
+            <div id="header-container">
+                <nav id="nav-header">
+                    <img id="nav-logo" src="../static/images/LastNeo.png" alt="라스트네오">
+                </nav>
+                <div id="main-header">
+                    <div id="header-box">
+                        새로운 세상에서 <br>'네오'는 '나'입니다.
+                    </div>
+                </div>
+            </div>
+        </header>
+        <section>
+            <div id="body-top-container">
+                <img id="main-logo" src="../static/images/LastNeo.png" alt="라스트네오">
+                <div id="main-text">
+                    모든것이 가상인 새로운 세상에서 <br> '나'의 존재는 진짜여야 합니다. <br> 우리는 '네오'를 통해 진짜 '나' 임을 보여줍니다.
+                </div>
+            </div>
+            <div id="body-middle-container-1">
+                <img class="NFT" id="NFT_1" src="../static/images/NFT_1.svg" alt="NFT_1">
+                <div class="body-title" id="body_title_1">
+                    나의 성격을 담은 '네오'
+                </div>
+                <div class="body-text" id="body_text_1">
+                    나의 성격이 담긴 캐릭터인 '네오'는 <br> 대체 불가능한 토큰인 'NFT'에 <br> 저장되어 발행됩니다. <br><br> 세상에서 단 하나뿐인 나, <br> '네오'를 만들어보세요.
+                </div>
+            </div>
+            <div id="body-middle-container-2">
+                <img class="NFT" id="NFT_2" src="../static/images/NFT_2.svg" alt="NFT_2">
+                <div class="body-title" id="body_title_2">
+                    성장하는 '네오'
+                </div>
+                <div class="body-text" id="body_text_2">
+                    '네오'에 나의 성격을 더 많이 <br> 담아보세요. <br><br> 우리가 서로 같지 않은 것처럼, <br>'네오'도 점점 남들과는 다른 <br>유일한 '나'로 성장할 거에요. <br>
+                </div>
+            </div>
+            <div id="body-bottom-container">
+                <div class="body-title" id="body_title_3">
+                    모든 메타버스 플랫폼에서의 진짜 '나'
+                </div>
+                <div class="body-text" id="body_text_3">
+                    메타버스 속 여러 플랫폼에서 <br> 아바타, 즉 나의 모습은 계속 바뀝니다. <br><br> 과연 새로운 세상에서 진짜 '나'는 무엇일까요?  <br><br>우리는 대체 불가능한 '인격'을 '네오'에 담아 <br> 어디서든 진짜 '나'로 존재할 수 있도록 합니다.
+                </div>
+                <img class="NFT" id="NFT_3" src="../static/images/NFT_3.svg" alt="NFT_3">
+            </div>
+        </section>
+        <footer>
+            <div id="footer-container">
+                <div id="footer-info-container">
+                    <div id="footer-image-container">
+                        <img id="footer-image" src="../static/images/LastNeo.png" alt="라스트네오">
+                    </div>
+                    <div id="footer-text-info" class="footer-text">
+                        대표 : 박준용 | 사업자 등록번호 : 789-81-01945 <br>
+                        주소 : 서울특별시 구로구 디지털로 300 12,13층(구로동, 지밸리비즈플라자) 1320호 <br>
+                        비즈니스 문의 : brady@lastneo.com <br>
+                        통신 판매번호 : 2020-서울마포-1054
+                    </div>
+                    <div id="footer-name">
+                        주식회사 몽데이크
+                    </div>
+                    <div id="footer-text-copyright" class="footer-text">
+                        ⓒ 2021. 주식회사 몽데이크 Corp. all rights reserved.
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

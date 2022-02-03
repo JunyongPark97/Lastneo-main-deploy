@@ -1,0 +1,99 @@
+/* eslint-disable */
+import React, { useState, useEffect } from "react";
+import InputDiv from "../../components/InputDiv";
+import Button from "../../components/Button";
+import SmallBtn from "../../components/SmallBtn";
+import { isAuthNumber } from "../../utils/regexes";
+import { enterAuth } from "../../_actions/neohome_action";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory, useLocation } from "react-router";
+import FormDiv from "../../components/FormDiv";
+import { getAuth } from "../../_actions/neohome_action";
+import Container from "../../components/Container";
+import Footer from "../../components/Footer";
+
+function AuthNum() {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
+  const [authNum, setAuthNum] = useState("");
+  const [type, setType] = useState(false);
+  const [errMsg, setErrMsg] = useState(false);
+
+  const onAuthNumHandler = (event) => {
+    setAuthNum(event.target.value);
+    setType(isAuthNumber(event.target.value));
+    setErrMsg(false);
+  };
+  const onSubmitHandler = (event) => {
+    event.preventDefault();
+    let body = {
+      phone: location.state.phone,
+      confirm_key: authNum,
+    };
+    console.log("body");
+    console.log(body);
+    enterAuth(body).then((response) => {
+      console.log("response");
+      console.log(response);
+      if (response.status) {
+        history.push({
+          pathname: "/resetpw/password",
+          state: {
+            phone: location.state.phone,
+            nickname: location.state.nickname,
+            confirm_key: authNum,
+          },
+        });
+      } else {
+        setErrMsg(true);
+      }
+    });
+  };
+  const onClickHandler = (event) => {
+    event.preventDefault();
+    let body = {
+      nickname: location.state.nickname,
+      phone: location.state.phone,
+    };
+    console.log(body);
+    dispatch(getAuth(body)).then((response) => {
+      console.log("response");
+      console.log(response.payload);
+    });
+  };
+  return (
+    <Container>
+      <InputDiv color={errMsg ? "purple" : "pink"}>
+        <h3>
+          문자로 전송된 인증번호
+          <br />
+          4자리를 알려주세요
+        </h3>
+        <FormDiv>
+          <form>
+            <label>인증번호</label>
+            <input
+              type="text"
+              value={authNum}
+              placeholder="0000"
+              onChange={onAuthNumHandler}
+            ></input>
+            {errMsg && <p>인증번호가 맞지 않거나 입력시간이 초과되었어요</p>}
+          </form>
+          <SmallBtn onClick={onClickHandler}>인증번호 재전송</SmallBtn>
+        </FormDiv>
+        <Button
+          onClick={onSubmitHandler}
+          type="submit"
+          color={!type ? "lightPink" : "pink"}
+        >
+          다음
+        </Button>
+      </InputDiv>
+      <Footer />
+    </Container>
+  );
+}
+
+export default AuthNum;
