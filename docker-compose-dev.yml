@@ -1,0 +1,23 @@
+# docker-compose-dev.yml
+
+version: '3'
+services:
+    nginx:
+        restart: unless-stopped
+        build:
+            context: .
+            dockerfile: ./docker/nginx/Dockerfile
+        ports:
+            - "80:80"
+        volumes:
+            - ./docker/nginx/dev:/etc/nginx/conf.d
+        depends_on:
+            - backend
+    backend:
+        restart: unless-stopped
+        build:
+            context: .
+            dockerfile: ./docker/backend/Dockerfile
+        entrypoint: /app/docker/backend/wsgi-entrypoint-dev.sh
+        expose:
+            - "8000"
