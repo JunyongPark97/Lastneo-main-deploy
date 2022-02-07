@@ -34,6 +34,10 @@ const InputDiv = styled.div`
       }
     }}
   }
+  p.modal-msg {
+    font-size: 12px;
+    margin-top: 4px;
+  }
   label {
     margin-bottom: 4px;
     font-weight: 400;

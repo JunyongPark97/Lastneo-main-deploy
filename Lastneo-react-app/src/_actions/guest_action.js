@@ -9,7 +9,6 @@ export const getGuestInfo = async (nickname) => {
     const req = await axios.get(
       process.env.REACT_APP_DB_HOST + `/api/v1/neohomeguest/${nickname}`
     );
-    console.log(req.data);
     return {
       type: GUEST_INFO_SUCCESS,
       payload: req.data,

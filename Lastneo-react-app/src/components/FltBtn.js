@@ -7,6 +7,7 @@ import { css } from "styled-components";
 const FltBtn = styled(Button)`
   position: sticky;
   bottom: 60px;
+  z-index: 100;
   ${({ color, theme }) => {
     if (color == "black") {
       return css`

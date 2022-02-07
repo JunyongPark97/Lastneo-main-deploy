@@ -95,12 +95,18 @@ const CopyDiscode = styled.div`
   }
   `}
 `;
+
+const twHashtags = ["라스트네오", "나를 담은 캐릭터"];
+const fbHashtags = "#라스트네오";
+const snsTitle = "나를 담은 네오 캐릭터는?";
+const snsDesc = "MBTI와 나를 잘 설명하는 단어로 표현된 내 캐릭터를 보러 와!";
+
 function Communication({ store }) {
   const kakaoData = { img: store.neo_image, home_address: store.home_address };
   const store_neohome = useSelector((store) => store.neohome);
   console.log(store_neohome);
   return (
-    <SectionContainer color="pink" style={{ marginBottom: "60px" }}>
+    <SectionContainer color="pink" communication>
       <p>소통하기</p>
       <h3>
         네오 집을 친구에게 <span>공유</span>하고
@@ -110,10 +116,19 @@ function Communication({ store }) {
       <ShareBtns>
         <div>
           <KakaoShareButton props={kakaoData} />
-          <FacebookShareButton url={store.home_address}>
+          <FacebookShareButton
+            url={store.home_address}
+            quote={snsDesc}
+            hashtag={fbHashtags}
+          >
             <img src={images.fb} />
           </FacebookShareButton>
-          <TwitterShareButton url={store.home_address}>
+          <TwitterShareButton
+            url={store.home_address}
+            title={snsTitle}
+            hashtags={twHashtags}
+            via={snsDesc}
+          >
             <img src={images.tw} />
           </TwitterShareButton>
         </div>

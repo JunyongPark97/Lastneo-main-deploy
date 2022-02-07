@@ -20,6 +20,8 @@ const GlobalStyle = createGlobalStyle`
     }
     html {
         height: 100%;
+        color: ${(props) => props.theme.palette.black};
+
     }
     body {
         height: 100%;
@@ -32,7 +34,6 @@ const GlobalStyle = createGlobalStyle`
     #root {
         height: 100%;
         width: 100%;
-        // background-color: skyblue;
     }
     div {
         display: flex;

@@ -8,6 +8,7 @@ const DescSection = styled.section`
   width: 640px;
   border-bottom: solid 1px ${(props) => props.theme.palette.paleGrey};
   padding: 60px 0;
+  color: ${(props) => props.theme.palette.black};
   h2 {
     margin-bottom: 12px;
   }

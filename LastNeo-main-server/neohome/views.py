@@ -23,6 +23,9 @@ from blockchain.models import NeoData, NeoBlock
 from neohome.serializers import NeoHomeGuestInfoRetrieveSerializer, NeoHomeOwnerInfoRetrieveSerializer
 from neogrowth.serializers import Big5AnswerCreateSerializer, PersonalityItemsInfoSerializer
 from blockchain.serializers import NeoDataCreateSerializer, NeoBlockCreateSerializer
+from nft.serializers import NFTCreateSerializer
+
+from core.slack import nft_request_slack_message
 
 
 class NeoHomeDoorAPI(APIView):
@@ -382,5 +385,33 @@ class NFTViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = NFT.objects.filter().all()
 
+    def get_serializer_class(self):
+        if self.action == "create":
+            return NFTCreateSerializer
+        else:
+            serializer = super(NFTViewSet, self).get_serializer_class()
+        return serializer
+
+    @transaction.atomic
     def create(self, request, *args, **kwargs):
-        return None
+        """
+        api: POST lastneo.io/api/v1/neohome/nftblock/
+        data:
+        return:
+        """
+        self.data = request.data.copy()
+        self.neo = self.request.user
+
+        # Step 1 : NFT 생성
+
+        # Step 2 : NFT 요청 slack 발송
+        message = "\n [LastNeo World NFT Request] \n" \
+                  "\n" \
+                  "네오 이미지:  \n" \
+                  "네오 집 주소: \n" \
+                  "부여받은 아이템 list: \n"\
+                  "질문 답변 레벨: \n"\
+                  "--------------------"
+        nft_request_slack_message(message)
+
+        return Response(status=status.HTTP_201_CREATED)

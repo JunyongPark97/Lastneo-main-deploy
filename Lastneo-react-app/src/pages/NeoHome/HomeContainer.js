@@ -24,7 +24,6 @@ function HomeContainer({ match, history }) {
       if (data.from == "frontdoor" && data.status == 1) {
         dispatch(getGuestInfo(match.params.id)).then((response) => {
           if (response.type == "guest_info_success") {
-            // history.push(`${match.params.id}/guest`);
             setShowGuest(true);
           }
         });

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { customMedia } from "../styles/GlobalStyle";
 
 const NewItemModal = styled.div`
@@ -7,6 +7,8 @@ const NewItemModal = styled.div`
   padding: 20px 0px 20px 32px;
   font-size: 18px;
   border-radius: 12px;
+  display: flex;
+  flex-direction: row;
   /* margin-bottom: 40px; */
   img {
     width: 20px;
@@ -16,8 +18,16 @@ const NewItemModal = styled.div`
   p {
     margin-bottom: 0px;
   }
-  display: flex;
-  flex-direction: row;
+  ${({ newItem }) => {
+    if (newItem) {
+      return css`
+        margin-bottom: 40px;
+        ${customMedia.lessThan("mobile")`
+      margin-bottom: 24px;
+      `};
+      `;
+    }
+  }}
   ${customMedia.lessThan("mobile")`
   width: 100%;
   padding: 16px 0px 16px 24px;

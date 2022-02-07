@@ -37,7 +37,7 @@ const StyledFooter = styled.footer`
 
   ${customMedia.lessThan("mobile")`
   font-size: 10px;
-  margin-top: 56px;
+  margin-top: 24px;
   div.web {
     display: none;
   }

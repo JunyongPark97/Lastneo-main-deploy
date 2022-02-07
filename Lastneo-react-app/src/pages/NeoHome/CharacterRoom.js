@@ -55,7 +55,7 @@ function CharacterRoom({ store, owner }) {
           <Item store={store} />
         </section>
         <section name="frame">
-          <Frame store={store} />
+          <Frame store={store} owner={owner} />
         </section>
         {owner && (
           <section name="communication">

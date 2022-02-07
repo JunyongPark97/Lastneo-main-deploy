@@ -13,6 +13,7 @@ const RoomNav = styled.div`
     padding-bottom: 16px; // 이게 조건부여야 함
     font-size: 18px;
     cursor: pointer;
+    color: ${(props) => props.theme.palette.black};
     &:hover {
       color: ${(props) => props.theme.palette.pink};
       border-bottom: solid 2px ${(props) => props.theme.palette.pink};

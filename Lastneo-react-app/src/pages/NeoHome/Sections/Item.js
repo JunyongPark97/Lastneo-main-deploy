@@ -9,54 +9,50 @@ import SectionContainer from "../../../components/SectionContainer";
 import { customMedia } from "../../../styles/GlobalStyle";
 import images from "../../../assets";
 
-const ItemTable = styled.div`
-  padding: 32px 0px 16px 0px;
+const GridContainer = styled.div`
   width: 100%;
+  height: 100%;
   border-top: solid 1px ${(props) => props.theme.palette.lightPink};
+  padding-top: 32px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 16px 30px;
+  grid-gap: 16px 30px;
   ${customMedia.lessThan("mobile")`
-    padding: 12px 0;
+    padding-top: 24px;
+    gap: 12px 24px;
+    grid-gap: 12px 24px;
   `}
 `;
 
-const ItemRow = styled.div`
-  background: blue;
-  display: flex;
-  flex-direction: row;
-  flex: auto;
-  justify-content: space-between;
-  width: 100%;
-`;
-
-const ItemCell = styled.div`
+const GridItem = styled.div`
   position: relative;
-  display: flex;
-  text-align: center;
-  margin-top: 0px;
-  background: lavender;
-  border: 1px solid pink;
-  padding-bottom: 76px;
-  div.img-wrapper {
-    width: 172px;
-    height: 172px;
-    margin-bottom: 8px;
-    position: relative;
-    border-radius: 16px;
-    background-color: ${(props) => props.theme.palette.white};
-  }
-  img {
+  .item-wrapper {
     width: 100%;
-    height: 100%;
+    height: 74%;
     border-radius: 16px;
+    margin-bottom: 8px;
+  }
+
+  .item-img {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+  }
+
+  .item-bg {
+    width: 100%;
+    height: auto;
     position: absolute;
     top: 0;
     left: 0;
   }
-  p {
-    position: absolute;
-    margin-bottom: 0px;
-    top: 180px;
-    left: 50%;
-    transform: translateX(-50%);
+  .item-desc {
+    text-align: center;
     word-break: keep-all;
     font-size: 18px;
     font-weight: 500;
@@ -64,19 +60,12 @@ const ItemCell = styled.div`
   }
 
   ${customMedia.lessThan("mobile")`
-    justify-content: center;
-    padding-bottom: 50px;
-    img {
-      width: 100%;
-      height: 100%;
-    }
-    p.item-name {
-      font-size: 12px;
-      top: 81px;
-    }
-    div.img-wrapper {
+    .item-wrapper {
       margin-bottom: 4px;
-      flex-basis: 0;
+    }
+    .item-desc {
+      font-size: 12px;
+      line-height: 17px;
     }
   `}
 `;
@@ -95,7 +84,6 @@ const NewAlert = styled.span`
   `}
 `;
 const generateCell = (data) => {
-  console.log(data);
   const items = [];
   let newItem = false;
   data.map((item, i) => {
@@ -103,13 +91,14 @@ const generateCell = (data) => {
       newItem = true;
     }
     const cell = (
-      <ItemCell key={i}>
-        <div className="img-wrapper">
-          <img src={item.item_image} />
+      <GridItem key={i}>
+        <div className="item-wrapper">
+          <img src={item.item_image} className="item-img" />
+          <img src={images.itembg} className="item-bg" />
           {item.today_received && <NewAlert>N</NewAlert>}
         </div>
-        <p className="item-name">{item.item_name}</p>
-      </ItemCell>
+        <p className="item-desc">{item.item_name}</p>
+      </GridItem>
     );
     items.push(cell);
   });
@@ -130,7 +119,7 @@ function Item({ store }) {
         캐릭터에 <span>표현한 아이템</span>이에요
       </h3>
       {modal && (
-        <NewItemModal>
+        <NewItemModal newItem={newItem}>
           <img src={yellowalert} />
           <p>이전과 달라진 아이템이 있어요. 네오가 인격을 담았나 보군요!</p>
         </NewItemModal>
@@ -139,60 +128,21 @@ function Item({ store }) {
         <p className="title">
           네오 캐릭터의 <span>아이템</span>이에요!
         </p>
-        <ItemTable>
-          <ItemRow>
-            {items[0] || (
-              <ItemCell>
-                <div className="img-wrapper">
-                  <img src={images.emptycell} />
-                </div>
-                <p></p>
-              </ItemCell>
-            )}
-            {items[1] || (
-              <ItemCell>
-                <div className="img-wrapper">
-                  <img src={images.emptycell} />
-                  <p> </p>
-                </div>
-              </ItemCell>
-            )}
-            {items[2] || (
-              <ItemCell>
-                <div className="img-wrapper">
-                  <img src={images.emptycell} />
-                  <p> </p>
-                </div>
-              </ItemCell>
-            )}
-          </ItemRow>
-          <ItemRow>
-            {items[3] || (
-              <ItemCell>
-                <div className="img-wrapper">
-                  <img src={images.emptycell} />
-                  <p> </p>
-                </div>
-              </ItemCell>
-            )}
-            {items[4] || (
-              <ItemCell>
-                <div className="img-wrapper">
-                  <img src={images.emptycell} />
-                  <p> </p>
-                </div>
-              </ItemCell>
-            )}
-            {items[5] || (
-              <ItemCell>
-                <div className="img-wrapper">
-                  <img src={images.emptycell} />
-                  <p> </p>
-                </div>
-              </ItemCell>
-            )}
-          </ItemRow>
-        </ItemTable>
+        <GridContainer>
+          {[...Array(6)].map((e, i) => {
+            return (
+              items[i] || (
+                <GridItem>
+                  <div className="item-wrapper">
+                    <img className="item-bg" src={images.itembg} />
+                    <img className="item-img" src={images.emptycell} />
+                  </div>
+                  <p className="item-desc"></p>
+                </GridItem>
+              )
+            );
+          })}
+        </GridContainer>
       </ItemsContainer>
     </SectionContainer>
   );

@@ -33,7 +33,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-INTERNAL_IPS = ('172.31.9.57')
+INTERNAL_IPS = ('172.31.9.57', '172.31.7.184', '172.31.44.226')
 
 # Application definition
 
@@ -196,7 +196,8 @@ MEDIA_ROOT = "https://%s/media/" % AWS_S3_CUSTOM_DOMAIN
 CORS_ORIGIN_WHITELIST = (
     'http://10.34.220.196:3000',
     'http://localhost:3000',
-    'http://3.37.14.91'
+    'http://3.37.14.91',
+    'http://3.39.14.198'
 )
 
 CORS_ALLOW_METHODS = [

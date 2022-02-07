@@ -10,7 +10,7 @@ const StyledFooter = styled.footer`
   width: 100%;
   flex-grow: 0;
   font-weight: 400;
-  margin-top: auto;
+  /* margin-top: auto; */
   div.web {
     height: 60px;
     margin: auto;
@@ -44,7 +44,6 @@ const StyledFooter = styled.footer`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-
   }
 
   `}

@@ -1,12 +1,13 @@
 /* eslint-disable */
-import React from "react";
+import React, { useState } from "react";
 import Footer from "../../components/Footer";
 import styled from "styled-components";
 import { useHistory } from "react-router";
 import LandingNav from "./LandingNav";
 import { customMedia } from "../../styles/GlobalStyle";
 import images from "../../assets";
-import Modal from "../../components/modals/Modal";
+import Modal from "../../components/modals/ComingSoonModal";
+import ModalContent from "../../components/modals/ModalContent";
 
 const StyledBtn = styled.button`
   width: 142px;
@@ -96,7 +97,7 @@ const Section1 = styled.section`
     display: none;
   }
   ${customMedia.lessThan("mobile")`
-    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     width: 100vw;
     div.img-web {
       display: none;
@@ -282,6 +283,7 @@ const Section5 = styled.section`
 `;
 function LandingPage() {
   const history = useHistory();
+  const [modalOpen, setModalOpen] = useState(false);
 
   const onClickHandler = () => {
     history.push("/register");
@@ -411,7 +413,11 @@ function LandingPage() {
             분기점이 된 2022년 현재로 도착하고..
             <br />
           </p>
-          <button>
+          <button
+            onClick={() => {
+              setModalOpen(true);
+            }}
+          >
             스토리 보기
             <img src={images.powderPinkArr} />
           </button>
@@ -431,6 +437,28 @@ function LandingPage() {
           </h2>
           <StyledBtn onClick={onClickHandler}>네오 만들기</StyledBtn>
         </Section5>
+        {modalOpen && (
+          <Modal
+            visible={modalOpen}
+            closable={true}
+            maskClosable={true}
+            onClose={() => {
+              setModalOpen(false);
+            }}
+          >
+            <ModalContent>
+              <img className="modal-img" src={images.comingsoon} />
+              <h2 className="modal-title">
+                페이지 <span>준비중</span> 입니다..
+              </h2>
+              <p className="modal-desc">
+                스토리 페이지는 현재 업데이트 준비중에 있습니다.
+                <br />
+                빠른 시일내에 준비하여 찾아뵙겠습니다.
+              </p>
+            </ModalContent>
+          </Modal>
+        )}
       </Container>
       <Footer />
     </>

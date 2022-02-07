@@ -1,5 +1,5 @@
 /* eslint-disable */
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { customMedia } from "../styles/GlobalStyle";
 
 const SectionContainer = styled.div`
@@ -32,6 +32,24 @@ const SectionContainer = styled.div`
     font-size: 20px;
   }
   `}
+
+  ${({ owner, frame, communication, question }) => {
+    if (communication || question) {
+      return css`
+        margin-bottom: 60px;
+        ${customMedia.lessThan("mobile")`
+          margin-bottom: 24px;
+        `}
+      `;
+    } else if (frame && !owner) {
+      return css`
+        margin-bottom: 60px;
+        ${customMedia.lessThan("mobile")`
+          margin-bottom: 24px;
+        `}
+      `;
+    }
+  }}
 `;
 
 export default SectionContainer;

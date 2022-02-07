@@ -9,6 +9,8 @@ import { useDispatch } from "react-redux";
 import { customMedia } from "../../../styles/GlobalStyle";
 import { useSelector } from "react-redux";
 import Modal from "../../../components/modals/Modal";
+import LoadingModal from "../../../components/modals/LoadingModal";
+
 const checked = [images.c1, images.c2, images.c3, images.c4, images.c5];
 const unchecked = [images.uc1, images.uc2, images.uc3, images.uc4, images.uc5];
 
@@ -21,6 +23,7 @@ function Question({ store, isDone }) {
   const [itemName, setItemName] = useState("");
   const [itemImg, setItemImg] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+  const [loadingModalVisible, setLoadingModalVisible] = useState(false);
   const { tab } = useSelector((state) => state.neohome);
 
   const openModal = () => {
@@ -34,11 +37,19 @@ function Question({ store, isDone }) {
     dispatch({ type: "set_scroll" });
   };
 
+  const openLoadingModal = () => {
+    setLoadingModalVisible(true);
+  };
+  const closeLoadingModal = () => {
+    setLoadingModalVisible(false);
+  };
+
   useEffect(() => {
     if (!answers.includes(0)) {
       setComplete(true);
     }
   }, [answers]);
+
   const onSubmitHandler = (e) => {
     e.preventDefault();
     const arr = [];
@@ -49,12 +60,11 @@ function Question({ store, isDone }) {
       section: store.neo_questions[0].section,
       questions: arr,
     };
+    openLoadingModal();
     dispatch(sendBig5(body)).then((response) => {
-      console.log(response);
       if (response.type == "send_big5_success") {
         setDone(true);
         setOpen(false);
-        console.log(response.payload);
         if (!response.payload.item_status) {
           setItemName(null);
           setItemImg(null);
@@ -62,16 +72,20 @@ function Question({ store, isDone }) {
           setItemName(response.payload.item_name);
           setItemImg(response.payload.item_image);
         }
+        //아마 여기에 loadingmodal 닫는 코드 아니면 loadingmodal 닫는 함수를 itemmodal에 넘겨줘서 한 번에 닫게 할까?
+        closeLoadingModal();
         openModal();
       }
     });
   };
 
   const toggleHandler = () => {
+    console.log("clicked");
     setOpen(!open);
+    console.log(open);
   };
   return (
-    <SectionContainer color="yellow">
+    <SectionContainer color="yellow" question>
       <p>인격담기</p>
       <h3>
         매일 질문 5개에 답변하고
@@ -174,7 +188,7 @@ function Question({ store, isDone }) {
       >
         네오에게 인격 담기
       </StyledButton>
-      {/* <button onClick={openModal}>Open Modal</button> */}
+      {/* <button onClick={openLoadingModal}>Open Modal</button> */}
 
       {modalVisible && (
         <Modal
@@ -185,6 +199,7 @@ function Question({ store, isDone }) {
           onScroll={scrollModal}
         >
           <ModalContent>
+            {/* 아래 정의되어 있음 */}
             <h3>
               네오에게 인격이 담겼어요!
               <br />
@@ -205,25 +220,38 @@ function Question({ store, isDone }) {
                     다음에는 아이템을 끼고 싶을지도..
                   </p>
                 ) : (
-                  <p>
-                    인격 공유 잘 받았어!
-                    <br />
-                    이번에는 캐릭터에 '<span>{itemName}</span>' 아이템을
-                    <br />
-                    껴볼 생각이야!
-                  </p>
-                )}
-                <div>
-                  {itemImg !== null && (
-                    <div className="img-wrapper">
-                      <img className="item" src={itemImg}></img>
+                  <>
+                    <p>
+                      인격 공유 잘 받았어!
+                      <br />
+                      이번에는 캐릭터에 '<span>{itemName}</span>' 아이템을
+                      <br />
+                      껴볼 생각이야!
+                    </p>
+                    <div>
+                      <div className="img-wrapper">
+                        <img className="item" src={itemImg}></img>
+                      </div>
                     </div>
-                  )}
-                </div>
+                  </>
+                )}
               </ItemDescDiv>
             </section>
           </ModalContent>
         </Modal>
+      )}
+
+      {loadingModalVisible && (
+        <LoadingModal
+          visible={loadingModalVisible}
+          closable={true}
+          maskClosable={true}
+          onClose={closeLoadingModal}
+        >
+          <LoadingModalContent>
+            <img src={images.itemloading} />
+          </LoadingModalContent>
+        </LoadingModal>
       )}
     </SectionContainer>
   );
@@ -467,6 +495,23 @@ const ModalContent = styled.div`
   `}
 
   }
+`;
+
+const LoadingModalContent = styled.div`
+  height: 100%;
+  text-align: center;
+  justify-content: center;
+  img {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+  }
+  ${customMedia.lessThan("mobile")`
+  img {
+    width: 96px;
+    height: 96px;
+  }
+  `}
 `;
 
 const ItemDescDiv = styled.div`

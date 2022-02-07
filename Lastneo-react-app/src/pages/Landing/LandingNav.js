@@ -5,6 +5,8 @@ import images from "../../assets";
 import { useHistory, withRouter } from "react-router";
 import { customMedia } from "../../styles/GlobalStyle";
 import Modal from "../../components/modals/ComingSoonModal";
+// import Modal from "../../components/modals/LoadingModal";
+import ModalContent from "../../components/modals/ModalContent";
 function LandingNav() {
   const history = useHistory();
   const [open, setOpen] = useState(false);
@@ -71,12 +73,12 @@ function LandingNav() {
           }}
         >
           <ModalContent>
-            <img className="modal-img" src={images.purpleneo} />
+            <img className="modal-img" src={images.comingsoon} />
             <h2>
               페이지 <span>준비중</span> 입니다..
             </h2>
             <p>
-              스토리 페이지는 현재 업테이트 준비중에 있습니다.
+              스토리 페이지는 현재 업데이트 준비중에 있습니다.
               <br />
               빠른 시일내에 준비하여 찾아뵙겠습니다.
             </p>
@@ -89,46 +91,6 @@ function LandingNav() {
 
 export default withRouter(LandingNav);
 
-const ModalContent = styled.div`
-  text-align: center;
-  align-items: center;
-  font-weight: 500;
-  color: ${(props) => props.theme.palette.powderGrey};
-  img.modal-img {
-    width: 200px;
-    height: 200px;
-    margin-bottom: 40px;
-    margin-top: 80px;
-  }
-  h2 {
-    font-weight: 500;
-    font-size: 40px;
-    margin-bottom: 20px;
-    span {
-      font-weight: 700;
-    }
-  }
-  p {
-    font-size: 20px;
-    line-height: 29px;
-  }
-  ${customMedia.lessThan("mobile")`
-  img.modal-img {
-    width: 128px;
-    height: 128px;
-    margin-bottom: 24px;
-    margin-top: 120px;
-  }
-  h2 {
-    font-size: 24px;
-    margin-bottom: 12px;
-  }
-  p {
-    font-size: 12px;
-    line-height: 17px;
-  }
-  `}
-`;
 const StyledNav = styled.div`
   width: 100%;
   flex-direction: row;

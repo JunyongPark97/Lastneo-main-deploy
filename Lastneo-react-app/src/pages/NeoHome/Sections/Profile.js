@@ -44,7 +44,7 @@ function Profile({ store, owner, nickname }) {
   };
   return (
     <ProfileSection>
-      <img src={store.mini_profile} />
+      <img className="profile-img" src={store.mini_profile} />
       <div className="desc-wrapper">
         <h3>{store.home_address}</h3>
         <HomeDesc>
@@ -68,9 +68,9 @@ function Profile({ store, owner, nickname }) {
               ) : (
                 <div className="desc">
                   <span>{desc}</span>
-                  <button onClick={() => setEditable(true)}>
-                    <img src={images.pencil} />
-                  </button>
+                  <EditBtn onClick={() => setEditable(true)}>
+                    <img className="edit-btn" src={images.pencil} />
+                  </EditBtn>
                 </div>
               )}
             </div>
@@ -98,7 +98,7 @@ const ProfileSection = styled.section`
     color: ${(props) => props.theme.palette.black};
     font-weight: 500;
   }
-  img {
+  img.profile-img {
     width: 100px;
     height: 100px;
     margin-right: 20px;
@@ -115,7 +115,7 @@ const ProfileSection = styled.section`
   text-align: center;
   margin-top: 24px;
   margin-bottom: 24px;
-  img {
+  img.profile-img {
     margin-right:0;
     margin-bottom: 16px;
     width: 60px;
@@ -137,26 +137,20 @@ const EditBtn = styled.button`
   display: inline;
   width: 20px;
   height: 20px;
-  padding-left: 6px;
-  img {
-    width: 16px;
-    height: 16px;
-    margin: 0;
-  }
 `;
 
-const HomeDesc = styled.span`
+const HomeDesc = styled.div`
   /* background-color: orange; */
-  width: fit-content;
+  width: 100%;
   font-size: 16px;
   font-weight: 400;
   color: ${(props) => props.theme.palette.darkGrey};
-  img {
+  img.edit-btn {
     width: 16px;
     height: 16px;
   }
   div.owner-desc {
-    /* width: fit-content; */
+    width: fit-content;
   }
   div.edit-desc {
     position: relative;
@@ -185,7 +179,7 @@ const HomeDesc = styled.span`
   div.desc {
     flex-direction: row;
     align-items: center;
-    /* background: green; */
+    justify-content: center;
     width: fit-content;
     span {
       margin-right: 6px;
@@ -193,11 +187,8 @@ const HomeDesc = styled.span`
   }
 
   ${customMedia.lessThan("mobile")`
-  margin: auto;
   font-size: 14px;
-  button {
-    margin-left: 4px;
-  }
+  align-items: center;
   div.edit-desc {
     input {
       font-size: 14px;
@@ -208,13 +199,13 @@ const HomeDesc = styled.span`
     }
   }
   div.desc {
-    flex-direction: row;
-    align-items: center;
-    /* background: green; */
-    width: fit-content;
     span {
       margin-right: 4px;
     }
+  }  
+  img.edit-btn {
+    width: 12px;
+    height: 12px;
   }
   `}
 `;

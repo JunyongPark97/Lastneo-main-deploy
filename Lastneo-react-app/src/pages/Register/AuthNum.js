@@ -19,6 +19,18 @@ function AuthNum() {
   const [authNum, setAuthNum] = useState("");
   const [type, setType] = useState(false);
   const [errMsg, setErrMsg] = useState(false);
+  const [modal, setModal] = useState(false);
+
+  useEffect(() => {
+    if (modal) {
+      let timer = setTimeout(() => {
+        setModal(false);
+      }, 2000);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [modal]);
 
   const onAuthNumHandler = (event) => {
     setAuthNum(event.target.value);
@@ -45,6 +57,7 @@ function AuthNum() {
     });
   };
   const onClickHandler = (event) => {
+    setModal(true);
     event.preventDefault();
     let body = {
       phone: state.phone,
@@ -84,6 +97,7 @@ function AuthNum() {
         >
           다음
         </Button>
+        {modal && <p className="modal-msg">전송되었습니다.</p>}
       </InputDiv>
       <Footer />
     </Container>

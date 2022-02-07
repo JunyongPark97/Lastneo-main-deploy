@@ -22,7 +22,8 @@ export const getAuth = async (dataTosubmit) => {
   try {
     console.log(dataTosubmit);
     const req = await axios.post(
-      process.env.REACT_APP_DB_HOST + "/api/v1/sms/send/",
+      // process.env.REACT_APP_DB_HOST + "/api/v1/sms/send/",
+      "/api/v1/sms/send/",
       dataTosubmit
     );
     console.log("res");
