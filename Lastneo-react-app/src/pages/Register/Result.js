@@ -4,12 +4,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Button from "../../components/Button";
 import { useHistory } from "react-router-dom";
-import {
-  FacebookShareButton,
-  FacebookIcon,
-  TwitterIcon,
-  TwitterShareButton,
-} from "react-share";
+import { FacebookShareButton, TwitterShareButton } from "react-share";
 import KakaoShareButton from "../../components/KaKaoShareButton";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import SmallPinkBtn from "../../components/SmallPinkBtn";
@@ -19,12 +14,16 @@ import Container from "../../components/Container";
 import ResultNavbar from "../../components/ResultNavbar";
 import ResultFooter from "../../components/ResultFooter";
 import images from "../../assets";
+import MsgModal from "../../components/modals/MsgModal";
 
 function Result() {
   const store = useSelector((store) => store.register.result);
-  console.log(store);
+  const [modal, setModal] = useState(false);
   const historyHook = useHistory();
   const kakaoData = { img: store.neo_image, home_address: store.home_address };
+  const hashtags = ["라스트네오", "나를", "담은", "캐릭터"];
+  const snsTitle = "나를 담은 네오 캐릭터는?";
+  const snsDesc = "MBTI와 나를 잘 설명하는 단어로 표현된 내 캐릭터를 보러 와!";
   const onClickHandler = () => {
     historyHook.push({
       pathname: `/${store.nickname}`,
@@ -47,6 +46,24 @@ function Result() {
     }
   };
 
+  // 스와이프 방식의 뒤로가기를 제어
+  function blockTouchStart(event) {
+    if (event.pageX > 20) return;
+    event.preventDefault();
+  }
+  window.addEventListener("touchstart", blockTouchStart);
+
+  useEffect(() => {
+    if (modal) {
+      let timer = setTimeout(() => {
+        setModal(false);
+      }, 2000);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [modal]);
+
   const status = useScript("https://developers.kakao.com/sdk/js/kakao.js");
   return (
     <>
@@ -55,7 +72,6 @@ function Result() {
         <StyledDiv>
           <h3>나의 네오 캐릭터는..</h3>
           <h1>
-            {/* {store.item_description} */}
             {generateItemDesc(store)}
             <p>
               '{store.mbti} <span>{store.mbti_name}</span>'
@@ -66,11 +82,19 @@ function Result() {
           <ShareDiv>
             <div>
               <KakaoShareButton props={kakaoData} />
-              <FacebookShareButton url={store.home_address}>
-                <img src={images.fb} />
+              <FacebookShareButton
+                url={store.home_address}
+                quote={snsDesc}
+                hashtag={`#${hashtags[0]}`}
+              >
+                <img className="sns-img" src={images.fb} />
               </FacebookShareButton>
-              <TwitterShareButton url={store.home_address}>
-                <img src={images.tw} />
+              <TwitterShareButton
+                url={store.home_address}
+                title={snsTitle}
+                hashtags={hashtags}
+              >
+                <img className="sns-img" src={images.tw} />
               </TwitterShareButton>
             </div>
             <p>공유하기</p>
@@ -80,8 +104,17 @@ function Result() {
           </h3>
           <h2>{store.home_address}</h2>
           <CopyToClipboard text={store.home_address}>
-            <SmallPinkBtn>주소 복사</SmallPinkBtn>
+            <SmallPinkBtn
+              onClick={() => {
+                setTimeout(() => {
+                  setModal(true);
+                }, 500);
+              }}
+            >
+              주소 복사
+            </SmallPinkBtn>
           </CopyToClipboard>
+          <MsgModal show={modal} share center />
           <StaticBtn onClick={onClickHandler} color="pink">
             네오 집으로 가기
           </StaticBtn>
@@ -114,11 +147,11 @@ const generateItemDesc = (store) => {
 };
 
 const StaticBtn = styled(Button)`
-  margin-top: 60px;
+  margin-top: 80px;
   margin-bottom: 60px;
   position: static;
   ${customMedia.lessThan("mobile")`
-  margin: 48px 0;
+  margin: 24px 0;
   `}
 `;
 
@@ -185,6 +218,9 @@ const StyledDiv = styled.div`
   h1 {
     font-size: 20px;
     line-height: 28px;
+    p {
+      font-size: 20px;
+    }
   }
   h2 {
     font-weight: 400;
@@ -196,6 +232,8 @@ const StyledDiv = styled.div`
   }
   img {
     margin-top: 32px;
+    width: 240px;
+    height: 240px;
   }
 
   `}
@@ -210,10 +248,11 @@ const ShareDiv = styled.div`
     background-color: transparent;
     padding: 0;
   }
-  img {
+  .sns-img {
+    width: 50px;
+    height: 50px;
     margin-top: 0px;
-    width: 40px;
-    height: 40px;
+
     &:hover {
       filter: brightness(50%);
     }
@@ -228,5 +267,9 @@ const ShareDiv = styled.div`
   ${customMedia.lessThan("mobile")`
     margin-top: 32px;
     margin-bottom: 24px;
+    .sns-img {
+      width: 40px;
+      height: 40px;
+    }
   `}
 `;

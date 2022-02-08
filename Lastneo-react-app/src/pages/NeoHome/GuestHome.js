@@ -11,7 +11,6 @@ import images from "../../assets";
 import { customMedia } from "../../styles/GlobalStyle";
 import FltBtn from "../../components/FltBtn";
 import { useHistory } from "react-router";
-import HomeNavbar from "../../components/HomeNavbar";
 const GuestHome = () => {
   const history2 = useHistory();
   const store = useSelector((store) => store.guest);
@@ -21,7 +20,6 @@ const GuestHome = () => {
   };
   return (
     <>
-      <HomeNavbar />
       <HomeDiv>
         <Profile store={store} owner={false} />
         <HomeNav>

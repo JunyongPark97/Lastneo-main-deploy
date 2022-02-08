@@ -11,7 +11,7 @@ const RoomNav = styled.div`
   span {
     margin-right: 40px;
     padding-bottom: 16px; // 이게 조건부여야 함
-    font-size: 18px;
+    font-size: 16px;
     cursor: pointer;
     color: ${(props) => props.theme.palette.black};
     &:hover {
@@ -24,7 +24,7 @@ const RoomNav = styled.div`
   width: 100%;
   padding: 24px;
   span {
-    font-size: 16px;
+    font-size: 14px;
     margin-right: 28px;
   }
   `}

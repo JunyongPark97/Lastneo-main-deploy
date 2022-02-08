@@ -10,7 +10,8 @@ const Container = styled.div`
   padding-top: 60px;
   ${customMedia.lessThan("mobile")`
   height: calc(var(--vh, 1vh) * 100 + 66px); // 100vh + Footer height
-  width: 100vw
+  width: 100vw;
+  padding-top: 56px;
   `}
 `;
 

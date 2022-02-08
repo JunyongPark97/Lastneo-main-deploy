@@ -22,11 +22,6 @@ function Profile({ store, owner, nickname }) {
     setDesc(e.target.value);
   };
 
-  // const onBlurHandler = () => {
-  //   setEditable(false);
-  //   setDesc(originalDesc);
-  // };
-
   const onSubmitHandler = () => {
     let data = { description: desc, nickname };
     console.log(data);
@@ -123,6 +118,7 @@ const ProfileSection = styled.section`
   }
   h3 {
     font-size: 20px;
+    margin-bottom: 4px;
   }
   div.desc-wrapper {
     width: 100%;

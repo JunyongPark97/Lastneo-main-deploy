@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 import { useHistory } from "react-router";
@@ -7,7 +7,7 @@ import { customMedia } from "../styles/GlobalStyle";
 import images from "../assets";
 import { css } from "styled-components";
 
-function Navbar({ match }) {
+function HomeNavbar({ match, owner, guest }) {
   const history = useHistory();
   const goBackHandler = () => {
     history.push({
@@ -31,15 +31,17 @@ function Navbar({ match }) {
         <GoHomeBtn onClick={goHomeHandler}>
           <img src={images.logo_width} />
         </GoHomeBtn>
-        <GoMenuBtn onClick={goMenuHandler}>
-          <img src={images.dotsbtn} />
-        </GoMenuBtn>
+        {owner && (
+          <GoMenuBtn onClick={goMenuHandler}>
+            <img src={images.dotsbtn} />
+          </GoMenuBtn>
+        )}
       </div>
     </StyledNav>
   );
 }
 
-export default withRouter(Navbar);
+export default withRouter(HomeNavbar);
 
 const StyledNav = styled.div`
   height: 60px;
@@ -48,6 +50,7 @@ const StyledNav = styled.div`
   text-align: center;
   color: ${(props) => props.theme.palette.pink};
   position: fixed;
+  top: 0;
   z-index: 100;
   /* position: relative; */
   display: flex;
@@ -60,7 +63,6 @@ const StyledNav = styled.div`
     `;
   }}
   div {
-    /* background: yellow; */
     height: 100%;
     width: 640px;
     position: relative;
@@ -71,6 +73,7 @@ const StyledNav = styled.div`
   }
   ${customMedia.lessThan("mobile")`
     width: 100%;
+    height: 56px;
   `}
 `;
 

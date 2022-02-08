@@ -1,10 +1,12 @@
 /* eslint-disable */
 import axios from "axios";
 import { ENTER_ADDRESS_SUCCESS, ENTER_ADDRESS_FAILURE } from "./types";
+import { REACT_APP_DB_HOST } from "../keys";
+
 export const enterAddress = async (dataTosubmit) => {
   try {
     const request = await axios.post(
-      process.env.REACT_APP_DB_HOST + "/api/v1/door/",
+      REACT_APP_DB_HOST + "/api/v1/door/",
       dataTosubmit
     );
     return {

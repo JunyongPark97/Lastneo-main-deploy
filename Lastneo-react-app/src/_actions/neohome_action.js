@@ -6,12 +6,13 @@ import {
   RESET_PW_AUTH_REQ_SUCCESS,
   RESET_PW_AUTH_SUCCESS,
 } from "./types";
+import { REACT_APP_DB_HOST } from "../keys";
 
 // 현관-로그인
 export const login = async (dataTosubmit) => {
   try {
     const req = await axios.post(
-      process.env.REACT_APP_DB_HOST + "/accounts/v1/login/",
+      REACT_APP_DB_HOST + "/accounts/v1/login/",
       dataTosubmit
     );
     const { token } = req.data;
@@ -35,7 +36,7 @@ export const getAuth = async (dataTosubmit) => {
   console.log(dataTosubmit);
   try {
     const req = await axios.post(
-      process.env.REACT_APP_DB_HOST + "/api/v1/sms/reset_pw_send/",
+      REACT_APP_DB_HOST + "/api/v1/sms/reset_pw_send/",
       dataTosubmit
     );
     return {
@@ -54,7 +55,7 @@ export const getAuth = async (dataTosubmit) => {
 export const enterAuth = async (dataTosubmit) => {
   try {
     const req = await axios.post(
-      process.env.REACT_APP_DB_HOST + "/api/v1/sms/reset_pw_confirm/",
+      REACT_APP_DB_HOST + "/api/v1/sms/reset_pw_confirm/",
       dataTosubmit
     );
     return {
@@ -74,7 +75,7 @@ export const enterNewPw = async (dataTosubmit) => {
   console.log(dataTosubmit);
   try {
     const req = await axios.post(
-      process.env.REACT_APP_DB_HOST + "/accounts/v1/reset_pw/",
+      REACT_APP_DB_HOST + "/accounts/v1/reset_pw/",
       dataTosubmit
     );
     return {

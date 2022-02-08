@@ -96,6 +96,7 @@ const StyledNav = styled.div`
   flex-direction: row;
   justify-content: center;
   position: fixed;
+  top: 0;
   z-index: 100;
   background: ${(props) => props.theme.palette.white};
   img {

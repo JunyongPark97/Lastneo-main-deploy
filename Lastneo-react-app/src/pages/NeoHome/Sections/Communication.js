@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import SectionContainer from "../../../components/SectionContainer";
 import {
   FacebookShareButton,
@@ -14,6 +14,7 @@ import images from "../../../assets";
 import { customMedia } from "../../../styles/GlobalStyle";
 import KakaoShareButton from "../../../components/KaKaoShareButton";
 import { useSelector } from "react-redux";
+import MsgModal from "../../../components/modals/MsgModal";
 
 const ShareBtns = styled.div`
   align-items: center;
@@ -44,15 +45,14 @@ const ShareBtns = styled.div`
 `;
 
 const CopyDiscode = styled.div`
-  flex-direction: row;
-  img {
-    width: 50px;
-    height: 50px;
-    margin-bottom: 20px;
-  }
-  div {
-    flex: 1;
-    span {
+  .copy,
+  .discode {
+    .copy-discode-img {
+      width: 50px;
+      height: 50px;
+      margin-bottom: 20px;
+    }
+    .copy-discode-desc {
       margin-bottom: 16px;
       h4 {
         font-size: 20px;
@@ -66,21 +66,20 @@ const CopyDiscode = styled.div`
     margin-bottom: 4px;
   }
 
-    margin-bottom: 0;
-  }
   ${customMedia.lessThan("mobile")`
-  flex-direction: column;
-  div { 
+  .copy, .discode { 
     position: relative;
     flex-direction: row;
-    margin-bottom: 33px;
-    img {
+    align-items: center;
+
+    .copy-discode-img {
+      margin-bottom: 0;
       width: 40px;
       height: 40px;
       margin-right: 16px;
     }
-    span {
-      margin-right: 
+    .copy-discode-desc {
+      margin-bottom: 0;
       h4 {
         font-size: 16px;
       }
@@ -93,18 +92,48 @@ const CopyDiscode = styled.div`
       right: 0;
     }
   }
+  .copy {
+    order: 1;
+    margin-bottom: 8px;
+  }
+  .modal {
+    order: 2;
+    justify-content: center;
+  }
+  .discode {
+    order: 3;
+    margin-top: 8px;
+  }
+
   `}
 `;
 
-const twHashtags = ["라스트네오", "나를 담은 캐릭터"];
-const fbHashtags = "#라스트네오";
-const snsTitle = "나를 담은 네오 캐릭터는?";
-const snsDesc = "MBTI와 나를 잘 설명하는 단어로 표현된 내 캐릭터를 보러 와!";
+const hashtags = ["라스트네오", "나를", "담은", "캐릭터", "mbti", "가치관"];
+const snsTitle = "나를 담은 네오 캐릭터는? 보러가기 → ";
+const snsDesc =
+  "'MBTI'와 '나를 잘 설명하는 단어'로 표현된 내 캐릭터를 보러 와!";
 
 function Communication({ store }) {
-  const kakaoData = { img: store.neo_image, home_address: store.home_address };
+  const kakaoDesc = `${store.value_items.description} ${store.mbti} ${store.mbti_name}`;
+  const kakaoData = {
+    img: store.neo_image,
+    home_address: store.home_address,
+    desc: kakaoDesc,
+  };
   const store_neohome = useSelector((store) => store.neohome);
-  console.log(store_neohome);
+  const [modal, setModal] = useState(false);
+  console.log(store);
+  useEffect(() => {
+    if (modal) {
+      let timer = setTimeout(() => {
+        setModal(false);
+      }, 2000);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [modal]);
+
   return (
     <SectionContainer color="pink" communication>
       <p>소통하기</p>
@@ -119,15 +148,14 @@ function Communication({ store }) {
           <FacebookShareButton
             url={store.home_address}
             quote={snsDesc}
-            hashtag={fbHashtags}
+            hashtag={`#${hashtags[0]}`}
           >
             <img src={images.fb} />
           </FacebookShareButton>
           <TwitterShareButton
             url={store.home_address}
             title={snsTitle}
-            hashtags={twHashtags}
-            via={snsDesc}
+            hashtags={hashtags}
           >
             <img src={images.tw} />
           </TwitterShareButton>
@@ -135,23 +163,34 @@ function Communication({ store }) {
         <p>공유하기</p>
       </ShareBtns>
       <CopyDiscode>
-        <div>
-          <img src={images.pinkhome} />
-          <span>
+        <div className="copy">
+          <img className="copy-discode-img" src={images.pinkhome} />
+          <div className="copy-discode-desc">
             <h4>{`lastneo.io/${store_neohome.nickname}`}</h4>
             <p>친구를 집으로 초대 해보세요!</p>
-          </span>
+          </div>
           <CopyToClipboard text={store.home_address}>
-            <SmallPinkBtn>복사하기</SmallPinkBtn>
+            <SmallPinkBtn
+              onClick={() => {
+                setTimeout(() => {
+                  setModal(true);
+                }, 500);
+              }}
+            >
+              복사하기
+            </SmallPinkBtn>
           </CopyToClipboard>
         </div>
-        <div>
-          <img src={images.pinkbubble} />
-          <span>
+        <div className="discode">
+          <img className="copy-discode-img" src={images.pinkbubble} />
+          <div className="copy-discode-desc">
             <h4>디스코드방</h4>
             <p>나와 비슷한 네오들과 소통해보세요!</p>
-          </span>
+          </div>
           <SmallPinkBtn>둘러보기</SmallPinkBtn>
+        </div>
+        <div className="modal">
+          <MsgModal show={modal} share mobile />
         </div>
       </CopyDiscode>
     </SectionContainer>

@@ -11,6 +11,7 @@ import { getAuth } from "../../_actions/register_action";
 import Footer from "../../components/Footer";
 import Container from "../../components/Container";
 import FormDiv from "../../components/FormDiv";
+import MsgModal from "../../components/modals/MsgModal";
 
 function AuthNum() {
   const state = useSelector((state) => state.register);
@@ -43,8 +44,6 @@ function AuthNum() {
       phone: state.phone,
       confirm_key: authNum,
     };
-    console.log("body");
-    console.log(body);
     dispatch(enterAuth(body)).then((response) => {
       console.log("response");
       console.log(response);
@@ -57,15 +56,15 @@ function AuthNum() {
     });
   };
   const onClickHandler = (event) => {
-    setModal(true);
+    setTimeout(() => {
+      setModal(true);
+    }, 500);
+
     event.preventDefault();
     let body = {
       phone: state.phone,
     };
-    dispatch(getAuth(body)).then((response) => {
-      console.log("response");
-      console.log(response.payload);
-    });
+    dispatch(getAuth(body));
   };
 
   return (
@@ -89,6 +88,7 @@ function AuthNum() {
             {errMsg && <p>인증번호가 맞지 않거나 입력시간이 초과되었어요</p>}
           </form>
           <SmallBtn onClick={onClickHandler}>인증번호 재전송</SmallBtn>
+          <MsgModal show={modal} auth left />
         </FormDiv>
         <Button
           onClick={onSubmitHandler}
@@ -97,7 +97,6 @@ function AuthNum() {
         >
           다음
         </Button>
-        {modal && <p className="modal-msg">전송되었습니다.</p>}
       </InputDiv>
       <Footer />
     </Container>

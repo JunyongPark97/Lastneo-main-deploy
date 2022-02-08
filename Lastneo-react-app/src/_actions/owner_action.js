@@ -8,6 +8,7 @@ import {
   EDIT_DESC_SUCCESS,
   EDIT_DESC_FAILURE,
 } from "./types";
+import { REACT_APP_DB_HOST } from "../keys";
 
 // 페이지 렌더링 시 서버로부터 정보 받아오기
 export const getOwnerInfo = async (nickname) => {
@@ -17,7 +18,7 @@ export const getOwnerInfo = async (nickname) => {
       headers: { Authorization: `Token ${localStorage.getItem("token")}` },
     };
     const req = await axios.get(
-      process.env.REACT_APP_DB_HOST + `/api/v1/neohomeowner/${nickname}/`,
+      REACT_APP_DB_HOST + `/api/v1/neohomeowner/${nickname}/`,
       options
     );
     console.log(req);
@@ -41,7 +42,7 @@ export const sendBig5 = async (dataTosubmit) => {
       headers: { Authorization: `Token ${localStorage.getItem("token")}` },
     };
     const req = await axios.post(
-      process.env.REACT_APP_DB_HOST + "/api/v1/big5question/",
+      REACT_APP_DB_HOST + "/api/v1/big5question/",
       dataTosubmit,
       options
     );
@@ -67,8 +68,7 @@ export const sendHomeDesc = async (data) => {
       headers: { Authorization: `Token ${localStorage.getItem("token")}` },
     };
     const req = await axios.put(
-      process.env.REACT_APP_DB_HOST +
-        `/api/v1/homeintroduction/${data.nickname}/`,
+      REACT_APP_DB_HOST + `/api/v1/homeintroduction/${data.nickname}/`,
       body,
       options
     );

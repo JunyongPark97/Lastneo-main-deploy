@@ -55,8 +55,9 @@ import comingsoon from "./comingsoon.png";
 import yellowalert from "./yellowalert.png";
 import itemloading from "./itemloading.png";
 import nftloading from "./nftloading.png";
-
+import blackalert from "./blackalert.png";
 const images = {
+  blackalert,
   itemloading,
   nftloading,
   yellowalert,

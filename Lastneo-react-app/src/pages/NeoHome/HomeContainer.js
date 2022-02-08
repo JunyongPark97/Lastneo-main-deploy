@@ -74,7 +74,7 @@ function HomeContainer({ match, history }) {
 
   return (
     <>
-      <HomeNavbar />
+      <HomeNavbar owner={showOwner} guest={showGuest} />
       {showGuest && <GuestHome nickname={match.params.id} />}
       {showOwner && <OwnerHome nickname={match.params.id} />}
     </>

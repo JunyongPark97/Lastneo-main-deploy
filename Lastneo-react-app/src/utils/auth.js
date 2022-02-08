@@ -1,5 +1,6 @@
 /* eslint-disable */
 import axios from "axios";
+import { REACT_APP_DB_HOST } from "../keys";
 
 export const isOwner = async (data) => {
   console.log("isOwner");
@@ -8,7 +9,7 @@ export const isOwner = async (data) => {
       headers: { Authorization: localStorage.getItem("token") },
     };
     const req = await axios.get(
-      process.env.REACT_APP_DB_HOST + `/api/v1/is_owner/${data.nickname}`,
+      REACT_APP_DB_HOST + `/api/v1/is_owner/${data.nickname}`,
       options
     );
     console.log(req);

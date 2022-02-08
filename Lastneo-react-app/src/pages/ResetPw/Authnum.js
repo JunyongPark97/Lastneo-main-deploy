@@ -11,6 +11,7 @@ import FormDiv from "../../components/FormDiv";
 import { getAuth } from "../../_actions/neohome_action";
 import Container from "../../components/Container";
 import Footer from "../../components/Footer";
+import MsgModal from "../../components/modals/MsgModal";
 
 function AuthNum() {
   const dispatch = useDispatch();
@@ -18,7 +19,19 @@ function AuthNum() {
   const location = useLocation();
   const [authNum, setAuthNum] = useState("");
   const [type, setType] = useState(false);
+  const [modal, setModal] = useState(false);
   const [errMsg, setErrMsg] = useState(false);
+
+  useEffect(() => {
+    if (modal) {
+      let timer = setTimeout(() => {
+        setModal(false);
+      }, 2000);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [modal]);
 
   const onAuthNumHandler = (event) => {
     setAuthNum(event.target.value);
@@ -31,11 +44,7 @@ function AuthNum() {
       phone: location.state.phone,
       confirm_key: authNum,
     };
-    console.log("body");
-    console.log(body);
     enterAuth(body).then((response) => {
-      console.log("response");
-      console.log(response);
       if (response.status) {
         history.push({
           pathname: "/resetpw/password",
@@ -51,16 +60,17 @@ function AuthNum() {
     });
   };
   const onClickHandler = (event) => {
+    setTimeout(() => {
+      setModal(true);
+    }, 500);
+
     event.preventDefault();
     let body = {
       nickname: location.state.nickname,
       phone: location.state.phone,
     };
     console.log(body);
-    dispatch(getAuth(body)).then((response) => {
-      console.log("response");
-      console.log(response.payload);
-    });
+    dispatch(getAuth(body));
   };
   return (
     <Container>
@@ -82,6 +92,7 @@ function AuthNum() {
             {errMsg && <p>인증번호가 맞지 않거나 입력시간이 초과되었어요</p>}
           </form>
           <SmallBtn onClick={onClickHandler}>인증번호 재전송</SmallBtn>
+          <MsgModal show={modal} auth left />
         </FormDiv>
         <Button
           onClick={onSubmitHandler}
