@@ -21,15 +21,19 @@ const GlobalStyle = createGlobalStyle`
     html {
         height: 100%;
         color: ${(props) => props.theme.palette.black};
-
+        position: fixed;
+        overflow-x: hidden;
     }
     body {
+        position: fixed;
         height: 100%;
         width: 100%;
         margin: 0;
         line-height: 1.3;
         font-weight: 500;
         font-family: 'Noto Sans KR', sans-serif;
+        overflow-x: hidden;
+
     }
     #root {
         height: 100%;

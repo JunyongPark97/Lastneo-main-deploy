@@ -12,10 +12,13 @@ import FltBtn from "../../components/FltBtn";
 import { customMedia } from "../../styles/GlobalStyle";
 import images from "../../assets";
 import { getOwnerInfo } from "../../_actions/owner_action";
+import { Helmet } from "react-helmet-async";
 
 function OwnerHome({ nickname }) {
   const store = useSelector((store) => store.owner);
   const store_neohome = useSelector((store) => store.neohome);
+  const currentUrl = document.location.href;
+  console.log(currentUrl);
   const dispatch = useDispatch();
 
   // const [tab, setTab] = useState(true); // true이면 캐릭터 방, false면 네오 방
@@ -32,40 +35,66 @@ function OwnerHome({ nickname }) {
   };
 
   return (
-    <HomeDiv>
-      <Profile store={store} owner={true} nickname={nickname} />
-      <HomeNav>
-        <TabBtn
-          className="tab-char"
-          onClick={() => {
-            dispatch({ type: "set_tab", payload: true });
-          }}
-          color={tab ? "black" : "white"}
-          textColor={tab ? "white" : "gray"}
-        >
-          <img className="block-white" src={images.whiteblock} />
-          <img className="block-pink" src={images.pinkblock} />
-          캐릭터 방
-        </TabBtn>
-        <TabBtn
-          className="tab-neo"
-          onClick={() => {
-            dispatch({ type: "set_tab", payload: false });
-          }}
-          color={!tab ? "black" : "white"}
-          textColor={!tab ? "white" : "gray"}
-        >
-          <img className="block-white" src={images.whiteblock} />
-          <img className="block-black" src={images.blackblock} />
-          네오 방
-        </TabBtn>
-      </HomeNav>
-      {tab ? <CharacterRoom store={store} owner /> : <NeoRoom store={store} />}
-      <FltBtn onClick={onClickHandler} color="black">
-        {tab ? <>네오 방 가기</> : <>캐릭터 방 가기</>}
-      </FltBtn>
-      <HomeFooter />
-    </HomeDiv>
+    <>
+      <Helmet>
+        {/* URL 정보 */}
+        <meta property="og:url" content={currentUrl} />
+        {/* title 정보 */}
+        <meta
+          property="og:title"
+          content={`${store_neohome.nickname}님의 네오입니다.`}
+        />
+        {/* 페이지 상세 정보 */}
+        <meta property="og:description" content="네오 설명" />
+        {/* 페이지 대표 이미지 정보 */}
+        <meta property="og:image" content={store.mini_profile} />
+        {/* 트위터 메타 정보 */}
+        <meta
+          name="twitter:title"
+          content={`${store_neohome.nickname}의 네오입니다.`}
+        />
+        <meta name="twitter:description" content="네오 설명" />
+        <meta name="twitter:image" content={store.mini_profile} />
+      </Helmet>
+      <HomeDiv>
+        <Profile store={store} owner={true} nickname={nickname} />
+        <HomeNav>
+          <TabBtn
+            className="tab-char"
+            onClick={() => {
+              dispatch({ type: "set_tab", payload: true });
+            }}
+            color={tab ? "black" : "white"}
+            textColor={tab ? "white" : "gray"}
+          >
+            <img className="block-white" src={images.whiteblock} />
+            <img className="block-pink" src={images.pinkblock} />
+            캐릭터 방
+          </TabBtn>
+          <TabBtn
+            className="tab-neo"
+            onClick={() => {
+              dispatch({ type: "set_tab", payload: false });
+            }}
+            color={!tab ? "black" : "white"}
+            textColor={!tab ? "white" : "gray"}
+          >
+            <img className="block-white" src={images.whiteblock} />
+            <img className="block-black" src={images.blackblock} />
+            네오 방
+          </TabBtn>
+        </HomeNav>
+        {tab ? (
+          <CharacterRoom store={store} owner />
+        ) : (
+          <NeoRoom store={store} />
+        )}
+        <FltBtn onClick={onClickHandler} color="black">
+          {tab ? <>네오 방 가기</> : <>캐릭터 방 가기</>}
+        </FltBtn>
+        <HomeFooter />
+      </HomeDiv>
+    </>
   );
 }
 

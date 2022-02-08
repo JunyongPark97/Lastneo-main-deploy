@@ -45,8 +45,12 @@ const ShareBtns = styled.div`
 `;
 
 const CopyDiscode = styled.div`
+  flex-direction: row;
+  flex-wrap: wrap;
   .copy,
   .discode {
+    margin-bottom: 12px;
+    flex-basis: 50%;
     .copy-discode-img {
       width: 50px;
       height: 50px;
@@ -67,6 +71,7 @@ const CopyDiscode = styled.div`
   }
 
   ${customMedia.lessThan("mobile")`
+  flex-direction: column;
   .copy, .discode { 
     position: relative;
     flex-direction: row;

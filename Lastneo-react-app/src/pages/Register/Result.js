@@ -11,8 +11,8 @@ import SmallPinkBtn from "../../components/SmallPinkBtn";
 import useScript from "../../hooks";
 import { customMedia } from "../../styles/GlobalStyle";
 import Container from "../../components/Container";
-import ResultNavbar from "../../components/ResultNavbar";
-import ResultFooter from "../../components/ResultFooter";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 import images from "../../assets";
 import MsgModal from "../../components/modals/MsgModal";
 
@@ -53,6 +53,7 @@ function Result() {
   }
   window.addEventListener("touchstart", blockTouchStart);
 
+  // 복사되었습니다 모달
   useEffect(() => {
     if (modal) {
       let timer = setTimeout(() => {
@@ -67,8 +68,8 @@ function Result() {
   const status = useScript("https://developers.kakao.com/sdk/js/kakao.js");
   return (
     <>
-      <ResultNavbar />
-      <Container>
+      <Navbar color="lightYellow" />
+      <Container color="lightYellow">
         <StyledDiv>
           <h3>나의 네오 캐릭터는..</h3>
           <h1>
@@ -119,7 +120,7 @@ function Result() {
             네오 집으로 가기
           </StaticBtn>
         </StyledDiv>
-        <ResultFooter />
+        <Footer color="pink" />
       </Container>
     </>
   );

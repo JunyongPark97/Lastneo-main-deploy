@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 import Footer from "../../components/Footer";
 import Container from "../../components/Container";
 import FormDiv from "../../components/FormDiv";
-import FltBtn from "../../components/FltBtn";
+import Navbar from "../../components/Navbar";
 
 function MBTI() {
   const history = useHistory();
@@ -49,33 +49,36 @@ function MBTI() {
     history.push("/register/values");
   };
   return (
-    <Container>
-      <InputDiv color={msg == 1 ? "purple" : "pink"}>
-        <h3>나의 MBTI를 알려주세요</h3>
-        <h4>네오에게 담겨요</h4>
-        <FormDiv>
-          <form>
-            <label>mbti</label>
-            <input
-              type="text"
-              value={mbti}
-              placeholder="ISFP"
-              maxLength="4"
-              onChange={onMbtiHandler}
-            ></input>
-            <p>{messages[msg]}</p>
-          </form>
-        </FormDiv>
-        <Button
-          onClick={onSubmitHandler}
-          color={!type ? "lightPink" : "pink"}
-          disable={!type ? "lightPink" : "pink"}
-        >
-          다음
-        </Button>
-      </InputDiv>
-      <Footer />
-    </Container>
+    <>
+      <Navbar goBack={true} />
+      <Container>
+        <InputDiv color={msg == 1 ? "purple" : "pink"}>
+          <h3>나의 MBTI를 알려주세요</h3>
+          <h4>네오에게 담겨요</h4>
+          <FormDiv>
+            <form>
+              <label>mbti</label>
+              <input
+                type="text"
+                value={mbti}
+                placeholder="ISFP"
+                maxLength="4"
+                onChange={onMbtiHandler}
+              ></input>
+              <p>{messages[msg]}</p>
+            </form>
+          </FormDiv>
+          <Button
+            onClick={onSubmitHandler}
+            color={!type ? "lightPink" : "pink"}
+            disable={!type ? "lightPink" : "pink"}
+          >
+            다음
+          </Button>
+        </InputDiv>
+        <Footer />
+      </Container>
+    </>
   );
 }
 

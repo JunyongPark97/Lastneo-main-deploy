@@ -11,8 +11,6 @@ import { css } from "styled-components";
 function Navbar({ color, goBack }) {
   const history = useHistory();
   const goBackHandler = () => {
-    // history.goBack();
-    console.log("go back handler");
     history.go(-1);
   };
   const goHomeHandler = () => {
@@ -23,7 +21,6 @@ function Navbar({ color, goBack }) {
     <StyledNav color={color}>
       <div>
         {goBack && (
-          // <GoBackBtn onClick={goBackHandler}>
           <GoBackBtn
             onClick={() => {
               history.goBack();
@@ -42,6 +39,9 @@ function Navbar({ color, goBack }) {
 
 export default withRouter(Navbar);
 
+Navbar.defaultProps = {
+  color: "white",
+};
 const StyledNav = styled.div`
   height: 60px;
   width: 100%;
@@ -50,19 +50,21 @@ const StyledNav = styled.div`
   color: ${(props) => props.theme.palette.pink};
   position: fixed;
   top: 0;
+
   z-index: 100;
-  /* position: relative; */
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  ${(props) => {
+
+  ${({ theme, color }) => {
+    console.log(color);
+    const selected = theme.palette[color];
     return css`
-      background: ${props.color};
+      background: ${selected};
     `;
   }}
   div {
-    /* background: yellow; */
     height: 100%;
     width: 640px;
     position: relative;
@@ -76,10 +78,6 @@ const StyledNav = styled.div`
     height: 56px;
   `}
 `;
-
-StyledNav.defaultProps = {
-  color: "#ffffff",
-};
 
 const GoBackBtn = styled.button`
   height: 60px;

@@ -12,6 +12,7 @@ import { getAuth } from "../../_actions/neohome_action";
 import Container from "../../components/Container";
 import Footer from "../../components/Footer";
 import MsgModal from "../../components/modals/MsgModal";
+import Navbar from "../../components/Navbar";
 
 function AuthNum() {
   const dispatch = useDispatch();
@@ -73,37 +74,40 @@ function AuthNum() {
     dispatch(getAuth(body));
   };
   return (
-    <Container>
-      <InputDiv color={errMsg ? "purple" : "pink"}>
-        <h3>
-          문자로 전송된 인증번호
-          <br />
-          4자리를 알려주세요
-        </h3>
-        <FormDiv>
-          <form>
-            <label>인증번호</label>
-            <input
-              type="text"
-              value={authNum}
-              placeholder="0000"
-              onChange={onAuthNumHandler}
-            ></input>
-            {errMsg && <p>인증번호가 맞지 않거나 입력시간이 초과되었어요</p>}
-          </form>
-          <SmallBtn onClick={onClickHandler}>인증번호 재전송</SmallBtn>
-          <MsgModal show={modal} auth left />
-        </FormDiv>
-        <Button
-          onClick={onSubmitHandler}
-          type="submit"
-          color={!type ? "lightPink" : "pink"}
-        >
-          다음
-        </Button>
-      </InputDiv>
-      <Footer />
-    </Container>
+    <>
+      <Navbar goBack={true} />
+      <Container>
+        <InputDiv color={errMsg ? "purple" : "pink"}>
+          <h3>
+            문자로 전송된 인증번호
+            <br />
+            4자리를 알려주세요
+          </h3>
+          <FormDiv>
+            <form>
+              <label>인증번호</label>
+              <input
+                type="text"
+                value={authNum}
+                placeholder="0000"
+                onChange={onAuthNumHandler}
+              ></input>
+              {errMsg && <p>인증번호가 맞지 않거나 입력시간이 초과되었어요</p>}
+            </form>
+            <SmallBtn onClick={onClickHandler}>인증번호 재전송</SmallBtn>
+            <MsgModal show={modal} auth left />
+          </FormDiv>
+          <Button
+            onClick={onSubmitHandler}
+            type="submit"
+            color={!type ? "lightPink" : "pink"}
+          >
+            다음
+          </Button>
+        </InputDiv>
+        <Footer />
+      </Container>
+    </>
   );
 }
 

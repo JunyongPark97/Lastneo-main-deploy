@@ -2,14 +2,13 @@
 import styled, { css } from "styled-components";
 import { customMedia } from "../styles/GlobalStyle";
 const NicknameInputDiv = styled.div`
-  // background-color: lavender;
+  /* background-color: lavender; */
   width: 640px;
   margin: auto;
   padding-top: 60px;
   padding-bottom: 180px;
   position: relative;
-  flex-grow: 1;
-  flex-shrink: 0;
+  flex: 1 0 auto;
   color: ${(props) => props.theme.palette.black};
 
   h3 {

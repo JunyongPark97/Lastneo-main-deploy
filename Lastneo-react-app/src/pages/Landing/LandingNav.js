@@ -71,19 +71,7 @@ function LandingNav() {
           onClose={() => {
             setModalOpen(false);
           }}
-        >
-          <ModalContent>
-            <img className="modal-img" src={images.comingsoon} />
-            <h2>
-              페이지 <span>준비중</span> 입니다..
-            </h2>
-            <p>
-              스토리 페이지는 현재 업데이트 준비중에 있습니다.
-              <br />
-              빠른 시일내에 준비하여 찾아뵙겠습니다.
-            </p>
-          </ModalContent>
-        </Modal>
+        ></Modal>
       )}
     </StyledNav>
   );

@@ -9,7 +9,6 @@ import Navbar from "../../components/Navbar";
 function ResetPw({ match }) {
   return (
     <>
-      <Navbar goBack={true} />
       <Route exact path={match.path} component={PhoneNum}></Route>
       <Route path={`${match.path}/authnum`} component={AuthNum}></Route>
       <Route path={`${match.path}/password`} component={Password}></Route>

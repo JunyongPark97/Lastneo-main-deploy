@@ -23,6 +23,7 @@ const ModalContent = styled.div`
   p.modal-desc {
     font-size: 20px;
     line-height: 29px;
+    font-weight: 500;
   }
   ${customMedia.lessThan("mobile")`
   img.modal-img {

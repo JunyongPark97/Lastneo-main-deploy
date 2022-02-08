@@ -10,16 +10,39 @@ import styled, { css } from "styled-components";
 import images from "../../assets";
 import { customMedia } from "../../styles/GlobalStyle";
 import FltBtn from "../../components/FltBtn";
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
+import { Helmet } from "react-helmet-async";
 const GuestHome = () => {
   const history2 = useHistory();
   const store = useSelector((store) => store.guest);
-  console.log(history2);
   const onClickHandler = () => {
     history2.push("/register");
   };
+  const store_neohome = useSelector((store) => store.neohome);
+  const currentUrl = document.location.href;
+
   return (
     <>
+      <Helmet>
+        {/* URL 정보 */}
+        <meta property="og:url" content={currentUrl} />
+        {/* title 정보 */}
+        <meta
+          property="og:title"
+          content={`${store_neohome.nickname}님의 네오입니다.`}
+        />
+        {/* 페이지 상세 정보 */}
+        <meta property="og:description" content="네오 설명" />
+        {/* 페이지 대표 이미지 정보 */}
+        <meta property="og:image" content={store.mini_profile} />
+        {/* 트위터 메타 정보 */}
+        <meta
+          name="twitter:title"
+          content={`${store_neohome.nickname}의 네오입니다.`}
+        />
+        <meta name="twitter:description" content="네오 설명" />
+        <meta name="twitter:image" content={store.mini_profile} />
+      </Helmet>
       <HomeDiv>
         <Profile store={store} owner={false} />
         <HomeNav>
@@ -56,7 +79,6 @@ const TabBtn = styled.button`
     margin-bottom: 0;
   }
   ${(props) => {
-    console.log(props.color);
     const color = props.color;
     const textColor = props.textColor;
     const selected = props.theme.palette[color];

@@ -4,13 +4,24 @@ import styled, { css } from "styled-components";
 import { customMedia } from "../styles/GlobalStyle";
 
 const StyledFooter = styled.footer`
-  background-color: ${(props) => props.theme.palette.lightGrey};
-  color: ${(props) => props.theme.palette.grey};
+  ${({ theme, color }) => {
+    if (color == "pink") {
+      return css`
+        background-color: ${theme.palette.palePink};
+        color: ${theme.palette.powderPink};
+      `;
+    } else {
+      return css`
+        background-color: ${theme.palette.lightGrey};
+        color: ${theme.palette.grey};
+      `;
+    }
+  }}
   font-size: 12px;
   width: 100%;
-  flex-grow: 0;
+  flex: 0 0 auto;
+  margin-top: auto;
   font-weight: 400;
-  /* margin-top: auto; */
   div.web {
     height: 60px;
     margin: auto;
@@ -49,9 +60,9 @@ const StyledFooter = styled.footer`
   `}
 `;
 
-function Footer({ home }) {
+function Footer({ color }) {
   return (
-    <StyledFooter home>
+    <StyledFooter color={color}>
       <div className="mobile">
         <p>
           ⓒ 2022. 주식회사 몽데이크 Corp.

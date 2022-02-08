@@ -9,6 +9,7 @@ import { useHistory, useLocation } from "react-router";
 import Container from "../../components/Container";
 import PwFormDiv from "../../components/PwFormDiv";
 import Footer from "../../components/Footer";
+import Navbar from "../../components/Navbar";
 
 function Password() {
   const history = useHistory();
@@ -89,49 +90,52 @@ function Password() {
   };
 
   return (
-    <Container>
-      <InputDiv>
-        <h3>집 비밀번호를 재설정해주세요</h3>
-        <h4>네오 집으로 들어갈 때 필요해요</h4>
-        <PwFormDiv
-          color={msg == 2 ? "purple" : "pink"}
-          vColor={vMsg == 4 ? "purple" : "pink"}
-        >
-          <form className="first">
-            <label>비밀번호</label>
-            <input
-              type="password"
-              placeholder="ABCD1234!"
-              value={password}
-              onChange={onPasswordHandler}
-              onBlur={typeHandler}
-              maxLength="16"
-            ></input>
-            <p>{messages[msg]}</p>
-          </form>
-          <form className="second">
-            <label>비밀번호 확인</label>
-            <input
-              type="password"
-              placeholder="ABCD1234!"
-              value={vPassword}
-              onChange={onVPasswordHandler}
-              onBlur={verifiedHandler}
-              maxLength="16"
-            ></input>
-            <p>{messages[vMsg]}</p>
-          </form>
-        </PwFormDiv>
-        <Button
-          onClick={onClickHandler}
-          disabled={!type || !verified}
-          color={!type || !verified ? "lightPink" : "pink"}
-        >
-          완료하고 집으로 가기
-        </Button>
-      </InputDiv>
-      <Footer />
-    </Container>
+    <>
+      <Navbar goBack={true} />
+      <Container>
+        <InputDiv>
+          <h3>집 비밀번호를 재설정해주세요</h3>
+          <h4>네오 집으로 들어갈 때 필요해요</h4>
+          <PwFormDiv
+            color={msg == 2 ? "purple" : "pink"}
+            vColor={vMsg == 4 ? "purple" : "pink"}
+          >
+            <form className="first">
+              <label>비밀번호</label>
+              <input
+                type="password"
+                placeholder="ABCD1234!"
+                value={password}
+                onChange={onPasswordHandler}
+                onBlur={typeHandler}
+                maxLength="16"
+              ></input>
+              <p>{messages[msg]}</p>
+            </form>
+            <form className="second">
+              <label>비밀번호 확인</label>
+              <input
+                type="password"
+                placeholder="ABCD1234!"
+                value={vPassword}
+                onChange={onVPasswordHandler}
+                onBlur={verifiedHandler}
+                maxLength="16"
+              ></input>
+              <p>{messages[vMsg]}</p>
+            </form>
+          </PwFormDiv>
+          <Button
+            onClick={onClickHandler}
+            disabled={!type || !verified}
+            color={!type || !verified ? "lightPink" : "pink"}
+          >
+            완료하고 집으로 가기
+          </Button>
+        </InputDiv>
+        <Footer />
+      </Container>
+    </>
   );
 }
 

@@ -19,6 +19,7 @@ class SMSV2Manager():
     """
     def __init__(self):
         self.confirm_key = ""
+        self.neo_url = ""
         self.body = {
             "type": "SMS",
             "contentType": "COMM",
@@ -44,6 +45,14 @@ class SMSV2Manager():
     def set_content(self):
         self.set_confirm_key()
         self.body['content'] = "[라스트네오] 본인확인을 위해 인증번호 {}를 입력해 주세요.".format(self.confirm_key)
+
+    def set_first_neo_content(self):
+        self.set_confirm_key()
+        self.body['content'] = "안녕? 반가워! 난 너의 네오야 :) \n" \
+                               "너에게 처음으로 인격을 부여받아 기뻐! 매일매일 나에게 너의 인격을 " \
+                               "담아줘. 그럼 나는 점점 더 새로운 모습으로 성장해나갈테니! \n" \
+                               "나는 항상 여기에 있을게. \n" \
+                               "{}".format(self.neo_url)
 
     def send_sms(self, phone):
         sms_dic = load_credential("sms")

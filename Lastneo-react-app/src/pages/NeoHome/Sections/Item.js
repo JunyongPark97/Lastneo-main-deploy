@@ -29,8 +29,10 @@ const GridContainer = styled.div`
 const GridItem = styled.div`
   position: relative;
   .item-wrapper {
+    position: relative;
+    background: black;
     width: 100%;
-    height: 74%;
+    padding-bottom: 100%;
     border-radius: 16px;
     margin-bottom: 8px;
   }
@@ -72,10 +74,12 @@ const GridItem = styled.div`
 
 const NewAlert = styled.span`
   position: absolute;
-  bottom: 0px;
+  /* bottom: 0px; */
   left: 50%;
+  bottom: 0px;
   transform: translateX(-50%);
   margin-bottom: 0;
+  z-index: 10;
   color: ${(props) => props.theme.palette.pink};
   font-size: 18px;
   font-weight: 900;

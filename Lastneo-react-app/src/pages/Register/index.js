@@ -8,13 +8,10 @@ import Values from "./Values";
 import Nickname from "./Nickname";
 import Password from "./Password";
 import Result from "./Result";
-import Navbar from "../../components/Navbar";
 
 function Register({ match }) {
   return (
     <>
-      <Navbar goBack={true} />
-      {/* <Route exact path={match.path} component={Main}></Route> */}
       <Route exact path={`${match.path}`} component={PhoneNum}></Route>
       <Route path={`${match.path}/authnum`} component={AuthNum}></Route>
       <Route path={`${match.path}/mbti`} component={Mbti}></Route>

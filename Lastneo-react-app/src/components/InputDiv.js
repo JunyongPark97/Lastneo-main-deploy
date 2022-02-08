@@ -2,14 +2,13 @@
 import styled, { css } from "styled-components";
 import { customMedia } from "../styles/GlobalStyle";
 const InputDiv = styled.div`
-  // background-color: lavender;
+  /* background-color: lavender; */
   width: 640px;
   margin: auto;
   padding-top: 60px;
   padding-bottom: 180px;
   position: relative;
-  flex-grow: 1;
-  flex-shrink: 0;
+  flex: 1 0 auto;
   color: ${(props) => props.theme.palette.black};
 
   h3 {
@@ -132,7 +131,6 @@ const InputDiv = styled.div`
   ${customMedia.lessThan("mobile")`
   padding: 24px 24px 0 24px;
   width: 100%;
-  // background: lavender;
   height: calc(var(--vh, 1vh) * 100 - 56px); // 100vh - Navbar height
   h3 {
     font-size: 20px;

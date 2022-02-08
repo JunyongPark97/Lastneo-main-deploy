@@ -27,11 +27,13 @@ function Profile({ store, owner, nickname }) {
     console.log(data);
     dispatch(sendHomeDesc(data)).then((response) => {
       if (response.type == "edit_desc_success") {
-        console.log(response);
         setEditable(false);
-        setDesc(response.payload);
+        if (response.payload.length == 0) {
+          setDesc("집으로 초대한 친구에게 네오를 소개해주세요");
+        } else {
+          setDesc(response.payload);
+        }
       } else {
-        console.log(response.payload);
         setEditable(false);
         setDesc(originalDesc);
       }

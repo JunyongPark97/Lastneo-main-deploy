@@ -8,6 +8,8 @@ const FltBtn = styled(Button)`
   position: sticky;
   bottom: 60px;
   z-index: 100;
+  margin: 0 auto;
+  width: 640px;
   ${({ color, theme }) => {
     if (color == "black") {
       return css`
@@ -19,6 +21,7 @@ const FltBtn = styled(Button)`
     }
   }}
   ${customMedia.lessThan("mobile")`
+  position: sticky;
   width: calc(100vw - 48px);
   margin: 0 auto;
   left: 0;

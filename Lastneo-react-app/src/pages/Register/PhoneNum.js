@@ -16,6 +16,7 @@ import { customMedia } from "../../styles/GlobalStyle";
 import Footer from "../../components/Footer";
 import Container from "../../components/Container";
 import FormDiv from "../../components/FormDiv";
+import Navbar from "../../components/Navbar";
 
 function PhoneNum() {
   const dispatch = useDispatch();
@@ -93,74 +94,77 @@ function PhoneNum() {
   };
 
   return (
-    <Container className="common-container">
-      <InputDiv
-        className="input-container"
-        color={msg == 1 || msg == 2 ? "purple" : "pink"}
-      >
-        <h3>전화번호를 입력해주세요</h3>
-        <h4>네오의 집 주소나 비밀번호를 까먹었을 때 필요해요</h4>
-        <FormDiv>
-          <form>
-            <label>전화번호</label>
-            <input
-              type="text"
-              value={phoneNum}
-              placeholder="01012345678"
-              onChange={onPhoneNumHandler}
-              onBlur={onBlurHandler}
-              maxLength="11"
-            ></input>
-            <p>{messages[msg]}</p>
-          </form>
-          <SmallBtn onClick={onClickHandler}>
-            이미 네오를 발급 받았었나요?
-          </SmallBtn>
-          <AgrDiv>
-            <CheckBox>
-              <span type="button" onClick={onTermHandler}>
-                <img src={!term ? unchecked : checked} />
-              </span>
-              <span>
-                <StyledLink>
-                  <a href="https://www.notion.so/5592e83a44fc414d81b8bb5b5f2ca9d6">
-                    개인정보 처리방침
-                  </a>
-                </StyledLink>
-                &nbsp;및&nbsp;
-                <StyledLink>
-                  <a href="https://www.notion.so/72c7e2423d9d4e75af4a239bfac0494c">
-                    라스트네오 이용약관
-                  </a>
-                </StyledLink>
-                &nbsp;필수 동의
-              </span>
-            </CheckBox>
-            <CheckBox>
-              <span type="button" onClick={onMarketingHandler}>
-                <img src={!marketing ? unchecked : checked} />
-              </span>
-              <span>
-                <StyledLink>
-                  <a href="https://www.notion.so/a79bcee6344749b497b9229248655710">
-                    마케팅 수신
-                  </a>
-                </StyledLink>{" "}
-                선택 동의
-              </span>
-            </CheckBox>
-          </AgrDiv>
-        </FormDiv>
-        <Button
-          onClick={onSubmitHandler}
-          disabled={!phoneType || !term || !activateBtn}
-          color={!activateBtn ? "lightPink" : "pink"}
+    <>
+      <Navbar goBack={true} color="white" />
+      <Container>
+        <InputDiv
+          className="input-container"
+          color={msg == 1 || msg == 2 ? "purple" : "pink"}
         >
-          다음
-        </Button>
-      </InputDiv>
-      <Footer />
-    </Container>
+          <h3>전화번호를 입력해주세요</h3>
+          <h4>네오의 집 주소나 비밀번호를 까먹었을 때 필요해요</h4>
+          <FormDiv>
+            <form>
+              <label>전화번호</label>
+              <input
+                type="text"
+                value={phoneNum}
+                placeholder="01012345678"
+                onChange={onPhoneNumHandler}
+                onBlur={onBlurHandler}
+                maxLength="11"
+              ></input>
+              <p>{messages[msg]}</p>
+            </form>
+            <SmallBtn onClick={onClickHandler}>
+              이미 네오를 발급 받았었나요?
+            </SmallBtn>
+            <AgrDiv>
+              <CheckBox>
+                <span type="button" onClick={onTermHandler}>
+                  <img src={!term ? unchecked : checked} />
+                </span>
+                <span>
+                  <StyledLink>
+                    <a href="https://www.notion.so/5592e83a44fc414d81b8bb5b5f2ca9d6">
+                      개인정보 처리방침
+                    </a>
+                  </StyledLink>
+                  &nbsp;및&nbsp;
+                  <StyledLink>
+                    <a href="https://www.notion.so/72c7e2423d9d4e75af4a239bfac0494c">
+                      라스트네오 이용약관
+                    </a>
+                  </StyledLink>
+                  &nbsp;필수 동의
+                </span>
+              </CheckBox>
+              <CheckBox>
+                <span type="button" onClick={onMarketingHandler}>
+                  <img src={!marketing ? unchecked : checked} />
+                </span>
+                <span>
+                  <StyledLink>
+                    <a href="https://www.notion.so/a79bcee6344749b497b9229248655710">
+                      마케팅 수신
+                    </a>
+                  </StyledLink>{" "}
+                  선택 동의
+                </span>
+              </CheckBox>
+            </AgrDiv>
+          </FormDiv>
+          <Button
+            onClick={onSubmitHandler}
+            disabled={!phoneType || !term || !activateBtn}
+            color={!activateBtn ? "lightPink" : "pink"}
+          >
+            다음
+          </Button>
+        </InputDiv>
+        <Footer />
+      </Container>
+    </>
   );
 }
 

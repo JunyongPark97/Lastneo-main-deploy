@@ -14,6 +14,7 @@ from rest_framework.authtoken.models import Token
 from PIL import Image
 from io import BytesIO
 
+from core.sms.utils import SMSV2Manager
 from neohome.models import NeoHome, NeoHomeMeta
 from accounts.models import User, MBTIMain, MBTISkin
 from neogrowth.models import Big5Question, ItemMeta, Big5Answer, Big5SubSection, PersonalityItems, Tag, RandomItemMeta, \
@@ -28,6 +29,7 @@ from blockchain.serializers import NeoDataCreateSerializer, NeoBlockCreateSerial
 from nft.serializers import NFTCreateSerializer
 
 from core.slack import nft_request_slack_message
+from core.models import SMSManager
 
 import datetime
 
@@ -207,6 +209,26 @@ class Big5QuestionsViewSet(viewsets.ModelViewSet):
             self._update_background()
         # NeoData + NeoBlock 만드는 과정
         self._create_blockchain()
+
+        # smsmanager = SMSManager.objects.filter().all().last()
+        #
+        # phone = self.neo.phone
+        #
+        # if smsmanager.to_who == 0:
+        #     sms_manager = SMSV2Manager()
+        #     sms_manager.neo_url = "http://3.37.14.91/" + self.neo.neohome.last().nickname
+        #     sms_manager.set_first_neo_content()
+        #
+        #     if not sms_manager.send_sms(phone=phone):
+        #         return Response("Failed send sms", status=status.HTTP_410_GONE)
+        # else:
+        #     if self.neo.is_marketing == True:
+        #         sms_manager = SMSV2Manager()
+        #         sms_manager.neo_url = "http://3.37.14.91/" + self.neo.neohome.last().nickname
+        #         sms_manager.set_first_neo_content()
+        #
+        #         if not sms_manager.send_sms(phone=phone):
+        #             return Response("Failed send sms", status=status.HTTP_410_GONE)
 
         try:
             serializer = PersonalityItemsInfoSerializer(self.personality_items.item_meta)

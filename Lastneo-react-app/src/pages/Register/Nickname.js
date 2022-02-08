@@ -12,6 +12,7 @@ import Footer from "../../components/Footer";
 import Container from "../../components/Container";
 import NicknameInputDiv from "../../components/NicknameInputDiv";
 import { customMedia } from "../../styles/GlobalStyle";
+import Navbar from "../../components/Navbar";
 
 function Nickname() {
   const dispatch = useDispatch();
@@ -64,36 +65,39 @@ function Nickname() {
   };
 
   return (
-    <Container>
-      <NicknameInputDiv color={msg == 1 || msg == 2 ? "purple" : "pink"}>
-        <h3>집 주소를 만들어주세요</h3>
-        <h4>설정한 주소에서 네오를 만나볼 수 있어요</h4>
-        <FormDiv>
-          <form>
-            <label>집주소</label>
-            <StyledSpan color={msg == 1 || msg == 2 ? "purple" : "pink"}>
-              lastneo.io/
-              <input
-                className="input-nickname"
-                onChange={onNicknameHandler}
-                onBlur={onBlurHandler}
-                placeholder="address"
-                maxLength="10"
-              />
-            </StyledSpan>
-            <p>{messages[msg]}</p>
-          </form>
-        </FormDiv>
-        <Button
-          onClick={onSubmitHandler}
-          disabled={!type}
-          color={!type ? "lightPink" : "pink"}
-        >
-          다음
-        </Button>
-      </NicknameInputDiv>
-      <Footer />
-    </Container>
+    <>
+      <Navbar goBack={true} />
+      <Container>
+        <NicknameInputDiv color={msg == 1 || msg == 2 ? "purple" : "pink"}>
+          <h3>집 주소를 만들어주세요</h3>
+          <h4>설정한 주소에서 네오를 만나볼 수 있어요</h4>
+          <FormDiv>
+            <form>
+              <label>집주소</label>
+              <StyledSpan color={msg == 1 || msg == 2 ? "purple" : "pink"}>
+                lastneo.io/
+                <input
+                  className="input-nickname"
+                  onChange={onNicknameHandler}
+                  onBlur={onBlurHandler}
+                  placeholder="address"
+                  maxLength="10"
+                />
+              </StyledSpan>
+              <p>{messages[msg]}</p>
+            </form>
+          </FormDiv>
+          <Button
+            onClick={onSubmitHandler}
+            disabled={!type}
+            color={!type ? "lightPink" : "pink"}
+          >
+            다음
+          </Button>
+        </NicknameInputDiv>
+        <Footer />
+      </Container>
+    </>
   );
 }
 

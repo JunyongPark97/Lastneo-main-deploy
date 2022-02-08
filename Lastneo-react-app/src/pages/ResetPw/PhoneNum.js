@@ -8,6 +8,8 @@ import { useHistory, useLocation } from "react-router";
 import Container from "../../components/Container";
 import FormDiv from "../../components/FormDiv";
 import Footer from "../../components/Footer";
+import Navbar from "../../components/Navbar";
+import { useSelector } from "react-redux";
 
 // 현관 - 비밀번호 재설정
 // 해당 루트로 접근
@@ -17,6 +19,8 @@ function PhoneNum() {
   const [phoneNum, setPhoneNum] = useState("");
   const [type, setType] = useState(false);
   const [msg, setMsg] = useState(0);
+  const store = useSelector((store) => store.neohome);
+  console.log(store);
   const messages = [
     "전화번호 10자리 혹은 11자리를 알려주세요",
     "10자리 혹은 11자리로 알려주세요",
@@ -42,12 +46,12 @@ function PhoneNum() {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    let body = { nickname: location.state.nickname, phone: phoneNum };
+    let body = { nickname: store.nickname, phone: phoneNum };
     getAuth(body).then((response) => {
       if (response.status) {
         history.push({
           pathname: "/resetpw/authnum",
-          state: { phone: phoneNum, nickname: location.state.nickname },
+          state: { phone: phoneNum, nickname: store.nickname },
         });
       } else if (response.payload.non_field_errors[0] == "정보 없음") {
         console.log(response.payload);
@@ -68,35 +72,39 @@ function PhoneNum() {
   }, [type, phoneNum]);
 
   return (
-    <Container>
-      <InputDiv color={msg == 1 || msg == 2 ? "purple" : "pink"}>
-        <h3>전화번호를 입력해주세요</h3>
-        <h4>비밀번호 재설정을 위해 필요해요</h4>
-        <FormDiv>
-          <form>
-            <label>전화번호</label>
-            <input
-              type="text"
-              value={phoneNum}
-              placeholder="01012345678"
-              onChange={onPhoneNumHandler}
-              onBlur={onBlurHandler}
-              maxLength="11"
-            ></input>
-            <p>{messages[msg]}</p>
-          </form>
-        </FormDiv>
-        <Button
-          type="submit"
-          disabled={msg == 2 || !type}
-          color={msg == 2 || !type ? "lightPink" : "pink"}
-          onClick={onSubmitHandler}
-        >
-          다음
-        </Button>
-      </InputDiv>
-      <Footer />
-    </Container>
+    <>
+      <Navbar goBack={true} />
+
+      <Container>
+        <InputDiv color={msg == 1 || msg == 2 ? "purple" : "pink"}>
+          <h3>전화번호를 입력해주세요</h3>
+          <h4>비밀번호 재설정을 위해 필요해요</h4>
+          <FormDiv>
+            <form>
+              <label>전화번호</label>
+              <input
+                type="text"
+                value={phoneNum}
+                placeholder="01012345678"
+                onChange={onPhoneNumHandler}
+                onBlur={onBlurHandler}
+                maxLength="11"
+              ></input>
+              <p>{messages[msg]}</p>
+            </form>
+          </FormDiv>
+          <Button
+            type="submit"
+            disabled={msg == 2 || !type}
+            color={msg == 2 || !type ? "lightPink" : "pink"}
+            onClick={onSubmitHandler}
+          >
+            다음
+          </Button>
+        </InputDiv>
+        <Footer />
+      </Container>
+    </>
   );
 }
 

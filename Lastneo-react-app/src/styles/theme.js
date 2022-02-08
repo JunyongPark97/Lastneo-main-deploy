@@ -26,6 +26,7 @@ const theme = {
     darkYellow: "#CC7E00",
     yellow: "#FFAA00",
     black: "#1f1f1f",
+    tBlack: "#666666",
   },
 };
 

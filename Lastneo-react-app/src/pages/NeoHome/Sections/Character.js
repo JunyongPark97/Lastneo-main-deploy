@@ -1,8 +1,11 @@
 /* eslint-disable */
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import pinkarr_r from "../../../assets/pinkarr_r.png";
 import { customMedia } from "../../../styles/GlobalStyle";
+import Modal from "../../../components/modals/ComingSoonModal";
+import ModalContent from "../../../components/modals/ModalContent";
+import images from "../../../assets";
 
 const DescSection = styled.section`
   width: 640px;
@@ -89,6 +92,8 @@ const generateItemDesc = (store) => {
 };
 
 function Character({ store }) {
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <DescSection>
       <h2>네오 캐릭터</h2>
@@ -99,11 +104,25 @@ function Character({ store }) {
         <h3>
           '{store.mbti} <span>{store.mbti_name}</span>'
         </h3>
-        <button>
+        <button
+          onClick={() => {
+            setModalOpen(true);
+          }}
+        >
           더 알아보기
           <img src={pinkarr_r} />
         </button>
       </div>
+      {modalOpen && (
+        <Modal
+          visible={modalOpen}
+          closable={true}
+          maskClosable={true}
+          onClose={() => {
+            setModalOpen(false);
+          }}
+        ></Modal>
+      )}
     </DescSection>
   );
 }

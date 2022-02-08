@@ -21,7 +21,10 @@ const AppBlock = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: blue;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  /* background: blue; */
 `;
 
 function App() {
@@ -34,35 +37,26 @@ function App() {
   });
   window.addEventListener("resize", () => setScreenSize());
   const currentUrl = document.location.href;
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <BrowserRouter>
         <HelmetProvider>
           <Helmet>
-            <title>LASTNEO</title>
-            <meta
-              name="description"
-              content="라스트네오 설명이지롱 App.js안에 있음"
-            />
+            <title>라스트네오</title>
             <link rel="icon" href={favicon} />
             <meta property="og:url" content={currentUrl} />
             {/* title 정보 */}
-            <meta property="og:title" content="일론 머스크 지수 테스트하기" />
+            <meta property="og:title" content="라스트네오 홈페이지" />
             {/* 페이지 상세 정보 */}
-            <meta
-              property="og:description"
-              content="나는 일론 머스크에 대해서 얼마나 알고 있을까?"
-            />
+            <meta property="og:description" content="Lastneno HomePage" />
             {/* 페이지 대표 이미지 정보 */}
             <meta property="og:image" content={mainImg} />
 
             {/* 트위터 메타 정보 */}
-            <meta name="twitter:title" content="일론 머스크 지수 테스트하기" />
-            <meta
-              name="twitter:description"
-              content="나는 일론 머스크에 대해서 얼마나 알고 있을까?"
-            />
+            <meta name="twitter:title" content="라스트네오 홈페이지" />
+            <meta name="twitter:description" content="Lastneno HomePage" />
             <meta name="twitter:image" content={mainImg} />
           </Helmet>
           <AppBlock className="app-container">

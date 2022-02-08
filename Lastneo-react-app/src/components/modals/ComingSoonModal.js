@@ -4,15 +4,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { customMedia } from "../../styles/GlobalStyle";
+import ModalContent from "./ModalContent";
+import images from "../../assets";
 
-function Modal({
-  className,
-  onClose,
-  maskClosable,
-  closable,
-  visible,
-  children,
-}) {
+function Modal({ className, onClose, maskClosable, closable, visible }) {
   const onMaskClick = (e) => {
     if (e.target === e.currentTarget) {
       onClose(e);
@@ -35,7 +30,17 @@ function Modal({
         visible={visible}
       >
         <ModalInner tabIndex="0" className="modal-inner">
-          {children}
+          <ModalContent>
+            <img className="modal-img" src={images.comingsoon} />
+            <h2 className="modal-title">
+              페이지 <span>준비중</span> 입니다..
+            </h2>
+            <p className="modal-desc">
+              스토리 페이지는 현재 업데이트 준비중에 있습니다.
+              <br />
+              빠른 시일내에 준비하여 찾아뵙겠습니다.
+            </p>
+          </ModalContent>
           {closable && (
             <button className="modal-close" onClick={close}>
               닫기
@@ -89,7 +94,7 @@ const ModalInner = styled.div`
   transform: translateY(-50%);
   margin: 0 auto;
   padding: 40px;
-  button {
+  button.modal-close {
     position: absolute;
     bottom: 40px;
     left: 50%;
@@ -99,28 +104,24 @@ const ModalInner = styled.div`
     border-radius: 12px;
     font-size: 18px;
     font-weight: 500;
-  }
-  button.modal-close {
+    justify-content: center;
     background-color: ${(props) => props.theme.palette.lightGrey};
     color: ${(props) => props.theme.palette.powderGrey};
     &:hover {
       background-color: ${(props) => props.theme.palette.grey};
       color: ${(props) => props.theme.palette.darkGrey};
     }
-    right: 40px;
   }
 
   ${customMedia.lessThan("mobile")`
     width: 327px;
     height: 592px;
     padding: 24px;
-    button {
-      width: 279px;
+    button.modal-close {
+      width: calc(100% - 48px);
       height: 52px;
       bottom: 22px;
       font-size: 16px;
-    }
-    button.modal-close {
       right: 24px;
     }
     h3 {

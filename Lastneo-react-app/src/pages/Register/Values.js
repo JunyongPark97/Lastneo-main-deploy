@@ -8,8 +8,9 @@ import { sendValues } from "../../_actions/register_action";
 import { useHistory } from "react-router";
 import { customMedia } from "../../styles/GlobalStyle";
 import Footer from "../../components/Footer";
-import Container from "../../components/Container";
 import FltBtn from "../../components/FltBtn";
+import Navbar from "../../components/Navbar";
+import Container from "../../components/Container";
 
 function Values() {
   const arr = new Array(40).fill(false);
@@ -38,49 +39,52 @@ function Values() {
   };
 
   return (
-    <ValueContainer>
-      <ValueInputDiv>
-        <h3>
-          나를 잘 설명하는 단어
-          <br />
-          5개를 선택해 주세요
-        </h3>
-        <h4>mbti와 함께 네오에게 담겨요</h4>
-        <ValueDiv>
-          {values.map((a, i) => {
-            return (
-              <StyledBtn // 가치관 개별 버튼
-                key={i}
-                onClick={() => {
-                  const temp = [...valueList];
-                  if (temp.filter((element) => element == true).length < 5) {
-                    temp[i] = !temp[i];
-                    setValueList(temp);
-                  } else {
-                    if (temp[i]) {
+    <>
+      <Navbar goBack={true} />
+      <Container>
+        <ValueInputDiv>
+          <h3>
+            나를 잘 설명하는 단어
+            <br />
+            5개를 선택해 주세요
+          </h3>
+          <h4>mbti와 함께 네오에게 담겨요</h4>
+          <ValueDiv>
+            {values.map((a, i) => {
+              return (
+                <StyledBtn // 가치관 개별 버튼
+                  key={i}
+                  onClick={() => {
+                    const temp = [...valueList];
+                    if (temp.filter((element) => element == true).length < 5) {
                       temp[i] = !temp[i];
                       setValueList(temp);
+                    } else {
+                      if (temp[i]) {
+                        temp[i] = !temp[i];
+                        setValueList(temp);
+                      }
                     }
-                  }
-                }}
-                color={valueList[i] ? "purple" : "lightPurple"}
-                textColor={valueList[i] ? "white" : "lavender"}
-              >
-                {a.name}
-              </StyledBtn>
-            );
-          })}
-        </ValueDiv>
-        <ValueFltBtn
-          disabled={count != 5}
-          onClick={onSumbmitHandler}
-          color={count != 5 ? "lightPink" : "pink"}
-        >
-          {msg}
-        </ValueFltBtn>
-      </ValueInputDiv>
-      <Footer />
-    </ValueContainer>
+                  }}
+                  color={valueList[i] ? "purple" : "lightPurple"}
+                  textColor={valueList[i] ? "white" : "lavender"}
+                >
+                  {a.name}
+                </StyledBtn>
+              );
+            })}
+          </ValueDiv>
+          <FltBtn
+            disabled={count != 5}
+            onClick={onSumbmitHandler}
+            color={count != 5 ? "lightPink" : "pink"}
+          >
+            {msg}
+          </FltBtn>
+        </ValueInputDiv>
+        <Footer />
+      </Container>
+    </>
   );
 }
 
@@ -107,6 +111,12 @@ const StyledBtn = styled.button`
           background: ${theme.palette.darkPurple};
           color: ${theme.palette.grey};
         }
+        ${customMedia.lessThan("mobile")`
+        &:hover {
+          background: ${theme.palette.purple};
+          color: ${theme.palette.white};
+        }
+        `}
       `;
     } else if (color == "lightPurple") {
       return css`
@@ -129,15 +139,6 @@ const StyledBtn = styled.button`
     `}
 `;
 
-const ValueContainer = styled(Container)`
-  ${customMedia.lessThan("mobile")`
-  `}
-`;
-const ValueInputDiv = styled(InputDiv)`
-  min-height: 720px;
-  ${customMedia.lessThan("mobile")`
-  `}
-`;
 const ValueDiv = styled.div`
   /* background: pink; */
   display: block;
@@ -149,6 +150,16 @@ const ValueDiv = styled.div`
     `}
 `;
 
+const ValueInputDiv = styled(InputDiv)`
+  /* background: red; */
+  overflow: auto;
+  padding-bottom: 0;
+  min-height: 100%;
+  ${customMedia.lessThan("mobile")`
+  min-height: calc(var(--vh, 1vh)*100 - 70px);
+    `}
+`;
+
 const ValueFltBtn = styled(FltBtn)`
-  width: 100%;
+  bottom: 120px;
 `;

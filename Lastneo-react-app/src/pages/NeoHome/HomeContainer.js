@@ -8,6 +8,7 @@ import { getGuestInfo } from "../../_actions/guest_action";
 import { getOwnerInfo } from "../../_actions/owner_action";
 import { useDispatch, useSelector } from "react-redux";
 import HomeNavbar from "../../components/HomeNavbar";
+import { Helmet } from "react-helmet-async";
 
 function HomeContainer({ match, history }) {
   const dispatch = useDispatch();
