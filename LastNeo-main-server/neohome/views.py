@@ -2,6 +2,7 @@ import random
 
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import transaction, OperationalError
+from django.utils.dateformat import DateFormat
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import action
@@ -13,9 +14,10 @@ from rest_framework.authtoken.models import Token
 from PIL import Image
 from io import BytesIO
 
-from neohome.models import NeoHome
+from neohome.models import NeoHome, NeoHomeMeta
 from accounts.models import User, MBTIMain, MBTISkin
-from neogrowth.models import Big5Question, ItemMeta, Big5Answer, Big5SubSection, PersonalityItems, Tag, RandomItemMeta
+from neogrowth.models import Big5Question, ItemMeta, Big5Answer, Big5SubSection, PersonalityItems, Tag, RandomItemMeta, \
+    ValuesItems, RandomItems
 
 from nft.models import NFT
 from blockchain.models import NeoData, NeoBlock
@@ -26,6 +28,8 @@ from blockchain.serializers import NeoDataCreateSerializer, NeoBlockCreateSerial
 from nft.serializers import NFTCreateSerializer
 
 from core.slack import nft_request_slack_message
+
+import datetime
 
 
 class NeoHomeDoorAPI(APIView):
@@ -199,6 +203,8 @@ class Big5QuestionsViewSet(viewsets.ModelViewSet):
         self._create_big5answers()
         # total result 에 해당하는 아이템 추출 및 변화하는 상태 가져오기
         self._create_personalityitems()
+        if NeoData.objects.filter(neo=self.neo, is_used=False).count() == 0:
+            self._update_background()
         # NeoData + NeoBlock 만드는 과정
         self._create_blockchain()
 
@@ -226,7 +232,7 @@ class Big5QuestionsViewSet(viewsets.ModelViewSet):
         for big5answer in big5answer_qs.iterator():
             total_result += big5answer.result
         min_big5subsection = Big5SubSection.objects.get(subsection=section, version=num_week, section_value=1)
-        mid_big5subsection = Big5SubSection.objects.get(subsection=section, version=num_week, section_value=2)
+        mid_big5subsection = Big5SubSection.objects.filter(subsection=section, version=num_week, section_value=2).last()
         max_big5subsection = Big5SubSection.objects.get(subsection=section, version=num_week, section_value=3)
         if total_result <= min_big5subsection.min_value:
             item_meta_id_qs = ItemMeta.objects.filter(sub_category__tag__big5_subsection_id=min_big5subsection,
@@ -245,6 +251,17 @@ class Big5QuestionsViewSet(viewsets.ModelViewSet):
             if self.mbti == "INFP" and section == "E" and item_meta_id.layer_level == 7:
                 self.personality_items.delete()
 
+        return None
+
+    def _update_background(self):
+        random_item = RandomItemMeta.objects.filter(layer_level=38).order_by('?').last()
+        randomitems = RandomItems.objects.create(item_meta=random_item, neo=self.neo)
+        randomitems.save()
+        neo_character_room_color = randomitems.item_meta.name[:2]
+        self.home_meta = NeoHomeMeta.objects.get(description__contains=neo_character_room_color)
+        neohome = NeoHome.objects.filter(neo=self.neo).last()
+        neohome.home_meta = self.home_meta
+        neohome.save()
         return None
 
     def _create_blockchain(self):
@@ -308,7 +325,8 @@ class Big5QuestionsViewSet(viewsets.ModelViewSet):
         neo_upper_image_list.insert(neo_upper_layer_arg_list[0], item.item_half_image.url)
 
         # 배경 item
-        random_item = RandomItemMeta.objects.filter(layer_level=38, random_items__neo=self.neo).last()
+        random_item = RandomItemMeta.objects.filter(layer_level=38, random_items__neo=self.neo)\
+            .order_by('-random_items__created_at').first()
         neo_layer_list.insert(0, 38)
         neo_upper_layer_list.insert(0, 38)
         neo_layer_arg_list = sorted(range(len(neo_layer_list)), key=neo_layer_list.__getitem__)
@@ -380,7 +398,6 @@ class Big5QuestionsViewSet(viewsets.ModelViewSet):
         return final_image, final_upper_image
 
 
-# TODO : update 천천히 하면서 개발..
 class NFTViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = NFT.objects.filter().all()
@@ -401,17 +418,43 @@ class NFTViewSet(viewsets.ModelViewSet):
         """
         self.data = request.data.copy()
         self.neo = self.request.user
+        neodata_qs = NeoData.objects.filter(neo=self.neo, is_used=False)
 
         # Step 1 : NFT 생성
+        if neodata_qs.count() < 5:
+            return Response({"non_field_errors": ['NFT 발급 가능 블록 수를 채우지 못했습니다.']}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            nft_image = neodata_qs.last().neo_upper_image
+            serializer = NFTCreateSerializer(data={"nft_image": nft_image}, context={'request': self.request, 'user': self.neo})
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
 
         # Step 2 : NFT 요청 slack 발송
+
+        item_list = []
+        item_layer_list = []
+        item_name_list = []
+
+        value_items = ValuesItems.objects.filter(neo=self.neo).last()
+
+        item_list.append(value_items.item_meta.name)
+
+        big5_items_qs = PersonalityItems.objects.filter(neo=self.neo).order_by('-created_at')
+        for big5_item in big5_items_qs.iterator():
+            item_name = big5_item.item_meta.name
+            if (big5_item.item_meta.layer_level in item_layer_list) or (big5_item.item_meta.name in item_name_list):
+                print("DUPLICATED!")
+            else:
+                item_list.append(item_name)
+                item_layer_list.append(big5_item.item_meta.layer_level)
+                item_name_list.append(big5_item.item_meta.name)
+
         message = "\n [LastNeo World NFT Request] \n" \
                   "\n" \
-                  "네오 이미지:  \n" \
-                  "네오 집 주소: \n" \
-                  "부여받은 아이템 list: \n"\
-                  "질문 답변 레벨: \n"\
-                  "--------------------"
+                  "네오 이미지: {}\n" \
+                  "네오 집 닉네임: {}\n" \
+                  "부여받은 아이템 list: {}\n"\
+                  "--------------------".format(nft_image.url, self.neo.neohome.last().nickname, item_list)
         nft_request_slack_message(message)
 
         return Response(status=status.HTTP_201_CREATED)
