@@ -20,7 +20,6 @@ function PhoneNum() {
   const [type, setType] = useState(false);
   const [msg, setMsg] = useState(0);
   const store = useSelector((store) => store.neohome);
-  console.log(store);
   const messages = [
     "전화번호 10자리 혹은 11자리를 알려주세요",
     "10자리 혹은 11자리로 알려주세요",
@@ -54,7 +53,6 @@ function PhoneNum() {
           state: { phone: phoneNum, nickname: store.nickname },
         });
       } else if (response.payload.non_field_errors[0] == "정보 없음") {
-        console.log(response.payload);
         setMsg(2);
       } else {
         setMsg(2);

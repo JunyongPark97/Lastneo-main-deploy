@@ -9,15 +9,24 @@ const RoomNav = styled.div`
   width: 640px;
   border-bottom: solid 1px ${(props) => props.theme.palette.paleGrey};
   span {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
     margin-right: 40px;
-    padding-bottom: 16px; // 이게 조건부여야 함
     font-size: 16px;
+    height: 100%;
     cursor: pointer;
     color: ${(props) => props.theme.palette.black};
     &:hover {
       color: ${(props) => props.theme.palette.pink};
       border-bottom: solid 2px ${(props) => props.theme.palette.pink};
     }
+  }
+  div.nav-menu {
+    height: 100%;
+    align-items: center;
+    justify-content: center;
   }
 
   ${customMedia.lessThan("mobile")`

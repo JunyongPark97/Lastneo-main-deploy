@@ -22,7 +22,6 @@ export const login = async (dataTosubmit) => {
       payload: req,
     };
   } catch (e) {
-    console.log(e);
     return {
       payload: e,
     };
@@ -33,7 +32,6 @@ export const login = async (dataTosubmit) => {
 
 // 인증번호 받기
 export const getAuth = async (dataTosubmit) => {
-  console.log(dataTosubmit);
   try {
     const req = await axios.post(
       REACT_APP_DB_HOST + "/api/v1/sms/reset_pw_send/",
@@ -72,7 +70,6 @@ export const enterAuth = async (dataTosubmit) => {
 
 // 재설정할 비밀번호 전송
 export const enterNewPw = async (dataTosubmit) => {
-  console.log(dataTosubmit);
   try {
     const req = await axios.post(
       REACT_APP_DB_HOST + "/accounts/v1/reset_pw/",
@@ -81,7 +78,5 @@ export const enterNewPw = async (dataTosubmit) => {
     return {
       status: true,
     };
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 };

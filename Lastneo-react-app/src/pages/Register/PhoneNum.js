@@ -76,8 +76,6 @@ function PhoneNum() {
     };
     dispatch(confirmMarketing(marketing));
     dispatch(getAuth(body)).then((response) => {
-      console.log("response");
-      console.log(response.payload);
       if (response.type == "auth_req_success") {
         history.push("/register/authnum");
       } else if (
@@ -126,13 +124,13 @@ function PhoneNum() {
                 </span>
                 <span>
                   <StyledLink>
-                    <a href="https://www.notion.so/5592e83a44fc414d81b8bb5b5f2ca9d6">
+                    <a href="https://foremost-avocado-334.notion.site/5592e83a44fc414d81b8bb5b5f2ca9d6">
                       개인정보 처리방침
                     </a>
                   </StyledLink>
                   &nbsp;및&nbsp;
                   <StyledLink>
-                    <a href="https://www.notion.so/72c7e2423d9d4e75af4a239bfac0494c">
+                    <a href="https://foremost-avocado-334.notion.site/72c7e2423d9d4e75af4a239bfac0494c">
                       라스트네오 이용약관
                     </a>
                   </StyledLink>
@@ -145,11 +143,11 @@ function PhoneNum() {
                 </span>
                 <span>
                   <StyledLink>
-                    <a href="https://www.notion.so/a79bcee6344749b497b9229248655710">
+                    <a href="https://foremost-avocado-334.notion.site/a79bcee6344749b497b9229248655710">
                       마케팅 수신
                     </a>
-                  </StyledLink>{" "}
-                  선택 동의
+                  </StyledLink>
+                  &nbsp;선택 동의
                 </span>
               </CheckBox>
             </AgrDiv>

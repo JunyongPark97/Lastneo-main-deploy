@@ -32,7 +32,7 @@ const StyledBtn = styled.button`
 `;
 
 const ShadowBtn = styled(StyledBtn)`
-  box-shadow: 0px 3px 6px black;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
 `;
 
 const Container = styled.div`
@@ -45,7 +45,7 @@ const Container = styled.div`
     margin-bottom: 60px;
     font-weight: 900;
     line-height: 92px;
-    text-shadow: 0px 3px 6px black;
+    text-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
   }
   h2 {
     font-size: 48px;
@@ -55,7 +55,7 @@ const Container = styled.div`
   h3 {
     font-weight: bold;
     font-size: 32px;
-    text-shadow: 0px 3px 6px black;
+    text-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
   }
   p {
     font-size: 24px;
@@ -239,13 +239,16 @@ const Section4 = styled.section`
     font-size: 20px;
     font-weight: 500;
     background-color: transparent;
-    width: 120px;
     height: 29px;
     color: ${(props) => props.theme.palette.flowerPink};
     img {
       width: 16px;
       height: 16px;
     }
+  }
+  .story-btn {
+    flex-direction: row;
+    align-items: center;
   }
   ${customMedia.lessThan("mobile")`
   padding: 96px 24px;
@@ -278,7 +281,7 @@ const Section5 = styled.section`
     display: none;
   }
   ${customMedia.lessThan("mobile")`
-    padding: 80px 0px;
+    padding: 64px 0px;
     & > .web {
       display: none;
     }
@@ -300,20 +303,6 @@ function LandingPage() {
 
   return (
     <>
-      <Helmet>
-        <meta property="og:url" content={currentUrl} />
-        {/* title 정보 */}
-        <meta property="og:title" content="라스트네오 홈페이지" />
-        {/* 페이지 상세 정보 */}
-        <meta property="og:description" content="Lastneno HomePage" />
-        {/* 페이지 대표 이미지 정보 */}
-        <meta property="og:image" content={mainImg} />
-
-        {/* 트위터 메타 정보 */}
-        <meta name="twitter:title" content="라스트네오 홈페이지" />
-        <meta name="twitter:description" content="Lastneno HomePage" />
-        <meta name="twitter:image" content={mainImg} />
-      </Helmet>
       <LandingNav />
       <Container>
         <Section1>
@@ -441,8 +430,10 @@ function LandingPage() {
               setModalOpen(true);
             }}
           >
-            스토리 보기
-            <img src={images.powderPinkArr} />
+            <div className="story-btn">
+              스토리 보기
+              <img src={images.powderPinkArr} />
+            </div>
           </button>
         </Section4>
         <Section5>

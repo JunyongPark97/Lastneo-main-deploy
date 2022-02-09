@@ -56,7 +56,6 @@ function EnterId({ history }) {
       data: dataTosubmit,
     };
     dispatch(enterAddress(body)).then((response) => {
-      console.log(response);
       if (response.payload.is_exact) {
         history.push(`/${response.payload.nickname}`);
       } else {

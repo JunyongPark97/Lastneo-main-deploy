@@ -14,7 +14,6 @@ function Navbar({ color, goBack }) {
     history.go(-1);
   };
   const goHomeHandler = () => {
-    console.log("go home");
     history.push("/");
   };
   return (
@@ -58,7 +57,6 @@ const StyledNav = styled.div`
   justify-content: center;
 
   ${({ theme, color }) => {
-    console.log(color);
     const selected = theme.palette[color];
     return css`
       background: ${selected};

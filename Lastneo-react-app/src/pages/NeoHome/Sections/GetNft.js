@@ -77,7 +77,6 @@ const generateDates = (store) => {
     }
   });
 
-  console.log(arr);
   return arr;
 };
 

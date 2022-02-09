@@ -31,17 +31,17 @@ function Menu() {
           </li>
           <HorizonLine />
           <li>
-            <a href=" https://www.notion.so/5592e83a44fc414d81b8bb5b5f2ca9d6">
+            <a href="https://foremost-avocado-334.notion.site/5592e83a44fc414d81b8bb5b5f2ca9d6">
               개인정보 처리방침
             </a>
           </li>
           <li>
-            <a href="https://www.notion.so/72c7e2423d9d4e75af4a239bfac0494c">
+            <a href="https://foremost-avocado-334.notion.site/72c7e2423d9d4e75af4a239bfac0494c">
               라스트네오 이용약관
             </a>
           </li>
           <li>
-            <a href="https://www.notion.so/b3a67f3531c341e69677140fd4ee2ef5">
+            <a href="https://foremost-avocado-334.notion.site/b3a67f3531c341e69677140fd4ee2ef5">
               문의하기
             </a>
           </li>
@@ -57,8 +57,8 @@ export default Menu;
 const StyledDiv = styled.div`
   padding-top: 60px;
   height: 100%;
+  font-size: 16px;
   * {
-    font-size: 16px;
     font-weight: 500;
     color: ${(props) => props.theme.palette.powderGrey};
   }

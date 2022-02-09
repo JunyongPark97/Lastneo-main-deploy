@@ -15,7 +15,6 @@ export default function (state = {}, action) {
     case OWNER_INFO_FAILURE:
       return state;
     case SEND_BIG5_SUCCESS:
-      console.log(action.payload);
       return {
         ...state,
       };

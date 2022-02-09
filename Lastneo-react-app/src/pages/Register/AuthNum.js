@@ -45,8 +45,6 @@ function AuthNum() {
       confirm_key: authNum,
     };
     dispatch(enterAuth(body)).then((response) => {
-      console.log("response");
-      console.log(response);
       if (response.type == "auth_success") {
         history.push("/register/mbti");
       } else {

@@ -52,14 +52,38 @@ const FrameCell = styled.div`
   `}
 `;
 
+const msgGenerator = (idx) => {
+  if (idx == 0) {
+    return (
+      <>
+        <p className="msg-web">
+          아직 발급받은 액자가 없어요. 네오 방에서 인격을 공유해보세요!
+        </p>
+        <p className="msg-mobile">
+          아직 발급받은 액자가 없어요. <br />
+          네오 방에서 인격을 공유해보세요!
+        </p>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <p className="msg-web">
+          새로운 캐릭터 액자가 있어요! 네오의 소유권이 생겼네요!
+        </p>
+        <p className="msg-mobile">
+          새로운 캐릭터 액자가 있어요!
+          <br />
+          네오의 소유권이 생겼네요!
+        </p>
+      </>
+    );
+  }
+};
 function Frame({ store, owner }) {
   const localstore = store.nfts_info;
   const [modal, setModal] = useState(false);
   const [modalMsg, setModalMsg] = useState(-1);
-  const messages = [
-    "아직 발급받은 액자가 없어요. 네오 방에서 인격을 공유해보세요!",
-    "새로운 캐릭터 액자가 있어요! 네오의 소유권이 생겼네요!",
-  ];
 
   useEffect(() => {
     if (localstore.length == 0) {
@@ -78,7 +102,7 @@ function Frame({ store, owner }) {
       {modal && (
         <NewItemModal newItem={false}>
           <img src={yellowalert} />
-          <p>{messages[modalMsg]}</p>
+          {msgGenerator(modalMsg)}
         </NewItemModal>
       )}
       {localstore.length != 0 && (

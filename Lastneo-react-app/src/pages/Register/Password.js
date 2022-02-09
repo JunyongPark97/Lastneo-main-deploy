@@ -99,7 +99,6 @@ function Password() {
   };
 
   const onFocusHandler = () => {
-    console.log("is it happend?");
     myRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
 
     // window.scrollTo(0, 0);

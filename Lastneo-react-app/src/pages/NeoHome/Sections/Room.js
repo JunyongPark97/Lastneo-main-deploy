@@ -62,7 +62,8 @@ function Room({ store, neo, character }) {
   return (
     <RoomSection>
       <div className="room-wrapper">
-        <img className="room" src={store.neo_room_image} />
+        {neo && <img className="room" src={images.neosoulroom} />}
+        {character && <img className="room" src={store.neo_room_image} />}
         {neo && <img className="neo-soul" src={images.roomneo} />}
         {character && <img className="neo" src={store.neo_image} />}
       </div>

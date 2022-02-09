@@ -40,7 +40,6 @@ function Password() {
   useEffect(() => {
     setType(isPassword(password));
     setVerified(password == vPassword);
-    console.log(verified);
   }, [password, vPassword]);
 
   useEffect(() => {
@@ -79,12 +78,10 @@ function Password() {
       confirm_key: location.state.confirm_key,
       password: password,
     };
-    console.log(body);
     enterNewPw(body).then((response) => {
       if (response.status) {
         history.push(`/${location.state.nickname}`); // 집으로 이동
       } else {
-        console.log(response.payload);
       }
     });
   };

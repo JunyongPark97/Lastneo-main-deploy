@@ -44,7 +44,6 @@ function HomeContainer({ match, history }) {
     } else {
       if (localStorage.getItem("token") == null) {
         // 토큰이 없으면 현관으로 Redirect
-        console.log("redirect");
         history.push({
           pathname: `${match.url}/frontdoor`,
           state: { nickname: match.params.id },

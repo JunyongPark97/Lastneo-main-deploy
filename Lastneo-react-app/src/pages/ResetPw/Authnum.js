@@ -70,7 +70,6 @@ function AuthNum() {
       nickname: location.state.nickname,
       phone: location.state.phone,
     };
-    console.log(body);
     dispatch(getAuth(body));
   };
   return (

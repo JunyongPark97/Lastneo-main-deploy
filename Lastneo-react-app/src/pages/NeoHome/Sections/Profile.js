@@ -24,7 +24,6 @@ function Profile({ store, owner, nickname }) {
 
   const onSubmitHandler = () => {
     let data = { description: desc, nickname };
-    console.log(data);
     dispatch(sendHomeDesc(data)).then((response) => {
       if (response.type == "edit_desc_success") {
         setEditable(false);

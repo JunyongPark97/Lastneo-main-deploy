@@ -48,9 +48,7 @@ class SMSV2Manager():
 
     def set_first_neo_content(self):
         self.set_confirm_key()
-        self.body['content'] = "안녕? 반가워! 난 너의 네오야 :) \n" \
-                               "너에게 처음으로 인격을 부여받아 기뻐! 매일매일 나에게 너의 인격을 " \
-                               "담아줘. 그럼 나는 점점 더 새로운 모습으로 성장해나갈테니! \n" \
+        self.body['content'] = "나에게 인격을 담아주어서 고마워!\n" \
                                "나는 항상 여기에 있을게. \n" \
                                "{}".format(self.neo_url)
 

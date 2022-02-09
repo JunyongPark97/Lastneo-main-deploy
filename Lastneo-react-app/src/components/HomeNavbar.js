@@ -16,7 +16,6 @@ function HomeNavbar({ match, owner, guest }) {
     });
   };
   const goHomeHandler = () => {
-    console.log("go home");
     history.push("/");
   };
   const goMenuHandler = () => {

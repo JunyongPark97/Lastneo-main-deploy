@@ -25,7 +25,6 @@ function Values() {
     if (count == 5) {
       setMsg("다음");
     } else if (count > 5) {
-      console.log("alert");
     } else if (count > 0) {
       setMsg(`${5 - count}개 더 선택해주세요`);
     } else if (count == 0) {

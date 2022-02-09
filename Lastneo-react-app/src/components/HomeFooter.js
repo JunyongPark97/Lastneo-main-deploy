@@ -34,6 +34,18 @@ const StyledFooter = styled.footer`
       font-size: 10px;
     }
   }
+  a:link {
+    color: ${(props) => props.theme.palette.grey};
+    text-decoration: none;
+  }
+  a:visited {
+    color: ${(props) => props.theme.palette.grey};
+    text-decoration: none;
+  }
+  a:hover {
+    color: ${(props) => props.theme.palette.grey};
+    text-decoration: none;
+  }
 
   ${customMedia.lessThan("mobile")`
   font-size: 10px;
@@ -62,22 +74,42 @@ function Footer({ home }) {
           all rights reserved.
         </p>
         <span>
-          개인정보
-          <br />
-          처리방침
+          <a href=" https://foremost-avocado-334.notion.site/5592e83a44fc414d81b8bb5b5f2ca9d6">
+            개인정보
+            <br />
+            처리방침
+          </a>
         </span>
         <span>
-          라스트네오
-          <br />
-          이용약관
+          <a href="https://foremost-avocado-334.notion.site/72c7e2423d9d4e75af4a239bfac0494c">
+            라스트네오
+            <br />
+            이용약관
+          </a>
         </span>
-        <span>문의하기</span>
+        <span>
+          <a href="https://foremost-avocado-334.notion.site/b3a67f3531c341e69677140fd4ee2ef5">
+            문의하기
+          </a>
+        </span>
       </div>
       <div className="web">
         <p>ⓒ 2022. 주식회사 몽데이크 Corp. all rights reserved.</p>
-        <span>개인정보 처리방침</span>
-        <span>라스트네오 이용약관</span>
-        <span>문의하기</span>
+        <span>
+          <a href="https://foremost-avocado-334.notion.site/5592e83a44fc414d81b8bb5b5f2ca9d6">
+            개인정보 처리방침
+          </a>
+        </span>
+        <span>
+          <a href="https://foremost-avocado-334.notion.site/72c7e2423d9d4e75af4a239bfac0494c">
+            라스트네오 이용약관
+          </a>
+        </span>
+        <span>
+          <a href="https://foremost-avocado-334.notion.site/b3a67f3531c341e69677140fd4ee2ef5">
+            문의하기
+          </a>
+        </span>
       </div>
     </StyledFooter>
   );

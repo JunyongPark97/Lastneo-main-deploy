@@ -18,6 +18,9 @@ const NewItemModal = styled.div`
   p {
     margin-bottom: 0px;
   }
+  p.msg-mobile {
+    display: none;
+  }
   ${({ newItem }) => {
     if (newItem) {
       return css`
@@ -41,6 +44,11 @@ const NewItemModal = styled.div`
     margin-bottom: 0px;
     padding: 0 77px 0 0;
   }
+  p.msg-mobile {
+    display: block;
+  }
+  p.msg-web {
+    display: none;
   }
   `}
 `;

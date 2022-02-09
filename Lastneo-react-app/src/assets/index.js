@@ -59,7 +59,9 @@ import blackalert from "./blackalert.png";
 import crazybear from "./crazybear.png";
 import roomneo from "./roomneo.png";
 import community from "./community.png";
+import neosoulroom from "./neosoulroom.png";
 const images = {
+  neosoulroom,
   community,
   roomneo,
   crazybear,

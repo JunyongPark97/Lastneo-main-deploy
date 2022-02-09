@@ -47,7 +47,6 @@ function Nickname() {
       if (response.type == "nickname_success") {
         history.push("/register/password");
       } else {
-        console.log(response.payload);
         setMsg(1);
       }
     });

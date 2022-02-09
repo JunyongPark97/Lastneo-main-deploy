@@ -66,12 +66,31 @@ const CopyDiscode = styled.div`
       }
     }
   }
+
+  .discode {
+    a {
+      display: block;
+    }
+    a:link {
+      color: ${(props) => props.theme.palette.pink};
+      text-decoration: none;
+    }
+    a:visited {
+      color: ${(props) => props.theme.palette.pink};
+      text-decoration: none;
+    }
+    a:hover {
+      color: ${(props) => props.theme.palette.pink};
+      text-decoration: none;
+    }
+  }
   h4 {
     margin-bottom: 4px;
   }
 
   ${customMedia.lessThan("mobile")`
   flex-direction: column;
+  flex-wrap: nowrap;
   .copy, .discode { 
     position: relative;
     flex-direction: row;
@@ -127,7 +146,6 @@ function Communication({ store }) {
   };
   const store_neohome = useSelector((store) => store.neohome);
   const [modal, setModal] = useState(false);
-  console.log(store);
   useEffect(() => {
     if (modal) {
       let timer = setTimeout(() => {
@@ -192,7 +210,9 @@ function Communication({ store }) {
             <h4>디스코드방</h4>
             <p>나와 비슷한 네오들과 소통해보세요!</p>
           </div>
-          <SmallPinkBtn>둘러보기</SmallPinkBtn>
+          <SmallPinkBtn>
+            <a href="https://discord.gg/sEj6vQqATB">둘러보기</a>
+          </SmallPinkBtn>
         </div>
         <div className="modal">
           <MsgModal show={modal} share mobile />

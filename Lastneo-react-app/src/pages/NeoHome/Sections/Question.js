@@ -81,9 +81,7 @@ function Question({ store, isDone }) {
   };
 
   const toggleHandler = () => {
-    console.log("clicked");
     setOpen(!open);
-    console.log(open);
   };
 
   const executeScroll = () =>

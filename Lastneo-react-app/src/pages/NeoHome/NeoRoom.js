@@ -13,9 +13,11 @@ import { getOwnerInfo } from "../../_actions/owner_action";
 function NeoRoom() {
   const store = useSelector((store) => store.owner);
   const store_neohome = useSelector((store) => store.neohome);
-  const [tabState, setTabState] = useState(store_neohome.tab);
   const dispatch = useDispatch();
   const myRef = useRef();
+  const neoRef = useRef();
+  const nftRef = useRef();
+  const questionRef = useRef();
 
   const executeScroll = () =>
     myRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -35,25 +37,52 @@ function NeoRoom() {
       <Room store={store} neo={true} />
       <RoomDiv>
         <RoomNav>
-          <Link to="neo" spy={true} smooth={true}>
-            <span>네오</span>
-          </Link>
-          <Link to="getNft" spy={true} smooth={true}>
-            <span>소유하기</span>
-          </Link>
-          <Link to="question" spy={true} smooth={true}>
-            <span>인격 담기</span>
-          </Link>
+          <div className="nav-menu">
+            <span
+              onClick={() => {
+                neoRef.current.scrollIntoView({
+                  behavior: "smooth",
+                  block: "center",
+                });
+              }}
+            >
+              네오
+            </span>
+          </div>
+          <div className="nav-menu">
+            <span
+              onClick={() => {
+                nftRef.current.scrollIntoView({
+                  behavior: "smooth",
+                  block: "center",
+                });
+              }}
+            >
+              소유하기
+            </span>
+          </div>
+          <div className="nav-menu">
+            <span
+              onClick={() => {
+                myRef.current.scrollIntoView({
+                  behavior: "smooth",
+                  block: "center",
+                });
+              }}
+            >
+              인격 담기
+            </span>
+          </div>
         </RoomNav>
-        <section name="neo">
+        <div ref={neoRef}>
           <Neo store={store} />
-        </section>
-        <section name="getNft">
+        </div>
+        <div ref={nftRef}>
           <GetNft store={store} remain={store.neo_blocks.remain_block} />
-        </section>
-        <section name="question" ref={myRef}>
+        </div>
+        <div ref={myRef}>
           <Question store={store} isDone={store.is_done} />
-        </section>
+        </div>
       </RoomDiv>
     </>
   );

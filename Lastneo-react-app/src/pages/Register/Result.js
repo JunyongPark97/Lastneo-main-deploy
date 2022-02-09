@@ -20,7 +20,12 @@ function Result() {
   const store = useSelector((store) => store.register.result);
   const [modal, setModal] = useState(false);
   const historyHook = useHistory();
-  const kakaoData = { img: store.neo_image, home_address: store.home_address };
+  const kakaoDesc = `${store.item_description} ${store.mbti} ${store.mbti_name}`;
+  const kakaoData = {
+    img: store.neo_image,
+    home_address: store.home_address,
+    desc: kakaoDesc,
+  };
   const hashtags = ["라스트네오", "나를", "담은", "캐릭터"];
   const snsTitle = "나를 담은 네오 캐릭터는?";
   const snsDesc = "MBTI와 나를 잘 설명하는 단어로 표현된 내 캐릭터를 보러 와!";

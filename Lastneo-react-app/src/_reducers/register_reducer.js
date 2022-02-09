@@ -53,8 +53,6 @@ export default function (state = {}, action) {
         nickname: action.payload,
       };
     case SIGNUP_SUCCESS:
-      console.log("서버로부터 받은 데이터 req.data");
-      console.log(action.payload);
       return {
         result: action.payload,
       };

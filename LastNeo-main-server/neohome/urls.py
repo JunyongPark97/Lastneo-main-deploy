@@ -15,6 +15,6 @@ router.register('nftblock', NFTViewSet, basename='nftblock')
 urlpatterns = [
     path('', include(router.urls)),
     path('door/', NeoHomeDoorAPI.as_view()),
-    path('is_owner/<slug:slug>/', NeoHomeIsOwnerAPIView.as_view()),
-    path('homeintroduction/<slug:slug>/', NeoHomeIntroductionAPIView.as_view())
+    path('is_owner/', NeoHomeIsOwnerAPIView.as_view()),
+    path('homeintroduction/', NeoHomeIntroductionAPIView.as_view())
 ]

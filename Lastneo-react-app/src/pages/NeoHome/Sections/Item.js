@@ -124,7 +124,14 @@ function Item({ store }) {
       {modal && (
         <NewItemModal newItem={newItem}>
           <img src={yellowalert} />
-          <p>이전과 달라진 아이템이 있어요. 네오가 인격을 담았나 보군요!</p>
+          <p className="msg-web">
+            이전과 달라진 아이템이 있어요. 네오가 인격을 담았나 보군요!
+          </p>
+          <p className="msg-mobile">
+            이전과 달라진 아이템이 있어요.
+            <br />
+            네오가 인격을 담았나 보군요!
+          </p>
         </NewItemModal>
       )}
       <ItemsContainer>

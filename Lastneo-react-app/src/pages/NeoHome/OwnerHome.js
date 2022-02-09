@@ -25,7 +25,9 @@ function OwnerHome({ nickname }) {
   const { tab } = useSelector((state) => state.neohome);
 
   useEffect(() => {
-    setModalVisible(true);
+    if (!store.is_done) {
+      setModalVisible(true);
+    }
     dispatch({ type: "set_tab", payload: "character" });
   }, []);
 

@@ -12,7 +12,6 @@ import { REACT_APP_DB_HOST } from "../keys";
 
 // 페이지 렌더링 시 서버로부터 정보 받아오기
 export const getOwnerInfo = async (nickname) => {
-  console.log("주인 정보 요청");
   try {
     const options = {
       headers: { Authorization: `Token ${localStorage.getItem("token")}` },
@@ -21,13 +20,11 @@ export const getOwnerInfo = async (nickname) => {
       REACT_APP_DB_HOST + `/api/v1/neohomeowner/${nickname}/`,
       options
     );
-    console.log(req);
     return {
       type: OWNER_INFO_SUCCESS,
       payload: req.data,
     };
   } catch (e) {
-    console.log(e);
     return {
       type: OWNER_INFO_FAILURE,
       payload: e,
@@ -46,7 +43,6 @@ export const sendBig5 = async (dataTosubmit) => {
       dataTosubmit,
       options
     );
-    console.log(req);
     return {
       type: SEND_BIG5_SUCCESS,
       payload: req.data,
@@ -61,14 +57,13 @@ export const sendBig5 = async (dataTosubmit) => {
 
 // 사용자가 수정한 홈 description을 서버에 전송
 export const sendHomeDesc = async (data) => {
-  const body = { description: data.description };
-  console.log("요청 발생!");
+  const body = { description: data.description, nickname: data.nickname };
   try {
     const options = {
       headers: { Authorization: `Token ${localStorage.getItem("token")}` },
     };
     const req = await axios.put(
-      REACT_APP_DB_HOST + `/api/v1/homeintroduction/${data.nickname}/`,
+      REACT_APP_DB_HOST + `/api/v1/homeintroduction/`,
       body,
       options
     );
