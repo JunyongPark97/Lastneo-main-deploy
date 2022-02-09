@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import InputDiv from "../../components/InputDiv";
 import Button from "../../components/Button";
 import SmallBtn from "../../components/SmallBtn";
@@ -18,6 +18,7 @@ function AuthNum() {
   const dispatch = useDispatch();
   const history = useHistory();
   const [authNum, setAuthNum] = useState("");
+  const myRef = useRef();
   const [type, setType] = useState(false);
   const [errMsg, setErrMsg] = useState(false);
   const [modal, setModal] = useState(false);
@@ -53,6 +54,14 @@ function AuthNum() {
       }
     });
   };
+  const onFocusHandler = (event) => {
+    event.stopPropagation();
+    myRef.current.style.transform = "TranslateY(-10000px)";
+    myRef.current.focus();
+    setTimeout(function () {
+      myRef.current.style.transform = "none";
+    }, 100);
+  };
   const onClickHandler = (event) => {
     setTimeout(() => {
       setModal(true);
@@ -76,7 +85,7 @@ function AuthNum() {
             4자리를 알려주세요
           </h3>
           <FormDiv>
-            <form>
+            <form onFocus={onFocusHandler} ref={myRef}>
               <label>인증번호</label>
               <input
                 type="text"

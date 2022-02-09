@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { getAuth } from "../../_actions/neohome_action";
 import InputDiv from "../../components/InputDiv";
 import { isPhoneNumber } from "../../utils/regexes";
@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 function PhoneNum() {
   const history = useHistory();
   const location = useLocation(); // 현관 EnterPw.js 에서 state: {nickname:nickname} 으로 이름 보내줄 것임
+  const myRef = useRef();
   const [phoneNum, setPhoneNum] = useState("");
   const [type, setType] = useState(false);
   const [msg, setMsg] = useState(0);
@@ -59,6 +60,16 @@ function PhoneNum() {
       }
     });
   };
+
+  const onFocusHandler = (event) => {
+    event.stopPropagation();
+    myRef.current.style.transform = "TranslateY(-10000px)";
+    myRef.current.focus();
+    setTimeout(function () {
+      myRef.current.style.transform = "none";
+    }, 100);
+  };
+
   useEffect(() => {
     setType(isPhoneNumber(phoneNum));
   }, [phoneNum]);
@@ -78,7 +89,7 @@ function PhoneNum() {
           <h3>전화번호를 입력해주세요</h3>
           <h4>비밀번호 재설정을 위해 필요해요</h4>
           <FormDiv>
-            <form>
+            <form onFocus={onFocusHandler} ref={myRef}>
               <label>전화번호</label>
               <input
                 type="text"

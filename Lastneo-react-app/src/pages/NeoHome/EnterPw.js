@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import InputDiv from "../../components/InputDiv";
 import Button from "../../components/Button";
 import { isPassword } from "../../utils/regexes";
@@ -14,6 +14,7 @@ import { css } from "styled-components";
 
 function EnterPw({ nickname }) {
   const history = useHistory();
+  const myRef = useRef();
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState(1);
   const [type, setType] = useState(false);
@@ -67,13 +68,21 @@ function EnterPw({ nickname }) {
       setMsg(0);
     }
   };
+  const onFocusHandler = (event) => {
+    event.stopPropagation();
+    myRef.current.style.transform = "TranslateY(-10000px)";
+    myRef.current.focus();
+    setTimeout(function () {
+      myRef.current.style.transform = "none";
+    }, 100);
+  };
 
   return (
     <StyledDiv>
       <StyledInputDiv color={msg == 2 ? "coolPurple" : "flowerPink"}>
         <h3>집 비밀번호를 입력해주세요</h3>
         <FormDiv>
-          <form>
+          <form onFocus={onFocusHandler} ref={myRef}>
             <label>비밀번호</label>
             <input
               type="password"

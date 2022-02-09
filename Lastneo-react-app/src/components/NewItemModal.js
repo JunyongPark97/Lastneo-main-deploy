@@ -42,7 +42,7 @@ const NewItemModal = styled.div`
   }
   p {
     margin-bottom: 0px;
-    padding: 0 77px 0 0;
+    padding: 0;
   }
   p.msg-mobile {
     display: block;

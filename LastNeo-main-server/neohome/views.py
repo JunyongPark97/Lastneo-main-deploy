@@ -63,7 +63,7 @@ class NeoHomeDoorAPI(APIView):
             return Response({'is_exact': False, 'nickname': None}, status=status.HTTP_404_NOT_FOUND)
 
     def _check_data_form(self, data):
-        if "010" in data:
+        if "010" in data[:3]:
             nickname = None
             phone = data
         else:

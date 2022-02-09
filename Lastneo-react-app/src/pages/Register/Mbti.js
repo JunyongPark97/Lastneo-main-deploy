@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import InputDiv from "../../components/InputDiv";
 import Button from "../../components/Button";
 import { isMbti } from "../../utils/regexes";
@@ -14,6 +14,7 @@ import Navbar from "../../components/Navbar";
 
 function MBTI() {
   const history = useHistory();
+  const myRef = useRef();
   const dispatch = useDispatch();
   const [mbti, setMbti] = useState("");
   const [type, setType] = useState(false);
@@ -28,7 +29,14 @@ function MBTI() {
     "올바른 mbti 형식이 아니에요",
     "",
   ];
-
+  const onFocusHandler = (event) => {
+    event.stopPropagation();
+    myRef.current.style.transform = "TranslateY(-10000px)";
+    myRef.current.focus();
+    setTimeout(function () {
+      myRef.current.style.transform = "none";
+    }, 100);
+  };
   useEffect(() => {
     setType(isMbti(mbti));
     if (mbti.length == 4 && !type) {
@@ -56,7 +64,7 @@ function MBTI() {
           <h3>나의 MBTI를 알려주세요</h3>
           <h4>네오에게 담겨요</h4>
           <FormDiv>
-            <form>
+            <form onFocus={onFocusHandler} ref={myRef}>
               <label>mbti</label>
               <input
                 type="text"

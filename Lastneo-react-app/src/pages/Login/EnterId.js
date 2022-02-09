@@ -1,7 +1,7 @@
 /* eslint-disable */
 // 아이디(주소 or 전화번호) 입력 컴포넌트
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { enterAddress } from "../../_actions/login_actions";
 import Button from "../../components/Button";
@@ -14,7 +14,7 @@ import FormDiv from "../../components/FormDiv";
 
 function EnterId({ history }) {
   const dispatch = useDispatch();
-
+  const myRef = useRef();
   const [address, setAddress] = useState("");
   const [type, setType] = useState(false);
 
@@ -42,6 +42,15 @@ function EnterId({ history }) {
     } else {
       setMsg(0);
     }
+  };
+
+  const onFocusHandler = (event) => {
+    event.stopPropagation();
+    myRef.current.style.transform = "TranslateY(-10000px)";
+    myRef.current.focus();
+    setTimeout(function () {
+      myRef.current.style.transform = "none";
+    }, 100);
   };
 
   const onSubmitHandler = (event) => {
@@ -72,7 +81,7 @@ function EnterId({ history }) {
           <h3>네오 집 주소를 입력해주세요</h3>
           <h4>집 주소를 까먹었다면 전화번호를 입력해주세요</h4>
           <FormDiv>
-            <form>
+            <form onFocus={onFocusHandler} ref={myRef}>
               <label>집주소 or 전화번호</label>
               <input
                 type="text"

@@ -8,7 +8,6 @@ import { useEffect } from "react";
 import { sendPassword } from "../../_actions/register_action";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import FltBtn from "../../components/FltBtn";
 import Container from "../../components/Container";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
@@ -19,6 +18,8 @@ function Password() {
   const dispatch = useDispatch();
   const history = useHistory();
   const myRef = useRef();
+  const myRef2 = useRef();
+
   const store = useSelector((state) => state.register);
   const [password, setPassword] = useState("");
   const [vPassword, setVPassword] = useState("");
@@ -66,8 +67,6 @@ function Password() {
   }, [vPassword]);
 
   const typeHandler = () => {
-    myRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-
     if (type) {
       setMsg(0);
     } else if (password.length == 0) {
@@ -98,20 +97,23 @@ function Password() {
     });
   };
 
-  const onFocusHandler = () => {
-    myRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-
-    // window.scrollTo(0, 0);
+  const onFocusHandler = (event) => {
+    event.stopPropagation();
+    myRef.current.style.transform = "TranslateY(-10000px)";
+    myRef.current.focus();
+    setTimeout(function () {
+      myRef.current.style.transform = "none";
+    }, 100);
   };
 
-  // myRef.current.addEventListener("touchstart", (event) => {
-  //   event.stopPropagation();
-  //   myRef.current.style.transform = "TranslateY(-10000px)";
-  //   myRef.current.focus();
-  //   setTimeout(function () {
-  //     myRef.current.style.transform = "none";
-  //   }, 100);
-  // });
+  const onFocusHandler2 = (event) => {
+    event.stopPropagation();
+    myRef2.current.style.transform = "TranslateY(-10000px)";
+    myRef2.current.focus();
+    setTimeout(function () {
+      myRef2.current.style.transform = "none";
+    }, 100);
+  };
 
   return (
     <>
@@ -124,21 +126,20 @@ function Password() {
             color={msg == 2 ? "purple" : "pink"}
             vColor={vMsg == 4 ? "purple" : "pink"}
           >
-            <form className="first">
+            <form className="first" onFocus={onFocusHandler} ref={myRef}>
               <label>비밀번호</label>
               <input
                 type="password"
                 placeholder="ABCD1234!"
                 value={password}
                 onChange={onPasswordHandler}
-                // onFocus={onFocusHandler}
                 onBlur={typeHandler}
                 maxLength="16"
                 ref={myRef}
               ></input>
               <p>{messages[msg]}</p>
             </form>
-            <form className="second">
+            <form className="second" onFocus={onFocusHandler2} ref={myRef2}>
               <label>비밀번호 확인</label>
               <input
                 type="password"

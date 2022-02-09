@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import InputDiv from "../../components/InputDiv";
 import Button from "../../components/Button";
 import SmallBtn from "../../components/SmallBtn";
@@ -24,7 +24,7 @@ function PhoneNum() {
   const [phoneNum, setPhoneNum] = useState("");
   const [msg, setMsg] = useState(0);
   const [activateBtn, setActivateBtn] = useState(false);
-
+  const myRef = useRef();
   const [phoneType, setPhoneType] = useState(false);
   const [term, setTerm] = useState(true); // checkbox input에 클릭 시 토글
   const [marketing, setMarketing] = useState(true);
@@ -86,6 +86,14 @@ function PhoneNum() {
       }
     });
   };
+  const onFocusHandler = (event) => {
+    event.stopPropagation();
+    myRef.current.style.transform = "TranslateY(-10000px)";
+    myRef.current.focus();
+    setTimeout(function () {
+      myRef.current.style.transform = "none";
+    }, 100);
+  };
 
   const onClickHandler = () => {
     history.push("/login");
@@ -102,7 +110,7 @@ function PhoneNum() {
           <h3>전화번호를 입력해주세요</h3>
           <h4>네오의 집 주소나 비밀번호를 까먹었을 때 필요해요</h4>
           <FormDiv>
-            <form>
+            <form onFocus={onFocusHandler} ref={myRef}>
               <label>전화번호</label>
               <input
                 type="text"

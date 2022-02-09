@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import InputDiv from "../../components/InputDiv";
 import Button from "../../components/Button";
 import { isNickname } from "../../utils/regexes";
@@ -17,6 +17,7 @@ import Navbar from "../../components/Navbar";
 function Nickname() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const myRef = useRef();
   const [nickname, setNickname] = useState("");
   const [msg, setMsg] = useState(0);
   const [type, setType] = useState(false);
@@ -51,7 +52,14 @@ function Nickname() {
       }
     });
   };
-
+  const onFocusHandler = (event) => {
+    event.stopPropagation();
+    myRef.current.style.transform = "TranslateY(-10000px)";
+    myRef.current.focus();
+    setTimeout(function () {
+      myRef.current.style.transform = "none";
+    }, 100);
+  };
   const onBlurHandler = () => {
     if (nickname.length == 0) {
       setMsg(0);
@@ -71,7 +79,7 @@ function Nickname() {
           <h3>집 주소를 만들어주세요</h3>
           <h4>설정한 주소에서 네오를 만나볼 수 있어요</h4>
           <FormDiv>
-            <form>
+            <form onFocus={onFocusHandler} ref={myRef}>
               <label>집주소</label>
               <StyledSpan color={msg == 1 || msg == 2 ? "purple" : "pink"}>
                 lastneo.io/
