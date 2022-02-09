@@ -119,10 +119,13 @@ class AccountViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
         serializer.is_valid(raise_exception=True)
         hash_key = serializer.save()
 
-        # TODO : dev / prod 구분
-        hash_address = 'http://3.37.14.91/' + hash_key
         nickname = request.data.pop('nickname')
-        home_address = 'http://3.37.14.91/' + nickname
+        if settings.DEV:
+            hash_address = 'http://3.37.14.91/' + hash_key
+            home_address = 'http://3.37.14.91/' + nickname
+        else:
+            hash_address = 'https://lastneo.io/' + hash_key
+            home_address = 'https://lastneo.io/' + nickname
 
         # neo image 생성 (표정과 배경은 랜덤)
         self.neo_image, self.neo_upper_image = self._create_neo_image()

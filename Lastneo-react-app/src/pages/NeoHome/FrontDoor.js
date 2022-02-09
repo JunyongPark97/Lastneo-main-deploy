@@ -94,6 +94,8 @@ const StyledDiv = styled.div`
   text-align: center;
   width: 100%;
   padding-top: 60px;
+
+  overflow: hidden; // 집 튀어나오면 숨기기
   h3 {
     font-size: 28px;
     font-weight: 700;
@@ -134,8 +136,8 @@ const ImgDiv = styled.div`
   img {
     display: inline;
     margin: auto;
-    width: auto;
-    height: 50%;
+    width: 480px;
+    height: 530px;
   }
   ${customMedia.lessThan("mobile")`
   width: 100%;

@@ -26,6 +26,15 @@ function LandingNav() {
           <li>
             <button
               onClick={() => {
+                history.push("/community");
+              }}
+            >
+              광장 가기
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={() => {
                 setOpen(false);
                 setModalOpen(true);
               }}
@@ -133,6 +142,10 @@ const StyledUl = styled.ul`
   display: flex;
   flex-direction: row;
   color: ${(props) => props.theme.palette.powderGrey};
+  * {
+    font-size: 16px;
+    font-weight: 500;
+  }
   li {
     text-decoration: none;
     height: 60px;
@@ -140,8 +153,6 @@ const StyledUl = styled.ul`
     align-items: center;
   }
   button {
-    font-size: 16px;
-    font-weight: 500;
     width: 104px;
     height: 44px;
     text-align: center;
@@ -163,6 +174,8 @@ const StyledUl = styled.ul`
     }
     button {
       margin-left: 12px;
+      justify-content: flex-start;
+      padding-left: 12px;
     }
     flex-direction: column;
     position: absolute;

@@ -31,6 +31,10 @@ const StyledBtn = styled.button`
   `}
 `;
 
+const ShadowBtn = styled(StyledBtn)`
+  box-shadow: 0px 3px 6px black;
+`;
+
 const Container = styled.div`
   width: 100%;
   text-align: center;
@@ -171,13 +175,14 @@ const Section3 = styled.section`
 
   ${customMedia.lessThan("mobile")`
     padding: 96px 24px 0 24px;
-    h2 {
-      margin-bottom: 12px;
-    }
+
     div {
       flex-direction: column;
+      width: 312px;
       align-items: flex-start;
-      margin: 0 0 128px 0;
+      margin: auto;
+      margin-bottom: 128px;
+      // margin: 0 0 128px 0;
       & > .second-img {
         order:3
       }
@@ -198,16 +203,18 @@ const Section3 = styled.section`
       }
     }
     img {
-      width: 327px;
-      height: 327px;
-      margin-top: 80px;
+      width: 312px;
+      height: 312px;
     }
     h2 {
+      margin-bottom: 12px;
       line-height: 48px;
     }
     p {
       font-size: 16px;
       line-height: 26px;
+      margin-bottom: 64px;
+      letter-spacing: -0.03em;
     }
   `}
 `;
@@ -314,7 +321,7 @@ function LandingPage() {
           <div className="img-mobile"></div>
           <h3>나를 담는 단 하나의 방법</h3>
           <h1>'네오'</h1>
-          <StyledBtn onClick={onClickHandler}>네오 만들기</StyledBtn>
+          <ShadowBtn onClick={onClickHandler}>네오 만들기</ShadowBtn>
         </Section1>
         <Section2>
           <p className="web">
@@ -440,16 +447,14 @@ function LandingPage() {
         </Section4>
         <Section5>
           <h2 className="web">
-            나를 담는 단 하나의 방법,
+            지금 바로
             <br />
-            네오를 지금 만들어보세요
+            네오를 만들어보세요
           </h2>
           <h2 className="mobile">
-            나를 담는 단 하나의
+            지금 바로
             <br />
-            방법, 네오를 지금
-            <br />
-            만들어보세요
+            네오를 만들어보세요
           </h2>
           <StyledBtn onClick={onClickHandler}>네오 만들기</StyledBtn>
         </Section5>

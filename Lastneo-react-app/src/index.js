@@ -12,6 +12,7 @@ import promiseMiddleware from "redux-promise";
 import ReduxThunk from "redux-thunk";
 import Reducer from "./_reducers";
 import ReactModal from "react-modal";
+import { hydrate, render } from "react-dom";
 
 ReactModal.setAppElement("#root");
 
@@ -26,16 +27,29 @@ const store = createStoreWithMiddleware(
 );
 
 const rootElement = document.getElementById("root");
-ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <PersistGate persistor={persistStore(store)}>
-        <App />
-      </PersistGate>
-    </Provider>
-  </React.StrictMode>,
-  rootElement
-);
+if (rootElement.hasChildNodes()) {
+  hydrate(
+    <React.StrictMode>
+      <Provider store={store}>
+        <PersistGate persistor={persistStore(store)}>
+          <App />
+        </PersistGate>
+      </Provider>
+    </React.StrictMode>,
+    rootElement
+  );
+} else {
+  render(
+    <React.StrictMode>
+      <Provider store={store}>
+        <PersistGate persistor={persistStore(store)}>
+          <App />
+        </PersistGate>
+      </Provider>
+    </React.StrictMode>,
+    rootElement
+  );
+}
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

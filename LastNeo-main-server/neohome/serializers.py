@@ -1,4 +1,5 @@
 from time import time
+from django.conf import settings
 
 from rest_framework import serializers, exceptions
 from rest_framework.authtoken.models import Token
@@ -64,9 +65,11 @@ class NeoHomeGuestInfoRetrieveSerializer(serializers.ModelSerializer):
     def get_mini_profile(self, obj):
         return obj.neo.neodata.last().neo_upper_image.url
 
-    # TODO: Base Url 변경
     def get_home_address(self, obj):
-        return 'http://3.37.14.91/' + obj.nickname
+        if settings.DEV:
+            return 'http://3.37.14.91/' + obj.nickname
+        else:
+            return 'https://lastneo.io/' + obj.nickname
 
     def get_mbti(self, obj):
         return obj.neo.mbti.mbti_name
@@ -180,9 +183,11 @@ class NeoHomeOwnerInfoRetrieveSerializer(serializers.ModelSerializer):
     def get_mini_profile(self, obj):
         return obj.neo.neodata.last().neo_upper_image.url
 
-    # TODO: Base Url 변경
     def get_home_address(self, obj):
-        return 'http://3.37.14.91/' + obj.nickname
+        if settings.DEV:
+            return 'http://3.37.14.91/' + obj.nickname
+        else:
+            return 'https://lastneo.io/' + obj.nickname
 
     def get_mbti(self, obj):
         return obj.neo.mbti.mbti_name
@@ -303,9 +308,10 @@ class NeoHomeOwnerInfoRetrieveSerializer(serializers.ModelSerializer):
             question_list.append(dic)
         return question_list
 
-    # TODO : 오늘 만들어졌는지
     def get_is_done(self, obj):
-        if Big5Answer.objects.filter(big5_question__section=self.today_section, neo=obj.neo).exists():
+        from datetime import datetime, time
+        today = datetime.now().date()
+        if Big5Answer.objects.filter(big5_question__section=self.today_section, neo=obj.neo, created_at__gte=today).exists():
             return True
         return False
 

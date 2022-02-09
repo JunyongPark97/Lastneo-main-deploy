@@ -4,7 +4,10 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import styled from "styled-components";
 import { customMedia } from "../../styles/GlobalStyle";
+import { useHistory } from "react-router";
+
 function Menu() {
+  const history = useHistory();
   return (
     <>
       <Navbar goBack={true} />
@@ -18,9 +21,13 @@ function Menu() {
             <a href="/resetpw">집 비밀번호 바꾸기</a>
           </li>
           <li>
-            <a href="https://www.notion.so/676b5be8b4d74ad1be609454e4612b98">
-              탈퇴하기
-            </a>
+            <span
+              onClick={() => {
+                history.push("/community");
+              }}
+            >
+              광장 가기
+            </span>
           </li>
           <HorizonLine />
           <li>
@@ -50,9 +57,11 @@ export default Menu;
 const StyledDiv = styled.div`
   padding-top: 60px;
   height: 100%;
-  font-size: 16px;
-  font-weight: 500;
-  color: ${(props) => props.theme.palette.powderGrey};
+  * {
+    font-size: 16px;
+    font-weight: 500;
+    color: ${(props) => props.theme.palette.powderGrey};
+  }
   ul {
     list-style: none;
     width: 640px;
@@ -62,12 +71,20 @@ const StyledDiv = styled.div`
   li {
     padding: 18px 20px;
     height: 100%;
+    width: 100%;
     &:hover {
       background: ${(props) => props.theme.palette.lightGrey};
     }
   }
   hr.line {
     border: solid 1px black;
+  }
+  span {
+    cursor: pointer;
+  }
+  a,
+  span {
+    display: block;
   }
   a:link {
     color: ${(props) => props.theme.palette.powderGrey};

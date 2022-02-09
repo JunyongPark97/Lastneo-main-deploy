@@ -18,31 +18,9 @@ const GuestHome = () => {
   const onClickHandler = () => {
     history2.push("/register");
   };
-  const store_neohome = useSelector((store) => store.neohome);
-  const currentUrl = document.location.href;
 
   return (
     <>
-      <Helmet>
-        {/* URL 정보 */}
-        <meta property="og:url" content={currentUrl} />
-        {/* title 정보 */}
-        <meta
-          property="og:title"
-          content={`${store_neohome.nickname}님의 네오입니다.`}
-        />
-        {/* 페이지 상세 정보 */}
-        <meta property="og:description" content="네오 설명" />
-        {/* 페이지 대표 이미지 정보 */}
-        <meta property="og:image" content={store.mini_profile} />
-        {/* 트위터 메타 정보 */}
-        <meta
-          name="twitter:title"
-          content={`${store_neohome.nickname}의 네오입니다.`}
-        />
-        <meta name="twitter:description" content="네오 설명" />
-        <meta name="twitter:image" content={store.mini_profile} />
-      </Helmet>
       <HomeDiv>
         <Profile store={store} owner={false} />
         <HomeNav>

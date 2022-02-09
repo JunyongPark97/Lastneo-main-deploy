@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import HomeDiv from "../../components/HomeDiv";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,24 +12,41 @@ import FltBtn from "../../components/FltBtn";
 import { customMedia } from "../../styles/GlobalStyle";
 import images from "../../assets";
 import { getOwnerInfo } from "../../_actions/owner_action";
+import Modal from "../../components/modals/WelcomeModal";
 import { Helmet } from "react-helmet-async";
 
 function OwnerHome({ nickname }) {
   const store = useSelector((store) => store.owner);
   const store_neohome = useSelector((store) => store.neohome);
   const currentUrl = document.location.href;
-  console.log(currentUrl);
+  const [modalVisible, setModalVisible] = useState(false);
   const dispatch = useDispatch();
 
-  // const [tab, setTab] = useState(true); // true이면 캐릭터 방, false면 네오 방
   const { tab } = useSelector((state) => state.neohome);
+
+  useEffect(() => {
+    setModalVisible(true);
+    dispatch({ type: "set_tab", payload: "character" });
+  }, []);
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+  const scrollModal = () => {
+    dispatch({ type: "set_scroll" });
+    setModalVisible(false);
+    dispatch({ type: "set_tab", payload: "neo" });
+  };
 
   const onClickHandler = () => {
     dispatch(getOwnerInfo(nickname)).then((response) => {
       // 캐릭터방-네오방 이동할 때마다 서버에 요청해서 정보 업데이트
       if (response.type == "owner_info_success") {
-        console.log(response);
-        dispatch({ type: "set_tab", payload: !tab });
+        if (tab == "character") {
+          dispatch({ type: "set_tab", payload: "neo" });
+        } else {
+          dispatch({ type: "set_tab", payload: "character" });
+        }
       }
     });
   };
@@ -62,10 +79,10 @@ function OwnerHome({ nickname }) {
           <TabBtn
             className="tab-char"
             onClick={() => {
-              dispatch({ type: "set_tab", payload: true });
+              dispatch({ type: "set_tab", payload: "character" });
             }}
-            color={tab ? "black" : "white"}
-            textColor={tab ? "white" : "gray"}
+            color={tab == "character" ? "black" : "white"}
+            textColor={tab == "character" ? "white" : "gray"}
           >
             <img className="block-white" src={images.whiteblock} />
             <img className="block-pink" src={images.pinkblock} />
@@ -74,25 +91,34 @@ function OwnerHome({ nickname }) {
           <TabBtn
             className="tab-neo"
             onClick={() => {
-              dispatch({ type: "set_tab", payload: false });
+              dispatch({ type: "set_tab", payload: "neo" });
             }}
-            color={!tab ? "black" : "white"}
-            textColor={!tab ? "white" : "gray"}
+            color={tab == "neo" ? "black" : "white"}
+            textColor={tab == "neo" ? "white" : "gray"}
           >
             <img className="block-white" src={images.whiteblock} />
             <img className="block-black" src={images.blackblock} />
             네오 방
           </TabBtn>
         </HomeNav>
-        {tab ? (
+        {tab == "character" ? (
           <CharacterRoom store={store} owner />
         ) : (
           <NeoRoom store={store} />
         )}
         <FltBtn onClick={onClickHandler} color="black">
-          {tab ? <>네오 방 가기</> : <>캐릭터 방 가기</>}
+          {tab == "character" ? <>네오 방 가기</> : <>캐릭터 방 가기</>}
         </FltBtn>
         <HomeFooter />
+        {modalVisible && (
+          <Modal
+            visible={modalVisible}
+            closable={true}
+            maskClosable={true}
+            onClose={closeModal}
+            onScroll={scrollModal}
+          />
+        )}
       </HomeDiv>
     </>
   );

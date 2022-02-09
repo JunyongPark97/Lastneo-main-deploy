@@ -30,7 +30,6 @@ const GridItem = styled.div`
   position: relative;
   .item-wrapper {
     position: relative;
-    background: black;
     width: 100%;
     padding-bottom: 100%;
     border-radius: 16px;

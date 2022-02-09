@@ -55,7 +55,7 @@ const StyledDiv = styled.div`
   }}
   flex-direction: row;
   align-items: center;
-  :12px ;
+  margin-top: 12px;
   .copy-modal-img {
     width: 16px;
     height: 16px;

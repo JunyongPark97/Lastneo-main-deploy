@@ -71,15 +71,15 @@ function Result() {
       <Navbar color="lightYellow" />
       <Container color="lightYellow">
         <StyledDiv>
-          <h3>나의 네오 캐릭터는..</h3>
-          <h1>
+          <h3 className="title">나의 네오 캐릭터는..</h3>
+          <h1 className="mbti-desc">
             {generateItemDesc(store)}
             <p>
               '{store.mbti} <span>{store.mbti_name}</span>'
             </p>
           </h1>
           <img src={store.neo_image} />
-          <p>나를 담은 네오가 표현된 캐릭터에요!</p>
+          <p className="img-desc">나를 담은 네오가 표현된 캐릭터에요!</p>
           <ShareDiv>
             <div>
               <KakaoShareButton props={kakaoData} />
@@ -103,7 +103,7 @@ function Result() {
           <h3 className="address-desc">
             네오는 아래 <span>집 주소</span>에서 만날 수 있어요
           </h3>
-          <h2>{store.home_address}</h2>
+          <h2 className="address">{store.home_address}</h2>
           <CopyToClipboard text={store.home_address}>
             <SmallPinkBtn
               onClick={() => {
@@ -112,7 +112,7 @@ function Result() {
                 }, 500);
               }}
             >
-              주소 복사
+              복사하기
             </SmallPinkBtn>
           </CopyToClipboard>
           <MsgModal show={modal} share center />
@@ -148,7 +148,7 @@ const generateItemDesc = (store) => {
 };
 
 const StaticBtn = styled(Button)`
-  margin-top: 80px;
+  margin-top: 28px;
   margin-bottom: 60px;
   position: static;
   ${customMedia.lessThan("mobile")`
@@ -166,35 +166,36 @@ const StyledDiv = styled.div`
   flex-grow: 1;
   align-items: center;
   padding-top: 72px;
-  h1 {
+  h1.mbti-desc {
     font-size: 24px;
-    margin-bottom: 16px;
     line-height: 32px;
     p {
       font-size: 24px;
       color: ${(props) => props.theme.palette.black};
       margin-bottom: 0;
+      margin-top: 0;
     }
     span {
       font-weight: 700;
     }
   }
-  h2 {
+  h2.address {
     font-size: 24px;
     font-weight: 500;
     margin-bottom: 16px;
   }
-  h3 {
+  h3.title {
     font-size: 16px;
     margin-bottom: 16px;
     font-weight: 500;
+  }
+  h3.address-desc {
+    font-size: 16px;
+    margin-bottom: 8px;
+    font-weight: 400;
     span {
       font-weight: 700;
     }
-  }
-  h3.address-desc {
-    margin-bottom: 8px;
-    font-weight: 400;
   }
   img {
     width: 300px;
@@ -202,7 +203,7 @@ const StyledDiv = styled.div`
     margin-top: 40px;
     border-radius: 24px;
   }
-  p {
+  p.img-desc {
     font-weight: 400;
     margin-top: 8px;
     color: ${(props) => props.theme.palette.darkGrey};
@@ -216,20 +217,29 @@ const StyledDiv = styled.div`
   }
   ${customMedia.lessThan("mobile")`
   padding-top: 24px;
-  h1 {
+  h1.mbti-desc {
     font-size: 20px;
     line-height: 28px;
     p {
       font-size: 20px;
     }
   }
-  h2 {
-    font-weight: 400;
-    font-size: 16px; 
+  h2.address {
+    font-weight: 500;
+    font-size: 20px;
+    margin-botom: 12px;
   }
-  h3 {
+  h3.title {
     font-size: 14px;
     margin-bottom: 8px;
+  }
+  h3.address-desc {
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  p.img-desc {
+    font-size: 12px;
+    margin-top: 4px;
   }
   img {
     margin-top: 32px;
@@ -261,16 +271,20 @@ const ShareDiv = styled.div`
   p {
     margin: 0;
     font-weight: 500;
+    font-size: 14px;
     color: ${(props) => props.theme.palette.black};
   }
   margin-top: 40px;
   margin-bottom: 40px;
   ${customMedia.lessThan("mobile")`
-    margin-top: 32px;
-    margin-bottom: 24px;
+    margin: 32px; 0;
     .sns-img {
       width: 40px;
       height: 40px;
+    }
+    p {
+      font-size: 12px;
+      font-weight: 400;
     }
   `}
 `;

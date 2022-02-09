@@ -17,11 +17,13 @@ const StyledFooter = styled.footer`
       `;
     }
   }}
+  * {
+    font-weight: 400;
+  }
   font-size: 12px;
   width: 100%;
   flex: 0 0 auto;
   margin-top: auto;
-  font-weight: 400;
   div.web {
     height: 60px;
     margin: auto;

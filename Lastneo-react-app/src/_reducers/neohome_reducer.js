@@ -9,7 +9,7 @@ import {
 } from "../_actions/types";
 
 const initialState = {
-  tab: true,
+  tab: "character",
   nickname: "",
   scroll: false,
 };

@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import InputDiv from "../../components/InputDiv";
 import Button from "../../components/Button";
 import { isPassword } from "../../utils/regexes";
@@ -13,10 +13,12 @@ import Container from "../../components/Container";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import PwFormDiv from "../../components/PwFormDiv";
+import LoadingModal from "../../components/modals/LoadingModal";
 
 function Password() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const myRef = useRef();
   const store = useSelector((state) => state.register);
   const [password, setPassword] = useState("");
   const [vPassword, setVPassword] = useState("");
@@ -24,6 +26,7 @@ function Password() {
   const [type, setType] = useState(false);
   const [msg, setMsg] = useState(1);
   const [vMsg, setVMsg] = useState(3);
+  const [loadingModalVisible, setLoadingModalVisible] = useState(false);
 
   const messages = [
     "",
@@ -35,12 +38,16 @@ function Password() {
 
   const onPasswordHandler = (event) => {
     setPassword(event.target.value);
-    console.log(event.target.value);
-    console.log("why nothing happend");
   };
 
   const onVPasswordHandler = (event) => {
     setVPassword(event.target.value);
+  };
+  const openLoadingModal = () => {
+    setLoadingModalVisible(true);
+  };
+  const closeLoadingModal = () => {
+    setLoadingModalVisible(false);
   };
 
   useEffect(() => {
@@ -59,6 +66,8 @@ function Password() {
   }, [vPassword]);
 
   const typeHandler = () => {
+    myRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+
     if (type) {
       setMsg(0);
     } else if (password.length == 0) {
@@ -80,19 +89,30 @@ function Password() {
   };
 
   const onClickHandler = () => {
+    openLoadingModal();
     dispatch(signUp(store)).then((response) => {
       if (response.type == "signUp_success") {
+        closeLoadingModal();
         history.push("/register/result");
-      } else {
-        console.log(response.payload);
       }
     });
   };
 
   const onFocusHandler = () => {
     console.log("is it happend?");
+    myRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+
     // window.scrollTo(0, 0);
   };
+
+  // myRef.current.addEventListener("touchstart", (event) => {
+  //   event.stopPropagation();
+  //   myRef.current.style.transform = "TranslateY(-10000px)";
+  //   myRef.current.focus();
+  //   setTimeout(function () {
+  //     myRef.current.style.transform = "none";
+  //   }, 100);
+  // });
 
   return (
     <>
@@ -112,8 +132,10 @@ function Password() {
                 placeholder="ABCD1234!"
                 value={password}
                 onChange={onPasswordHandler}
+                // onFocus={onFocusHandler}
                 onBlur={typeHandler}
                 maxLength="16"
+                ref={myRef}
               ></input>
               <p>{messages[msg]}</p>
             </form>
@@ -140,6 +162,14 @@ function Password() {
         </InputDiv>
         <Footer />
       </Container>
+      {loadingModalVisible && (
+        <LoadingModal
+          visible={loadingModalVisible}
+          closable={true}
+          maskClosable={true}
+          onClose={closeLoadingModal}
+        ></LoadingModal>
+      )}
     </>
   );
 }

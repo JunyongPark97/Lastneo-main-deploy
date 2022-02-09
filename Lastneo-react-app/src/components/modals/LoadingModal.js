@@ -4,6 +4,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { customMedia } from "../../styles/GlobalStyle";
+import images from "../../assets";
 
 function LoadingModal({
   className,
@@ -34,7 +35,9 @@ function LoadingModal({
         visible={visible}
       >
         <ModalInner tabIndex="0" className="modal-inner">
-          {children}
+          <LoadingModalContent>
+            <img src={images.itemloading} />
+          </LoadingModalContent>
         </ModalInner>
       </ModalWrapper>
     </>
@@ -90,6 +93,23 @@ const ModalInner = styled.div`
       font-size: 20px;
       margin-bottom: 24px;
     }
+  `}
+`;
+
+const LoadingModalContent = styled.div`
+  height: 100%;
+  text-align: center;
+  justify-content: center;
+  img {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+  }
+  ${customMedia.lessThan("mobile")`
+  img {
+    width: 96px;
+    height: 96px;
+  }
   `}
 `;
 

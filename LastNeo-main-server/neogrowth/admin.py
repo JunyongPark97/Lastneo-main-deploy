@@ -81,7 +81,7 @@ class Big5AnswerAdmin(admin.ModelAdmin):
 
 
 class PersonalityItemsAdmin(admin.ModelAdmin):
-    list_display = ['item_meta', 'neo']
+    list_display = ['item_meta', 'neo', 'created_at']
 
 
 class RandomItemMetaAdmin(admin.ModelAdmin):
@@ -92,11 +92,11 @@ class RandomItemMetaAdmin(admin.ModelAdmin):
 
 
 class RandomItemsAdmin(admin.ModelAdmin):
-    list_display = ['item_meta', 'neo']
+    list_display = ['item_meta', 'neo', 'created_at']
 
 
 class ValueItemsAdmin(admin.ModelAdmin):
-    list_display = ['get_item_meta', 'neo']
+    list_display = ['get_item_meta', 'neo', 'created_at']
 
     def get_item_meta(self, obj):
         return obj.item_meta.name
