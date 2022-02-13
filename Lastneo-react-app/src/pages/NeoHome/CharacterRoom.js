@@ -14,29 +14,38 @@ import { getOwnerInfo } from "../../_actions/owner_action";
 
 function CharacterRoom({ store, owner }) {
   const dispatch = useDispatch();
-  const myRef = useRef();
+  const roomRef = useRef();
   const characterRef = useRef();
   const itemRef = useRef();
   const frameRef = useRef();
   const communicationRef = useRef();
   const store_neohome = useSelector((store) => store.neohome);
 
-  const executeScroll = () =>
-    myRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+  const scrollToRoom = () =>
+    roomRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+
+  const scrollToFrame = () => {
+    frameRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
 
   useEffect(() => {
     if (store_neohome.scroll) {
       // scroll이 true라는 건 NeoRoom-Question에서 인격담기를 했다는 뜻이므로 Owner임.
       dispatch(getOwnerInfo(store_neohome.nickname)).then((response) => {
-        dispatch({ type: "unset_scroll" });
-        executeScroll();
+        if (store_neohome.scroll_to == "character_room") {
+          dispatch({ type: "unset_scroll" });
+          scrollToRoom();
+        } else if (store_neohome.scroll_to == "frame") {
+          dispatch({ type: "unset_scroll" });
+          scrollToFrame();
+        }
       });
     }
   }, []);
 
   return (
     <>
-      <div style={{ width: "100%" }} ref={myRef}>
+      <div style={{ width: "100%" }} ref={roomRef}>
         <Room store={store} character />
       </div>
       <RoomDiv className="room-div">

@@ -20,6 +20,7 @@ const FltBtn = styled(Button)`
       `;
     }
   }}
+
   ${customMedia.lessThan("mobile")`
   position: sticky;
   width: calc(100vw - 48px);

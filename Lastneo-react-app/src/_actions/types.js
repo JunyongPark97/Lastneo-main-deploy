@@ -34,3 +34,5 @@ export const SET_NICKNAME = "set_nickname";
 export const SET_TAB = "set_tab";
 export const SET_SCROLL = "set_scroll";
 export const UNSET_SCROLL = "unset_scroll";
+export const CREATE_NFT_SUCCESS = "create_nft_success";
+export const CREATE_NFT_FAILURE = "create_nft_failure";

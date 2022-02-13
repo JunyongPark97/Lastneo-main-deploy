@@ -18,11 +18,15 @@ function Password() {
   const dispatch = useDispatch();
   const history = useHistory();
   const myRef = useRef();
+  const myRef2 = useRef();
 
   const store = useSelector((state) => state.register);
   const [password, setPassword] = useState("");
+  const [vPassword, setVPassword] = useState("");
+  const [verified, setVerified] = useState(false);
   const [type, setType] = useState(false);
   const [msg, setMsg] = useState(1);
+  const [vMsg, setVMsg] = useState(3);
   const [loadingModalVisible, setLoadingModalVisible] = useState(false);
 
   const messages = [
@@ -37,6 +41,9 @@ function Password() {
     setPassword(event.target.value);
   };
 
+  const onVPasswordHandler = (event) => {
+    setVPassword(event.target.value);
+  };
   const openLoadingModal = () => {
     setLoadingModalVisible(true);
   };
@@ -46,21 +53,37 @@ function Password() {
 
   useEffect(() => {
     setType(isPassword(password));
-  }, [password]);
+    setVerified(password == vPassword);
+  }, [password, vPassword]);
 
   useEffect(() => {
     if (type) setMsg(0);
     else setMsg(1);
   }, [password]);
 
+  useEffect(() => {
+    if (verified) setVMsg(0);
+    else setVMsg(3);
+  }, [vPassword]);
+
   const typeHandler = () => {
     if (type) {
-      dispatch(sendPassword(password)); // store에 password 저장
       setMsg(0);
     } else if (password.length == 0) {
       setMsg(1);
     } else {
       setMsg(2);
+    }
+  };
+
+  const verifiedHandler = () => {
+    if (verified) {
+      dispatch(sendPassword(password)); // store에 password 저장
+      setVMsg(0);
+    } else if (vPassword.length == 0) {
+      setVMsg(3);
+    } else {
+      setVMsg(4);
     }
   };
 
@@ -84,6 +107,15 @@ function Password() {
     }, 100);
   };
 
+  const onFocusHandler2 = (event) => {
+    event.stopPropagation();
+    myRef2.current.style.transform = "TranslateY(-10000px)";
+    myRef2.current.focus();
+    setTimeout(function () {
+      myRef2.current.style.transform = "none";
+    }, 100);
+  };
+
   return (
     <>
       <Navbar goBack={true} />
@@ -91,11 +123,14 @@ function Password() {
         <InputDiv>
           <h3>집 비밀번호를 입력해주세요</h3>
           <h4>네오 집으로 들어갈 때 필요해요</h4>
-          <PwFormDiv color={msg == 2 ? "purple" : "pink"}>
+          <PwFormDiv
+            color={msg == 2 ? "purple" : "pink"}
+            vColor={vMsg == 4 ? "purple" : "pink"}
+          >
             <form className="first" onFocus={onFocusHandler} ref={myRef}>
               <label>비밀번호</label>
               <input
-                type="text"
+                type="password"
                 placeholder="ABCD1234!"
                 value={password}
                 onChange={onPasswordHandler}
@@ -105,11 +140,23 @@ function Password() {
               ></input>
               <p>{messages[msg]}</p>
             </form>
+            <form className="second" onFocus={onFocusHandler2} ref={myRef2}>
+              <label>비밀번호 확인</label>
+              <input
+                type="password"
+                placeholder="ABCD1234!"
+                value={vPassword}
+                onChange={onVPasswordHandler}
+                onBlur={verifiedHandler}
+                maxLength="16"
+              ></input>
+              <p>{messages[vMsg]}</p>
+            </form>
           </PwFormDiv>
           <Button
             onClick={onClickHandler}
-            disabled={!type}
-            color={!type ? "lightPink" : "pink"}
+            disabled={!type || !verified}
+            color={!type || !verified ? "lightPink" : "pink"}
           >
             완료
           </Button>

@@ -14,13 +14,15 @@ import LoadingModal from "../../../components/modals/LoadingModal";
 const checked = [images.c1, images.c2, images.c3, images.c4, images.c5];
 const unchecked = [images.uc1, images.uc2, images.uc3, images.uc4, images.uc5];
 
-function Question({ store, isDone }) {
+function Question({ store }) {
   const dispatch = useDispatch();
   const myRef = useRef();
+  const store_neohome = useSelector((store) => store.neohome);
   const [answers, setAnswers] = useState([0, 0, 0, 0, 0]);
   const [complete, setComplete] = useState(false);
   const [open, setOpen] = useState(false);
-  const [done, setDone] = useState(isDone);
+  const [done, setDone] = useState(store.is_done);
+  const [weekend, setWeekend] = useState(store.is_weekend);
   const [itemName, setItemName] = useState("");
   const [itemImg, setItemImg] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
@@ -30,11 +32,15 @@ function Question({ store, isDone }) {
     setModalVisible(true);
   };
   const closeModal = () => {
-    setModalVisible(false);
+    // 아이템 지급 모달 - '닫기' => 주인정보 새로 요청
+    dispatch(getOwnerInfo(store_neohome.nickname)).then(() => {
+      setModalVisible(false);
+    });
   };
   const scrollModal = () => {
+    // 아이템 지급 모달 - '캐릭터 보기' => Charater.js useEffect에서 scroll = true면 주인정보 새로 요청
     dispatch({ type: "set_tab", payload: "character" });
-    dispatch({ type: "set_scroll" });
+    dispatch({ type: "set_scroll", payload: "character_room" });
   };
 
   const openLoadingModal = () => {
@@ -73,7 +79,6 @@ function Question({ store, isDone }) {
           setItemName(response.payload.item_name);
           setItemImg(response.payload.item_image);
         }
-        //아마 여기에 loadingmodal 닫는 코드 아니면 loadingmodal 닫는 함수를 itemmodal에 넘겨줘서 한 번에 닫게 할까?
         closeLoadingModal();
         openModal();
       }
@@ -86,25 +91,43 @@ function Question({ store, isDone }) {
 
   const executeScroll = () =>
     myRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-
+  const descGenerator = (store) => {
+    if (weekend) {
+      return (
+        <>
+          <p className="main-desc web">
+            주말엔 네오가 편히 쉬고 있어요. 월요일에 다시 와주세요!
+          </p>
+          <p className="main-desc mobile">
+            주말엔 네오가 편히 쉬고 있어요.
+            <br />
+            월요일에 다시 와주세요!
+          </p>
+        </>
+      );
+    } else {
+      if (done) {
+        return <p className="main-desc">답변 완료! 내일 다시 와주세요!</p>;
+      } else {
+        return (
+          <p className="main-desc">
+            나를 담는 오늘의 <span>질문</span>이에요!
+          </p>
+        );
+      }
+    }
+  };
   return (
     <SectionContainer color="yellow" question>
       <p>인격담기</p>
-      {/* <button onClick={() => executeScroll()}>메롱</button> */}
       <h3>
         매일 질문 5개에 답변하고
         <br />
         네오에 <span>나를 담아</span>보세요
       </h3>
-      <QuestionsContainer color={done ? "lightGrey" : "paleYellow"}>
+      <QuestionsContainer color={weekend || done ? "lightGrey" : "paleYellow"}>
         <span className="date">{store.today_datetime}</span>
-        {done ? (
-          <p className="main-desc">답변 완료! 내일 다시 와주세요!</p>
-        ) : (
-          <p className="main-desc">
-            나를 담는 오늘의 <span>질문</span>이에요!
-          </p>
-        )}
+        {descGenerator(store)}
         {open && (
           <Questions>
             {store.neo_questions.map((item, i) => {
@@ -167,14 +190,18 @@ function Question({ store, isDone }) {
             })}
           </Questions>
         )}
-        <ToggleBtn onClick={toggleHandler} disabled={done}>
-          <img src={done || open ? images.toggleclose : images.toggleopen} />
+        <ToggleBtn onClick={toggleHandler} disabled={weekend || done}>
+          <img
+            src={
+              weekend || done || open ? images.toggleclose : images.toggleopen
+            }
+          />
         </ToggleBtn>
       </QuestionsContainer>
       <DescDiv>
         <p>
           <img src={images.calender} />
-          하루에 한번씩, 매일 담을 수 있어요
+          평일에 한번씩, 매일 담을 수 있어요
         </p>
         <p>
           <img src={images.time} />
@@ -182,19 +209,18 @@ function Question({ store, isDone }) {
         </p>
         <p>
           <img src={images.purpleblock} />
-          네오에게 인격을 담으면 캐릭터에 표현돼요
+          네오에게 인격을 담으면 캐릭터에 표현돼요!
         </p>
       </DescDiv>
       <div ref={myRef}>
         <StyledButton
           onClick={onSubmitHandler}
-          color={done || !complete ? "paleGrey" : "yellow"}
-          disabled={!complete}
+          color={weekend || done || !complete ? "paleGrey" : "yellow"}
+          disabled={weekend || done || !complete}
         >
           네오에게 인격 담기
         </StyledButton>
       </div>
-      {/* <button onClick={openLoadingModal}>Open Modal</button> */}
 
       {modalVisible && (
         <Modal
@@ -253,6 +279,7 @@ function Question({ store, isDone }) {
           closable={true}
           maskClosable={true}
           onClose={closeLoadingModal}
+          item
         ></LoadingModal>
       )}
     </SectionContainer>
@@ -286,6 +313,10 @@ const QuestionsContainer = styled.div`
     color: ${(props) => props.theme.palette.darkGrey};
     margin-bottom: 6px;
   }
+  .mobile {
+    display: none;
+    text-align: center;
+  }
   ${customMedia.lessThan("mobile")`
   padding: 24px;
   margin-bottom: 48px;
@@ -295,6 +326,13 @@ const QuestionsContainer = styled.div`
   p.main-desc {
     font-size: 16px;
   }
+  .web {
+    display: none;
+  }
+  .mobile {
+    display: block;
+  }
+
 `}
 `;
 
@@ -303,7 +341,6 @@ const YellowBtns = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  /* background: blue; */
 `;
 
 const DescDiv = styled.div`

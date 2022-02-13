@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled, { css } from "styled-components";
 import HomeDiv from "../../components/HomeDiv";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,21 +21,15 @@ function OwnerHome({ nickname }) {
   const currentUrl = document.location.href;
   const [modalVisible, setModalVisible] = useState(false);
   const dispatch = useDispatch();
-
+  const tabMenuRef = useRef();
   const { tab } = useSelector((state) => state.neohome);
-
-  useEffect(() => {
-    if (!store.is_done) {
-      setModalVisible(true);
-    }
-    dispatch({ type: "set_tab", payload: "character" });
-  }, []);
 
   const closeModal = () => {
     setModalVisible(false);
   };
+
   const scrollModal = () => {
-    dispatch({ type: "set_scroll" });
+    dispatch({ type: "set_scroll", payload: "question" });
     setModalVisible(false);
     dispatch({ type: "set_tab", payload: "neo" });
   };
@@ -52,6 +46,13 @@ function OwnerHome({ nickname }) {
       }
     });
   };
+
+  useEffect(() => {
+    if (!store.is_weekend && !store.is_done) {
+      setModalVisible(true);
+    }
+    dispatch({ type: "set_tab", payload: "character" });
+  }, []);
 
   return (
     <>
@@ -85,6 +86,7 @@ function OwnerHome({ nickname }) {
             }}
             color={tab == "character" ? "black" : "white"}
             textColor={tab == "character" ? "white" : "gray"}
+            ref={tabMenuRef}
           >
             <img className="block-white" src={images.whiteblock} />
             <img className="block-pink" src={images.pinkblock} />

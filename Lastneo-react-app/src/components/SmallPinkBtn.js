@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { customMedia } from "../styles/GlobalStyle";
 
 const SmallPinkBtn = styled.button`
@@ -13,6 +13,18 @@ const SmallPinkBtn = styled.button`
     background-color: ${(props) => props.theme.palette.powderPink};
     color: ${(props) => props.theme.palette.darkPink};
   }
+  ${({ disabled }) => {
+    if (disabled) {
+      return css`
+        background-color: ${(props) => props.theme.palette.paleGrey};
+        color: ${(props) => props.theme.palette.white};
+        &:disabled {
+          background-color: ${(props) => props.theme.palette.paleGrey};
+          color: ${(props) => props.theme.palette.white};
+        }
+      `;
+    }
+  }}
   ${customMedia.lessThan("mobile")`
   width: 64px;
   height: 31px;

@@ -69,7 +69,7 @@ class ItemClassifyMetaAdmin(admin.ModelAdmin):
 
 
 class Big5QuestionAdmin(admin.ModelAdmin):
-    list_display = ['section', 'question', 'weighted_value']
+    list_display = ['pk', 'section', 'question', 'weighted_value']
 
 
 class Big5SubsectionAdmin(admin.ModelAdmin):

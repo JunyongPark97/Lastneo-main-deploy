@@ -60,7 +60,15 @@ import crazybear from "./crazybear.png";
 import roomneo from "./roomneo.png";
 import community from "./community.png";
 import neosoulroom from "./neosoulroom.png";
+import shiningnft from "./shiningnft.png";
+import emptyframe from "./emptyframe.png";
+import goleft from "./goleft.png";
+import goright from "./goright.png";
 const images = {
+  goright,
+  goleft,
+  emptyframe,
+  shiningnft,
   neosoulroom,
   community,
   roomneo,

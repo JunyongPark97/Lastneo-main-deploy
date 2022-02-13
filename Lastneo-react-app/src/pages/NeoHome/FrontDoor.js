@@ -11,14 +11,16 @@ import { customMedia } from "../../styles/GlobalStyle";
 import Navbar from "../../components/Navbar";
 import Container from "../../components/Container";
 import { Helmet } from "react-helmet-async";
+import { useSelector } from "react-redux";
 
 function FrontDoor() {
   const [passwordUI, setPasswordUI] = useState(false);
   const [nickname, setNickname] = useState("");
   const location = useLocation();
   const history = useHistory();
+  const store = useSelector((store) => store.neohome);
   useEffect(() => {
-    setNickname(location.state.nickname);
+    setNickname(store.nickname);
   }, []);
   function setScreenSize() {
     let vh = window.innerHeight * 0.01;

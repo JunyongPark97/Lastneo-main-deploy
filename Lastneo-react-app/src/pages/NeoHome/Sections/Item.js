@@ -9,6 +9,57 @@ import SectionContainer from "../../../components/SectionContainer";
 import { customMedia } from "../../../styles/GlobalStyle";
 import images from "../../../assets";
 
+function Item({ store }) {
+  const localstore = store.items;
+  const { items, newItem } = generateCell(localstore);
+  const [modal, setModal] = useState(newItem);
+  return (
+    <SectionContainer color="pink">
+      <p>아이템</p>
+      <h3 className={!modal ? "broad-margin" : undefined}>
+        인격이 담긴 네오가
+        <br />
+        캐릭터에 <span>표현한 아이템</span>이에요
+      </h3>
+      {modal && (
+        <NewItemModal newItem={newItem}>
+          <img src={yellowalert} />
+          <p className="msg-web">
+            이전과 달라진 아이템이 있어요. 네오가 인격을 담았나 보군요!
+          </p>
+          <p className="msg-mobile">
+            이전과 달라진 아이템이 있어요.
+            <br />
+            네오가 인격을 담았나 보군요!
+          </p>
+        </NewItemModal>
+      )}
+      <ItemsContainer>
+        <p className="title">
+          네오 캐릭터의 <span>아이템</span>이에요!
+        </p>
+        <GridContainer>
+          {[...Array(6)].map((e, i) => {
+            return (
+              items[i] || (
+                <GridItem>
+                  <div className="item-wrapper">
+                    <img className="item-bg" src={images.itembg} />
+                    <img className="item-img" src={images.emptycell} />
+                  </div>
+                  <p className="item-desc"></p>
+                </GridItem>
+              )
+            );
+          })}
+        </GridContainer>
+      </ItemsContainer>
+    </SectionContainer>
+  );
+}
+
+export default Item;
+
 const GridContainer = styled.div`
   width: 100%;
   height: 100%;
@@ -89,12 +140,26 @@ const NewAlert = styled.span`
 const generateCell = (data) => {
   const items = [];
   let newItem = false;
-  data.map((item, i) => {
+
+  // 가치관 아이템 추가
+  items.push(
+    <GridItem key="0">
+      <div className="item-wrapper">
+        <img src={data[0].item_image} className="item-img" />
+        <img src={images.itembg} className="item-bg" />
+        {data[0].today_received && <NewAlert>N</NewAlert>}
+      </div>
+      <p className="item-desc">{data[0].item_name}</p>
+    </GridItem>
+  );
+
+  const reverse_items = data.slice(1).reverse();
+  reverse_items.map((item, i) => {
     if (item.today_received) {
       newItem = true;
     }
     const cell = (
-      <GridItem key={i}>
+      <GridItem key={i + 1}>
         <div className="item-wrapper">
           <img src={item.item_image} className="item-img" />
           <img src={images.itembg} className="item-bg" />
@@ -108,54 +173,3 @@ const generateCell = (data) => {
   const result = { items, newItem };
   return result;
 };
-
-function Item({ store }) {
-  const localstore = store.items;
-  const { items, newItem } = generateCell(localstore);
-  const [modal, setModal] = useState(newItem);
-  return (
-    <SectionContainer color="pink">
-      <p>아이템</p>
-      <h3 className={!modal ? "broad-margin" : undefined}>
-        인격이 담긴 네오가
-        <br />
-        캐릭터에 <span>표현한 아이템</span>이에요
-      </h3>
-      {modal && (
-        <NewItemModal newItem={newItem}>
-          <img src={yellowalert} />
-          <p className="msg-web">
-            이전과 달라진 아이템이 있어요. 네오가 인격을 담았나 보군요!
-          </p>
-          <p className="msg-mobile">
-            이전과 달라진 아이템이 있어요.
-            <br />
-            네오가 인격을 담았나 보군요!
-          </p>
-        </NewItemModal>
-      )}
-      <ItemsContainer>
-        <p className="title">
-          네오 캐릭터의 <span>아이템</span>이에요!
-        </p>
-        <GridContainer>
-          {[...Array(6)].map((e, i) => {
-            return (
-              items[i] || (
-                <GridItem>
-                  <div className="item-wrapper">
-                    <img className="item-bg" src={images.itembg} />
-                    <img className="item-img" src={images.emptycell} />
-                  </div>
-                  <p className="item-desc"></p>
-                </GridItem>
-              )
-            );
-          })}
-        </GridContainer>
-      </ItemsContainer>
-    </SectionContainer>
-  );
-}
-
-export default Item;

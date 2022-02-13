@@ -7,6 +7,7 @@ const HomeDiv = styled.div`
   align-items: center;
   padding-top: 60px;
   /* padding-bottom: 230px; */
+
   ${customMedia.lessThan("mobile")`
   padding-top: 56px;
   `}

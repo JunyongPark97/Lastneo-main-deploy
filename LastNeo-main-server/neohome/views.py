@@ -219,27 +219,28 @@ class Big5QuestionsViewSet(viewsets.ModelViewSet):
 
         phone = self.neo.phone
 
-        if smsmanager.to_who == 0:
-            sms_manager = SMSV2Manager()
-            if settings.DEV:
-              sms_manager.neo_url = "http://3.37.14.91/" + self.neo.neohome.last().nickname
-            else:
-              sms_manager.neo_url = "https://lastneo.io/" + self.neo.neohome.last().nickname
-            sms_manager.set_first_neo_content()
-
-            if not sms_manager.send_sms(phone=phone):
-                return Response("Failed send sms", status=status.HTTP_410_GONE)
-        else:
-            if self.neo.is_marketing == True:
+        if NeoData.objects.filter(neo=self.neo).count() == 2:
+            if smsmanager.to_who == 0:
                 sms_manager = SMSV2Manager()
-            if settings.DEV:
-              sms_manager.neo_url = "http://3.37.14.91/" + self.neo.neohome.last().nickname
-            else:
-              sms_manager.neo_url = "https://lastneo.io/" + self.neo.neohome.last().nickname
-            sms_manager.set_first_neo_content()
+                if settings.DEV:
+                  sms_manager.neo_url = "http://3.37.14.91/" + self.neo.neohome.last().nickname
+                else:
+                  sms_manager.neo_url = "https://lastneo.io/" + self.neo.neohome.last().nickname
+                sms_manager.set_first_neo_content()
 
-            if not sms_manager.send_sms(phone=phone):
-                return Response("Failed send sms", status=status.HTTP_410_GONE)
+                if not sms_manager.send_sms(phone=phone):
+                    return Response("Failed send sms", status=status.HTTP_410_GONE)
+            else:
+                if self.neo.is_marketing == True:
+                    sms_manager = SMSV2Manager()
+                    if settings.DEV:
+                      sms_manager.neo_url = "http://3.37.14.91/" + self.neo.neohome.last().nickname
+                    else:
+                      sms_manager.neo_url = "https://lastneo.io/" + self.neo.neohome.last().nickname
+                    sms_manager.set_first_neo_content()
+
+                    if not sms_manager.send_sms(phone=phone):
+                        return Response("Failed send sms", status=status.HTTP_410_GONE)
 
         try:
             serializer = PersonalityItemsInfoSerializer(self.personality_items.item_meta)
@@ -426,10 +427,10 @@ class Big5QuestionsViewSet(viewsets.ModelViewSet):
         output = BytesIO()
         final.save(output, format="PNG")
         final_image = InMemoryUploadedFile(output, None, 'full.png', 'image/png', len(output.getvalue()), None)
-        final_upper = upper_image_list[0].convert('RGBA')
+        final_upper = upper_image_list[0].convert('RGB')
         output_upper = BytesIO()
-        final_upper.save(output_upper, format="PNG")
-        final_upper_image = InMemoryUploadedFile(output_upper, None, 'upper.png', 'image/png', len(output_upper.getvalue()), None)
+        final_upper.save(output_upper, format="JPEG")
+        final_upper_image = InMemoryUploadedFile(output_upper, None, 'upper.jpg', 'image/jpeg', len(output_upper.getvalue()), None)
 
         return final_image, final_upper_image
 
@@ -478,8 +479,11 @@ class NFTViewSet(viewsets.ModelViewSet):
         big5_items_qs = PersonalityItems.objects.filter(neo=self.neo).order_by('-created_at')
         for big5_item in big5_items_qs.iterator():
             item_name = big5_item.item_meta.name
-            if (big5_item.item_meta.layer_level in item_layer_list) or (big5_item.item_meta.name in item_name_list):
+            if (big5_item.item_meta.name in item_name_list) or (big5_item.item_meta.layer_level in item_layer_list):
                 print("DUPLICATED!")
+                if big5_item.item_meta.name in item_name_list:
+                    item_layer_list.append(big5_item.item_meta.layer_level)
+                    print("DUPLICATED!")
             else:
                 item_list.append(item_name)
                 item_layer_list.append(big5_item.item_meta.layer_level)
@@ -493,4 +497,4 @@ class NFTViewSet(viewsets.ModelViewSet):
                   "--------------------".format(nft_image.url, self.neo.neohome.last().nickname, item_list)
         nft_request_slack_message(message)
 
-        return Response(status=status.HTTP_201_CREATED)
+        return Response({"nft_image": nft_image.url}, status=status.HTTP_201_CREATED)

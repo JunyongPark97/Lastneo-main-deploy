@@ -127,8 +127,11 @@ class NeoHomeGuestInfoRetrieveSerializer(serializers.ModelSerializer):
                 dic["today_received"] = True
             else:
                 dic["today_received"] = False
-            if (big5_item.item_meta.layer_level in item_layer_list) or (big5_item.item_meta.name in item_name_list):
+            if (big5_item.item_meta.name in item_name_list) or (big5_item.item_meta.layer_level in item_layer_list):
                 print("DUPLICATED!")
+                if big5_item.item_meta.name in item_name_list:
+                    item_layer_list.append(big5_item.item_meta.layer_level)
+                    print("DUPLICATED!")
             else:
                 item_list.append(dic)
                 item_layer_list.append(big5_item.item_meta.layer_level)
@@ -151,6 +154,7 @@ class NeoHomeGuestInfoRetrieveSerializer(serializers.ModelSerializer):
                 dic["today_received"] = True
             else:
                 dic["today_received"] = False
+            dic["opensea_link"] = nft.opensea_link
 
             nft_info_list.append(dic)
         return nft_info_list
@@ -170,11 +174,12 @@ class NeoHomeOwnerInfoRetrieveSerializer(serializers.ModelSerializer):
     mbti = serializers.SerializerMethodField()
     mbti_name = serializers.SerializerMethodField()
     is_done = serializers.SerializerMethodField()
+    is_weekend = serializers.SerializerMethodField()
 
     class Meta:
         model = NeoHome
         fields = ["neo_room_image", "mini_profile", "home_address", "mbti", "mbti_name", "description", "neo_image",
-                  "value_items", "items", "nfts_info", "today_datetime", "neo_questions", "neo_blocks", "is_done"]
+                  "value_items", "items", "nfts_info", "today_datetime", "neo_questions", "neo_blocks", "is_done", "is_weekend"]
         lookup_field = 'nickname'
 
     def get_neo_room_image(self, obj):
@@ -245,8 +250,11 @@ class NeoHomeOwnerInfoRetrieveSerializer(serializers.ModelSerializer):
                 dic["today_received"] = True
             else:
                 dic["today_received"] = False
-            if (big5_item.item_meta.layer_level in item_layer_list) or (big5_item.item_meta.name in item_name_list):
+            if (big5_item.item_meta.name in item_name_list) or (big5_item.item_meta.layer_level in item_layer_list):
                 print("DUPLICATED!")
+                if big5_item.item_meta.name in item_name_list:
+                    item_layer_list.append(big5_item.item_meta.layer_level)
+                    print("DUPLICATED!")
             else:
                 item_list.append(dic)
                 item_layer_list.append(big5_item.item_meta.layer_level)
@@ -269,6 +277,7 @@ class NeoHomeOwnerInfoRetrieveSerializer(serializers.ModelSerializer):
                 dic["today_received"] = True
             else:
                 dic["today_received"] = False
+            dic["opensea_link"] = nft.opensea_link
 
             nft_info_list.append(dic)
         return nft_info_list
@@ -321,6 +330,22 @@ class NeoHomeOwnerInfoRetrieveSerializer(serializers.ModelSerializer):
         neo_nft_dic["remain_block"] = NeoData.objects.filter(neo=obj.neo, is_used=False).count()
         return neo_nft_dic
 
+    def get_is_weekend(self, obj):
+        week_dic = {
+            "0": "월요일",
+            "1": "화요일",
+            "2": "수요일",
+            "3": "목요일",
+            "4": "금요일",
+            "5": "토요일",
+            "6": "일요일",
+        }
+        today_weekday = str(datetime.datetime.today().weekday())
+        today_weekday = week_dic.get(today_weekday)
+        if today_weekday == "토요일" or today_weekday == "일요일":
+            return True
+        else:
+            return False
 
 
 

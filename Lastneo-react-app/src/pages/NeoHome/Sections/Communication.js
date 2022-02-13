@@ -211,7 +211,7 @@ function Communication({ store }) {
             <p>나와 비슷한 네오들과 소통해보세요!</p>
           </div>
           <SmallPinkBtn>
-            <a href="https://discord.gg/sEj6vQqATB">둘러보기</a>
+            <a href="https://discord.gg/tes8hkzRUZ">둘러보기</a>
           </SmallPinkBtn>
         </div>
         <div className="modal">

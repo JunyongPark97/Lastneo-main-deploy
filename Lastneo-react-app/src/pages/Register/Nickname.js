@@ -46,7 +46,8 @@ function Nickname() {
     let body = { nickname: nickname };
     dispatch(sendNickname(body)).then((response) => {
       if (response.type == "nickname_success") {
-        history.push("/register/password");
+        // history.push("/register/password");
+        window.location.href = "/register/password";
       } else {
         setMsg(1);
       }

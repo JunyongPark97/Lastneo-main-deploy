@@ -51,6 +51,12 @@ function Result() {
     }
   };
 
+  window.onLoad = function () {
+    setTimeout(function () {
+      scrollTo(0, 0);
+    }, 100);
+  };
+
   // 스와이프 방식의 뒤로가기를 제어
   function blockTouchStart(event) {
     if (event.pageX > 20) return;

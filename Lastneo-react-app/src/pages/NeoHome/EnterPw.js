@@ -85,7 +85,7 @@ function EnterPw({ nickname }) {
           <form onFocus={onFocusHandler} ref={myRef}>
             <label>비밀번호</label>
             <input
-              type="password"
+              type="text"
               placeholder="ABCD1234!"
               value={password}
               onChange={onPasswordHandler}

@@ -12,6 +12,7 @@ const initialState = {
   tab: "character",
   nickname: "",
   scroll: false,
+  scroll_to: "",
 };
 export default function (state = initialState, action) {
   switch (action.type) {
@@ -37,6 +38,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         scroll: true,
+        scroll_to: action.payload,
       };
     case UNSET_SCROLL:
       return {

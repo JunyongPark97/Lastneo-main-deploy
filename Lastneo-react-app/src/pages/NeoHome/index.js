@@ -4,6 +4,7 @@ import { Route, useHistory } from "react-router";
 import HomeContainer from "./HomeContainer";
 import FrontDoor from "./FrontDoor";
 import Menu from "./Menu";
+import EnterPw from "./EnterPw";
 import { enterAddress } from "../../_actions/login_actions";
 import { useDispatch } from "react-redux";
 import NotFound from "../NotFound";
@@ -30,6 +31,7 @@ function NeoHome({ match }) {
       <Route exact path="/404" component={NotFound} />
       {complete && <Route exact path={match.path} component={HomeContainer} />}
       <Route exact path={`${match.path}/frontdoor`} component={FrontDoor} />
+      <Route exact path={`${match.path}/password`} component={EnterPw} />
       <Route exact path={`${match.path}/menu`} component={Menu} />
     </>
   );

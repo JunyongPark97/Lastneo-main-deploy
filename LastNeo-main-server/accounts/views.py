@@ -249,10 +249,10 @@ class AccountViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
         output = BytesIO()
         final.save(output, format="PNG")
         final_image = InMemoryUploadedFile(output, None, 'full.png', 'image/png', len(output.getvalue()), None)
-        final_upper = upper_image_list[0].convert('RGBA')
+        final_upper = upper_image_list[0].convert('RGB')
         output_upper = BytesIO()
-        final_upper.save(output_upper, format="PNG")
-        final_upper_image = InMemoryUploadedFile(output_upper, None, 'upper.png', 'image/png', len(output_upper.getvalue()), None)
+        final_upper.save(output_upper, format="JPEG")
+        final_upper_image = InMemoryUploadedFile(output_upper, None, 'upper.jpg', 'image/jpeg', len(output_upper.getvalue()), None)
 
         return final_image, final_upper_image
 

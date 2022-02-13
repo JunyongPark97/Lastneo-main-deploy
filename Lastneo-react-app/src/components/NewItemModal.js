@@ -26,7 +26,7 @@ const NewItemModal = styled.div`
       return css`
         margin-bottom: 40px;
         ${customMedia.lessThan("mobile")`
-      margin-bottom: 24px;
+          margin-bottom: 24px;
       `};
       `;
     }

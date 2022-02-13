@@ -33,7 +33,6 @@ const GlobalStyle = createGlobalStyle`
         font-weight: 500;
         font-family: 'Noto Sans KR', sans-serif;
         overflow-x: hidden;
-
     }
     #root {
         height: 100%;

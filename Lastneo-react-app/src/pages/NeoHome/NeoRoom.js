@@ -14,13 +14,12 @@ function NeoRoom() {
   const store = useSelector((store) => store.owner);
   const store_neohome = useSelector((store) => store.neohome);
   const dispatch = useDispatch();
-  const myRef = useRef();
   const neoRef = useRef();
   const nftRef = useRef();
   const questionRef = useRef();
 
   const executeScroll = () =>
-    myRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    questionRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
 
   useEffect(() => {
     dispatch(getOwnerInfo(store_neohome.nickname)).then((response) => {
@@ -64,7 +63,7 @@ function NeoRoom() {
           <div className="nav-menu">
             <span
               onClick={() => {
-                myRef.current.scrollIntoView({
+                questionRef.current.scrollIntoView({
                   behavior: "smooth",
                   block: "center",
                 });
@@ -80,7 +79,7 @@ function NeoRoom() {
         <div ref={nftRef}>
           <GetNft store={store} remain={store.neo_blocks.remain_block} />
         </div>
-        <div ref={myRef}>
+        <div ref={questionRef}>
           <Question store={store} isDone={store.is_done} />
         </div>
       </RoomDiv>

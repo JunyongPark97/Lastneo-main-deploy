@@ -36,6 +36,14 @@ function PhoneNum() {
     "",
   ];
 
+  // 페이지 렌더링 시 Scroll to top
+  useEffect(() => {
+    window.onload = function () {
+      setTimeout(function () {
+        scrollTo(0, 0);
+      }, 100);
+    };
+  }, []);
   useEffect(() => {
     if (!phoneType && phoneNum.length == 0) {
       setMsg(0);

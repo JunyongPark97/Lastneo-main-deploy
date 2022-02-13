@@ -293,13 +293,11 @@ const Section5 = styled.section`
   `}
 `;
 function LandingPage() {
-  const history = useHistory();
   const [modalOpen, setModalOpen] = useState(false);
 
   const onClickHandler = () => {
-    history.push("/register");
+    window.location.href = "/register";
   };
-  const currentUrl = document.location.href;
 
   return (
     <>
