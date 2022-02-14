@@ -225,7 +225,7 @@ class NeoHomeOwnerInfoRetrieveSerializer(serializers.ModelSerializer):
         value_items = ValuesItems.objects.filter(neo=neo).last()
         dic['item_name'] = value_items.item_meta.name
         dic['item_image'] = value_items.item_meta.item_image.url
-        daytime = value_items.created_at
+        daytime = value_items.created_at + datetime.timedelta(hours=9, minutes=0)
         daytime = DateFormat(daytime).format('Y.m.d')
         dic["created_at"] = daytime
         today_daytime = DateFormat(datetime.datetime.today()).format('Y.m.d')
@@ -242,7 +242,7 @@ class NeoHomeOwnerInfoRetrieveSerializer(serializers.ModelSerializer):
             dic = {}
             dic["item_name"] = big5_item.item_meta.name
             dic["item_image"] = big5_item.item_meta.item_image.url
-            daytime = big5_item.created_at
+            daytime = big5_item.created_at + datetime.timedelta(hours=9, minutes=0)
             daytime = DateFormat(daytime).format('Y.m.d')
             dic["created_at"] = daytime
             today_daytime = DateFormat(datetime.datetime.today()).format('Y.m.d')
@@ -269,7 +269,7 @@ class NeoHomeOwnerInfoRetrieveSerializer(serializers.ModelSerializer):
             dic = {}
             nft_qs = NFT.objects.filter(pk=nft.id).last()
             dic["nft_image"] = nft_qs.nft_image.url
-            daytime = nft_qs.created_at
+            daytime = nft_qs.created_at + datetime.timedelta(hours=9, minutes=0)
             daytime = DateFormat(daytime).format('Y.m.d')
             dic["created_at"] = daytime
             today_daytime = DateFormat(datetime.datetime.today()).format('Y.m.d')
@@ -318,9 +318,9 @@ class NeoHomeOwnerInfoRetrieveSerializer(serializers.ModelSerializer):
         return question_list
 
     def get_is_done(self, obj):
-        from datetime import datetime, time
+        from datetime import datetime, time, timedelta
         today = datetime.now().date()
-        if Big5Answer.objects.filter(big5_question__section=self.today_section, neo=obj.neo, created_at__gte=today).exists():
+        if Big5Answer.objects.filter(big5_question__section=self.today_section, neo=obj.neo, created_at__gte=today - timedelta(hours=9, minutes=0)).exists():
             return True
         return False
 

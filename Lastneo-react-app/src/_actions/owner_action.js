@@ -65,6 +65,8 @@ export const getOwnerInfo = async (nickname) => {
       //         "https://lastneo-storages-dev.s3.ap-northeast-2.amazonaws.com/media/neoupperimage/412/CjhCmtY.jpg",
       //       created_at: "2022.02.08",
       //       today_received: false,
+      //       opensea_link:
+      //         "https://opensea.io/assets/matic/0x2953399124f0cbb46d2cbacd8a89cf0599974963/34673304911067221409924376502842272687131737853384970732652371856927682985985",
       //     },
       //     {
       //       nft_image:
@@ -188,7 +190,6 @@ export const createNft = async (data) => {
       body,
       options
     );
-    console.log(req);
     return {
       type: CREATE_NFT_SUCCESS,
       payload: req.data,

@@ -97,7 +97,6 @@ const FrameDiv = styled.div`
   }
 
   ${({ noLeft, noRight }) => {
-    console.log(noRight);
     if (noLeft && noRight) {
       return css`
         span.goLeft-btn {
@@ -123,6 +122,10 @@ const FrameDiv = styled.div`
       `;
     }
   }}
+
+  span.goLeft-btn, span.goRight-btn {
+    cursor: pointer;
+  }
 
   ${customMedia.lessThan("mobile")`
   grid-template-columns: 240px 16px 240px 16px 240px;
@@ -185,7 +188,6 @@ function Frame({ store, owner }) {
   const [modal, setModal] = useState(newFrame);
   const [modalMsg, setModalMsg] = useState(-1);
   const [center, setCenter] = useState(0);
-  console.log(newFrame);
   useEffect(() => {
     if (arr.length == 0) {
       setModal(true);
@@ -193,11 +195,9 @@ function Frame({ store, owner }) {
     }
   }, []);
 
-  console.log(arr.length);
-  console.log(center);
-
   const onClickHandler = () => {
     // arr[center].opensea_link 새 창으로 연결
+    // window.open(arr[center].opensea_link, "_blank");
   };
 
   const goLeft = () => {
@@ -223,7 +223,7 @@ function Frame({ store, owner }) {
       {arr.length != 0 && (
         <FramesContainer>
           <p className="title">
-            네오 캐릭터의 <span>아이템</span>이에요!
+            네오 캐릭터의 <span>액자</span>에요!
           </p>
           <DescDiv>
             <p className="nft-date">
@@ -246,7 +246,9 @@ function Frame({ store, owner }) {
               onClick={onClickHandler}
               disabled={arr[center].opensea_link == null}
             >
-              보러가기
+              <a href={arr[center].opensea_link} target="_blank">
+                보러가기
+              </a>
             </SmallPinkBtn>
           </DescDiv>
           <FrameDiv noLeft={center == 0} noRight={center == arr.length - 1}>

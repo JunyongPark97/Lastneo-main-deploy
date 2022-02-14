@@ -10,6 +10,7 @@ import { customMedia } from "../../../styles/GlobalStyle";
 import { useSelector } from "react-redux";
 import Modal from "../../../components/modals/Modal";
 import LoadingModal from "../../../components/modals/LoadingModal";
+import { getOwnerInfo } from "../../../_actions/owner_action";
 
 const checked = [images.c1, images.c2, images.c3, images.c4, images.c5];
 const unchecked = [images.uc1, images.uc2, images.uc3, images.uc4, images.uc5];
