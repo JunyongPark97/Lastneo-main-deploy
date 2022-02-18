@@ -92,7 +92,7 @@ function Result() {
           <img src={store.neo_image} />
           <p className="img-desc">나를 담은 네오가 표현된 캐릭터에요!</p>
           <ShareDiv>
-            <div>
+            <div className="share-btns">
               <KakaoShareButton props={kakaoData} />
               <FacebookShareButton
                 url={store.home_address}
@@ -176,7 +176,7 @@ const StyledDiv = styled.div`
   width: 100%;
   flex-grow: 1;
   align-items: center;
-  padding-top: 72px;
+  padding-top: 60px;
   h1.mbti-desc {
     font-size: 24px;
     line-height: 32px;
@@ -238,7 +238,7 @@ const StyledDiv = styled.div`
   h2.address {
     font-weight: 500;
     font-size: 20px;
-    margin-botom: 12px;
+    margin-bottom: 12px;
   }
   h3.title {
     font-size: 14px;
@@ -262,7 +262,7 @@ const StyledDiv = styled.div`
 `;
 
 const ShareDiv = styled.div`
-  div {
+  div.share-btns {
     flex-direction: row;
     margin-bottom: 12px;
   }
@@ -281,7 +281,7 @@ const ShareDiv = styled.div`
   }
   p {
     margin: 0;
-    font-weight: 500;
+    font-weight: 400;
     font-size: 14px;
     color: ${(props) => props.theme.palette.black};
   }
@@ -289,6 +289,9 @@ const ShareDiv = styled.div`
   margin-bottom: 40px;
   ${customMedia.lessThan("mobile")`
     margin: 32px; 0;
+    div.share-btns {
+      margin-bottom: 8px;
+    }
     .sns-img {
       width: 40px;
       height: 40px;

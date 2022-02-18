@@ -10,7 +10,8 @@ import Item from "./Sections/Item";
 import RoomNav from "../../components/RoomNav";
 import RoomDiv from "../../components/RoomDiv";
 import { useDispatch, useSelector } from "react-redux";
-import { getOwnerInfo } from "../../_actions/owner_action";
+import { getOwnerInfo } from "../../modules/owner";
+import { unsetScroll } from "../../modules/neohome";
 
 function CharacterRoom({ store, owner }) {
   const dispatch = useDispatch();
@@ -33,10 +34,10 @@ function CharacterRoom({ store, owner }) {
       // scroll이 true라는 건 NeoRoom-Question에서 인격담기를 했다는 뜻이므로 Owner임.
       dispatch(getOwnerInfo(store_neohome.nickname)).then((response) => {
         if (store_neohome.scroll_to == "character_room") {
-          dispatch({ type: "unset_scroll" });
+          dispatch(unsetScroll());
           scrollToRoom();
         } else if (store_neohome.scroll_to == "frame") {
-          dispatch({ type: "unset_scroll" });
+          dispatch(unsetScroll());
           scrollToFrame();
         }
       });
@@ -50,56 +51,58 @@ function CharacterRoom({ store, owner }) {
       </div>
       <RoomDiv className="room-div">
         <RoomNav>
-          <div className="nav-menu">
-            <span
-              onClick={() => {
-                characterRef.current.scrollIntoView({
-                  behavior: "smooth",
-                  block: "center",
-                });
-              }}
-            >
-              네오 캐릭터
-            </span>
-          </div>
-          <div className="nav-menu">
-            <span
-              onClick={() => {
-                itemRef.current.scrollIntoView({
-                  behavior: "smooth",
-                  block: "center",
-                });
-              }}
-            >
-              아이템
-            </span>
-          </div>
-          <div className="nav-menu">
-            <span
-              onClick={() => {
-                frameRef.current.scrollIntoView({
-                  behavior: "smooth",
-                  block: "center",
-                });
-              }}
-            >
-              액자
-            </span>
-          </div>
-          {owner && (
+          <div className="nav-container">
             <div className="nav-menu">
               <span
                 onClick={() => {
-                  communicationRef.current.scrollIntoView({
+                  characterRef.current.scrollIntoView({
                     behavior: "smooth",
                     block: "center",
                   });
                 }}
               >
-                소통하기
+                네오 캐릭터
               </span>
             </div>
-          )}
+            <div className="nav-menu">
+              <span
+                onClick={() => {
+                  itemRef.current.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                  });
+                }}
+              >
+                아이템
+              </span>
+            </div>
+            <div className="nav-menu">
+              <span
+                onClick={() => {
+                  frameRef.current.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                  });
+                }}
+              >
+                액자
+              </span>
+            </div>
+            {owner && (
+              <div className="nav-menu">
+                <span
+                  onClick={() => {
+                    communicationRef.current.scrollIntoView({
+                      behavior: "smooth",
+                      block: "center",
+                    });
+                  }}
+                >
+                  소통하기
+                </span>
+              </div>
+            )}
+          </div>
         </RoomNav>
         <div ref={characterRef}>
           <Character store={store} />

@@ -1,22 +1,20 @@
 /* eslint-disable */
 import axios from "axios";
-
 import valueList from "../assets/values";
-import {
-  AUTH_SUCCESS,
-  AUTH_FAILURE,
-  AUTH_REQ_SUCCESS,
-  AUTH_REQ_FAILURE,
-  ENTER_MBTI,
-  ENTER_PASSWORD,
-  ENTER_VALUES,
-  CONFIRM_MARKETING,
-  SIGNUP_SUCCESS,
-  SIGNUP_FAILURE,
-  NICKNAME_SUCCESS,
-  NICKNAME_FAILURE,
-} from "./types";
 import { REACT_APP_DB_HOST } from "../keys";
+
+const AUTH_SUCCESS = "register/AUTH_SUCCESS";
+const AUTH_FAILURE = "register/AUTH_FAILURE";
+const AUTH_REQ_SUCCESS = "register/AUTH_REQ_SUCCESS";
+const AUTH_REQ_FAILURE = "register/AUTH_REQ_FAILURE";
+const ENTER_MBTI = "register/ENTER_MBTI";
+const ENTER_PASSWORD = "register/ENTER_PASSWORD";
+const ENTER_VALUES = "register/ENTER_VALUES";
+const SIGNUP_SUCCESS = "register/SIGNUP_SUCCESS";
+const SIGNUP_FAILURE = "register/SIGNUP_FAILURE";
+const NICKNAME_SUCCESS = "register/NICKNAME_SUCCESS";
+const NICKNAME_FAILURE = "register/NICKNAME_FAILURE";
+const CONFIRM_MARKETING = "register/CONFIRM_MARKETING";
 
 // 핸드폰 번호 입력 후 인증번호 전송 요청하는 액션
 export const getAuth = async (dataTosubmit) => {
@@ -141,3 +139,51 @@ export const signUp = async (dataTosubmit) => {
     };
   }
 };
+
+export default function (state = {}, action) {
+  switch (action.type) {
+    case AUTH_REQ_SUCCESS:
+      return { ...state, phone: action.payload };
+    case AUTH_REQ_FAILURE:
+      return state;
+    case AUTH_SUCCESS:
+      return {
+        ...state,
+        phone: action.payload.phone,
+        confirm_key: action.payload.confirm_key,
+      };
+    case AUTH_FAILURE:
+      return state;
+    case CONFIRM_MARKETING:
+      return {
+        ...state,
+        is_marketing: action.payload,
+      };
+    case ENTER_MBTI:
+      return {
+        ...state,
+        mbti: action.payload,
+      };
+    case ENTER_PASSWORD:
+      return {
+        ...state,
+        password: action.payload,
+      };
+    case ENTER_VALUES:
+      return {
+        ...state,
+        values: action.payload,
+      };
+    case NICKNAME_SUCCESS:
+      return {
+        ...state,
+        nickname: action.payload,
+      };
+    case SIGNUP_SUCCESS:
+      return {
+        result: action.payload,
+      };
+    default:
+      return state;
+  }
+}

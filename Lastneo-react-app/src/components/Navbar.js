@@ -71,9 +71,12 @@ const StyledNav = styled.div`
   button {
     background-color: transparent;
   }
+
   ${customMedia.lessThan("mobile")`
-    width: 100%;
     height: 56px;
+    div {
+      width: 100%;
+    }
   `}
 `;
 

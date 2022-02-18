@@ -15,7 +15,7 @@ function Item({ store }) {
   const [modal, setModal] = useState(newItem);
   return (
     <SectionContainer color="pink">
-      <p>아이템</p>
+      <p className="section-title">아이템</p>
       <h3 className={!modal ? "broad-margin" : undefined}>
         인격이 담긴 네오가
         <br />
@@ -139,7 +139,12 @@ const NewAlert = styled.span`
 `;
 const generateCell = (data) => {
   const items = [];
-  let newItem = false;
+  const newItem = data.some((item) => {
+    if (item.today_received) {
+      return true;
+    }
+    return false;
+  });
 
   // 가치관 아이템 추가
   items.push(
@@ -155,9 +160,6 @@ const generateCell = (data) => {
 
   const reverse_items = data.slice(1).reverse();
   reverse_items.map((item, i) => {
-    if (item.today_received) {
-      newItem = true;
-    }
     const cell = (
       <GridItem key={i + 1}>
         <div className="item-wrapper">

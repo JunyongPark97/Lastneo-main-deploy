@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useEffect, useState, useRef } from "react";
-import { getAuth } from "../../_actions/neohome_action";
+import { getAuth } from "../../modules/neohome";
 import InputDiv from "../../components/InputDiv";
 import { isPhoneNumber } from "../../utils/regexes";
 import Button from "../../components/Button";
@@ -9,12 +9,13 @@ import Container from "../../components/Container";
 import FormDiv from "../../components/FormDiv";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 // 현관 - 비밀번호 재설정
 // 해당 루트로 접근
 function PhoneNum() {
   const history = useHistory();
+  const dispatch = useDispatch();
   const location = useLocation(); // 현관 EnterPw.js 에서 state: {nickname:nickname} 으로 이름 보내줄 것임
   const myRef = useRef();
   const [phoneNum, setPhoneNum] = useState("");
@@ -48,7 +49,7 @@ function PhoneNum() {
     e.preventDefault();
     let body = { nickname: store.nickname, phone: phoneNum };
     getAuth(body).then((response) => {
-      if (response.status) {
+      if (response.type == "neohome/RESET_PW_AUTH_REQ_SUCCESS") {
         history.push({
           pathname: "/resetpw/authnum",
           state: { phone: phoneNum, nickname: store.nickname },

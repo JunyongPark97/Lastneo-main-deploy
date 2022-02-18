@@ -186,14 +186,18 @@ const LockBtn = styled.button`
   }
   p {
     color: ${(props) => props.theme.palette.lightGrey};
-    margin-bottom: 8px;
+    margin-bottom: 12px;
   }
   position: absolute;
   bottom: 60px;
   ${customMedia.lessThan("mobile")`
+  bottom: 24px;
   img {
     width: 48px;
     height: 48px;
+  }
+  p {
+    margin-bottom: 8px;
   }
   `}
 `;

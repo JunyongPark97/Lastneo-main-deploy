@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import styled, { css } from "styled-components";
 import images from "../../../assets";
 import { customMedia } from "../../../styles/GlobalStyle";
-import { sendHomeDesc } from "../../../_actions/owner_action";
+import { sendHomeDesc } from "../../../modules/owner";
 
 function Profile({ store, owner, nickname }) {
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ function Profile({ store, owner, nickname }) {
   const onSubmitHandler = () => {
     let data = { description: desc, nickname };
     dispatch(sendHomeDesc(data)).then((response) => {
-      if (response.type == "edit_desc_success") {
+      if (response.type == "owner/EDIT_DESC_SUCCESS") {
         setEditable(false);
         if (response.payload.length == 0) {
           setDesc("집으로 초대한 친구에게 네오를 소개해주세요");

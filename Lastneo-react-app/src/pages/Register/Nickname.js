@@ -5,8 +5,7 @@ import Button from "../../components/Button";
 import { isNickname } from "../../utils/regexes";
 import styled, { css } from "styled-components";
 import { useDispatch } from "react-redux";
-import { sendNickname } from "../../_actions/register_action";
-import { useHistory } from "react-router";
+import { sendNickname } from "../../modules/register";
 import FormDiv from "../../components/FormDiv";
 import Footer from "../../components/Footer";
 import Container from "../../components/Container";
@@ -16,7 +15,6 @@ import Navbar from "../../components/Navbar";
 
 function Nickname() {
   const dispatch = useDispatch();
-  const history = useHistory();
   const myRef = useRef();
   const [nickname, setNickname] = useState("");
   const [msg, setMsg] = useState(0);
@@ -45,7 +43,7 @@ function Nickname() {
     e.preventDefault();
     let body = { nickname: nickname };
     dispatch(sendNickname(body)).then((response) => {
-      if (response.type == "nickname_success") {
+      if (response.type == "register/NICKNAME_SUCCESS") {
         // history.push("/register/password");
         window.location.href = "/register/password";
       } else {

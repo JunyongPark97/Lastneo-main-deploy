@@ -37,10 +37,21 @@ const ShareBtns = styled.div`
   }
   p {
     font-size: 14px;
+    font-weight: 400;
     color: ${(props) => props.theme.palette.black};
   }
   ${customMedia.lessThan("mobile")`
   margin-bottom: 24px;
+  div {
+    margin-bottom: 8px;
+  }
+  img {
+    width: 40px;
+    height: 40px;
+  }
+  p {
+    font-size: 12px;
+  }
   `}
 `;
 
@@ -60,9 +71,12 @@ const CopyDiscode = styled.div`
       margin-bottom: 16px;
       h4 {
         font-size: 20px;
+        font-weight: 500;
       }
       p {
         font-size: 14px;
+        font-weight: 400;
+        color: ${(props) => props.theme.palette.darkGrey};
       }
     }
   }
@@ -106,6 +120,7 @@ const CopyDiscode = styled.div`
       margin-bottom: 0;
       h4 {
         font-size: 16px;
+        margin-bottom: 0;
       }
       p {
         font-size: 12px;
@@ -159,7 +174,7 @@ function Communication({ store }) {
 
   return (
     <SectionContainer color="pink" communication>
-      <p>소통하기</p>
+      <p className="section-title">소통하기</p>
       <h3>
         네오 집을 친구에게 <span>공유</span>하고
         <br />

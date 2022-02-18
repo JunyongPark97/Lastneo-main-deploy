@@ -5,7 +5,7 @@ import HomeContainer from "./HomeContainer";
 import FrontDoor from "./FrontDoor";
 import Menu from "./Menu";
 import EnterPw from "./EnterPw";
-import { enterAddress } from "../../_actions/login_actions";
+import { enterAddress } from "../../modules/login";
 import { useDispatch } from "react-redux";
 import NotFound from "../NotFound";
 
@@ -18,7 +18,7 @@ function NeoHome({ match }) {
   useEffect(() => {
     let body = { data: match.params.id };
     dispatch(enterAddress(body)).then((response) => {
-      if (response.type == "enter_address_failure") {
+      if (response.type == "login/ENTER_ADDRESS_FAILURE") {
         history.push("/404");
       } else {
         setComplete(true);

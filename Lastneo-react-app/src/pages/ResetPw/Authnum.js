@@ -4,11 +4,10 @@ import InputDiv from "../../components/InputDiv";
 import Button from "../../components/Button";
 import SmallBtn from "../../components/SmallBtn";
 import { isAuthNumber } from "../../utils/regexes";
-import { enterAuth } from "../../_actions/neohome_action";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router";
 import FormDiv from "../../components/FormDiv";
-import { getAuth } from "../../_actions/neohome_action";
+import { enterAuth, getAuth } from "../../modules/neohome";
 import Container from "../../components/Container";
 import Footer from "../../components/Footer";
 import MsgModal from "../../components/modals/MsgModal";
@@ -55,7 +54,7 @@ function AuthNum() {
       confirm_key: authNum,
     };
     enterAuth(body).then((response) => {
-      if (response.status) {
+      if (response.type == "neohome/RESET_PW_AUTH_SUCCESS") {
         history.push({
           pathname: "/resetpw/password",
           state: {

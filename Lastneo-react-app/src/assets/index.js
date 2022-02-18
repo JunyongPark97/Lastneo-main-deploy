@@ -13,6 +13,16 @@ import uc2 from "./uc2.png";
 import uc3 from "./uc3.png";
 import uc4 from "./uc4.png";
 import uc5 from "./uc5.png";
+import c1_mono from "./c1_mono.png";
+import c2_mono from "./c2_mono.png";
+import c3_mono from "./c3_mono.png";
+import c4_mono from "./c4_mono.png";
+import c5_mono from "./c5_mono.png";
+import uc1_mono from "./uc1_mono.png";
+import uc2_mono from "./uc2_mono.png";
+import uc3_mono from "./uc3_mono.png";
+import uc4_mono from "./uc4_mono.png";
+import uc5_mono from "./uc5_mono.png";
 import calender from "./calender.png";
 import time from "./time.png";
 import purpleblock from "./purpleblock.png";
@@ -108,6 +118,16 @@ const images = {
   uc3,
   uc4,
   uc5,
+  c1_mono,
+  c2_mono,
+  c3_mono,
+  c4_mono,
+  c5_mono,
+  uc1_mono,
+  uc2_mono,
+  uc3_mono,
+  uc4_mono,
+  uc5_mono,
   calender,
   time,
   purpleblock,

@@ -1,18 +1,18 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Redirect, useHistory, useLocation } from "react-router";
 import GuestHome from "./GuestHome";
 import OwnerHome from "./OwnerHome";
 import { isOwner } from "../../utils/auth";
-import { getGuestInfo } from "../../_actions/guest_action";
-import { getOwnerInfo } from "../../_actions/owner_action";
+import { getOwnerInfo } from "../../modules/owner";
+import { getGuestInfo } from "../../modules/guest";
+import { setNickname } from "../../modules/neohome";
 import { useDispatch, useSelector } from "react-redux";
 import HomeNavbar from "../../components/HomeNavbar";
-import { Helmet } from "react-helmet-async";
 
 function HomeContainer({ match, history }) {
   const dispatch = useDispatch();
-  dispatch({ type: "set_nickname", payload: match.params.id });
+  dispatch(setNickname(match.params.id));
 
   const [showGuest, setShowGuest] = useState(false);
   const [showOwner, setShowOwner] = useState(false);
@@ -24,19 +24,19 @@ function HomeContainer({ match, history }) {
     if (typeof data !== "undefined") {
       if (data.from == "frontdoor" && data.status == 1) {
         dispatch(getGuestInfo(match.params.id)).then((response) => {
-          if (response.type == "guest_info_success") {
+          if (response.type == "guest/GUEST_INFO_SUCCESS") {
             setShowGuest(true);
           }
         });
       } else if (data.from == "frontdoor" && data.status == 0) {
         dispatch(getOwnerInfo(match.params.id)).then((response) => {
-          if (response.type == "owner_info_success") {
+          if (response.type == "owner/OWNER_INFO_SUCCESS") {
             setShowOwner(true);
           }
         });
       } else if (data.from == "register") {
         dispatch(getOwnerInfo(match.params.id)).then((response) => {
-          if (response.type == "owner_info_success") {
+          if (response.type == "owner/OWNER_INFO_SUCCESS") {
             setShowOwner(true);
           }
         });
@@ -57,7 +57,7 @@ function HomeContainer({ match, history }) {
         isOwner(data).then((response) => {
           if (response.status == 200) {
             dispatch(getOwnerInfo(match.params.id)).then((response) => {
-              if (response.type == "owner_info_success") {
+              if (response.type == "owner/OWNER_INFO_SUCCESS") {
                 setShowOwner(true);
               }
             });

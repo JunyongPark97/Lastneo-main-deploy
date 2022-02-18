@@ -9,6 +9,9 @@ const SmallPinkBtn = styled.button`
   border-radius: 4px;
   font-weight: 500;
   font-size: 14px;
+  * {
+    font-weight: 500;
+  }
   &:hover {
     background-color: ${(props) => props.theme.palette.powderPink};
     color: ${(props) => props.theme.palette.darkPink};
@@ -60,7 +63,8 @@ const SmallPinkBtn = styled.button`
 
   ${customMedia.lessThan("mobile")`
   width: 64px;
-  height: 31px;
+  height: 29px;
+  font-size: 12px;
   `}
 `;
 

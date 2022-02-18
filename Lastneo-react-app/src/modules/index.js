@@ -2,11 +2,11 @@ import { combineReducers } from "redux";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage/session";
 
-import login from "./login_reducer";
-import register from "./register_reducer";
-import guest from "./guest_reducer";
-import owner from "./owner_reducer";
-import neohome from "./neohome_reducer";
+import login from "./login";
+import register from "./register";
+import guest from "./guest";
+import owner from "./owner";
+import neohome from "./neohome";
 
 const persistConfig = {
   key: "root",

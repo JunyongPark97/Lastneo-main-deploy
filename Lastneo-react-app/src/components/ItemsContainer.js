@@ -25,6 +25,10 @@ const ItemsContainer = styled.div`
   width: calc(100vw - 48px);
   height: calc((100vw - 48px) * 0.9908);
   padding: 24px 24px 12px 24px;
+  p.title {
+    font-size: 16px;
+    margin-bottom: 24px;
+  }
   `}
 `;
 

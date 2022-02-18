@@ -1,7 +1,8 @@
 /* eslint-disable */
 import axios from "axios";
-import { GUEST_INFO_SUCCESS, GUEST_INFO_FAILURE } from "./types";
 import { REACT_APP_DB_HOST } from "../keys";
+
+const GUEST_INFO_SUCCESS = "guest/GUEST_INFO_SUCCESS";
 
 // 페이지 렌더링 시 서버로부터 정보 받아오기
 export const getGuestInfo = async (nickname) => {
@@ -20,3 +21,13 @@ export const getGuestInfo = async (nickname) => {
     };
   }
 };
+
+export default function (state = {}, action) {
+  switch (action.type) {
+    case GUEST_INFO_SUCCESS:
+      const data = action.payload;
+      return data;
+    default:
+      return state;
+  }
+}

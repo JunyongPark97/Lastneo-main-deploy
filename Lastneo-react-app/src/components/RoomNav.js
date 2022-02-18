@@ -3,11 +3,10 @@ import styled from "styled-components";
 import { customMedia } from "../styles/GlobalStyle";
 
 const RoomNav = styled.div`
-  flex-direction: row;
-  align-items: center;
   height: 60px;
-  width: 640px;
+  width: 100%;
   border-bottom: solid 1px ${(props) => props.theme.palette.paleGrey};
+
   span {
     display: flex;
     flex-direction: column;
@@ -15,13 +14,21 @@ const RoomNav = styled.div`
     height: 100%;
     margin-right: 40px;
     font-size: 16px;
+    font-weight: 500;
     height: 100%;
     cursor: pointer;
-    color: ${(props) => props.theme.palette.black};
+    color: ${(props) => props.theme.palette.darkGrey};
     &:hover {
       color: ${(props) => props.theme.palette.pink};
       border-bottom: solid 2px ${(props) => props.theme.palette.pink};
     }
+  }
+  div.nav-container {
+    height: 100%;
+    margin: auto;
+    width: 640px;
+    flex-direction: row;
+    align-items: center;
   }
   div.nav-menu {
     height: 100%;
@@ -31,10 +38,12 @@ const RoomNav = styled.div`
 
   ${customMedia.lessThan("mobile")`
   width: 100%;
-  padding: 24px;
+  div.nav-container {
+    width: calc(100% - 48px);
+  }
   span {
     font-size: 14px;
-    margin-right: 28px;
+    margin-right: 32px;
   }
   `}
 `;

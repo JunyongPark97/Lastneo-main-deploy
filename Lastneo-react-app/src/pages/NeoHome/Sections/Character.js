@@ -9,6 +9,7 @@ import images from "../../../assets";
 
 const DescSection = styled.section`
   width: 640px;
+  margin: auto;
   border-bottom: solid 1px ${(props) => props.theme.palette.paleGrey};
   padding: 60px 0;
   color: ${(props) => props.theme.palette.black};
@@ -38,36 +39,56 @@ const DescSection = styled.section`
     display: flex;
     flex-direction: column;
     align-items: center;
-    button {
-      background-color: rgba(0, 0, 0, 0);
+    button.modal-btn {
+      background-color: transparent;
       margin-top: 20px;
+      padding: 2px 4px 0px 4px;
+      border-radius: 4px;
       display: flex;
       flex-direction: row;
       align-items: center;
       color: ${(props) => props.theme.palette.pink};
       font-size: 20px;
       font-weight: 500;
+      &:hover {
+        background-color: ${(props) => props.theme.palette.lightGrey};
+      }
       img {
         width: 16px;
         height: 16px;
+        position: relative;
+        bottom: 1px;
       }
     }
   }
   ${customMedia.lessThan("mobile")`
-  width: 100%;
-  padding: 24px 24px 48px 24px;
-  // background: red;
+  width: calc(100% - 48px);
+  padding: 24px 0 48px 0;
+  margin: 0 24px;
   h2 {
     font-size: 24px;
+    margin-bottom: 8px;
   }
   h4 {
     font-size: 16px;
+    margin-bottom: 48px;
   }
   h3 {
     font-size: 20px;
   }
   p {
     font-size: 14px;
+    margin-bottom: 24px;
+  }
+  div {
+    button.modal-btn {
+      font-size: 16px;
+      margin-top: 16px;
+      img {
+        width: 12px;
+        height: 12px;
+      }
+    }
   }
     `}
 `;
@@ -105,6 +126,7 @@ function Character({ store }) {
           '{store.mbti} <span>{store.mbti_name}</span>'
         </h3>
         <button
+          className="modal-btn"
           onClick={() => {
             setModalOpen(true);
           }}

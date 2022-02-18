@@ -1,13 +1,12 @@
 /* eslint-disable */
 import React, { useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { isPassword } from "../../utils/regexes";
+import { useEffect } from "react";
+import { sendPassword } from "../../modules/register";
+import { signUp } from "../../modules/register";
 import InputDiv from "../../components/InputDiv";
 import Button from "../../components/Button";
-import { isPassword } from "../../utils/regexes";
-import { signUp } from "../../_actions/register_action";
-import { useEffect } from "react";
-import { sendPassword } from "../../_actions/register_action";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router";
 import Container from "../../components/Container";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
@@ -16,7 +15,6 @@ import LoadingModal from "../../components/modals/LoadingModal";
 
 function Password() {
   const dispatch = useDispatch();
-  const history = useHistory();
   const myRef = useRef();
 
   const store = useSelector((state) => state.register);
@@ -67,9 +65,8 @@ function Password() {
   const onClickHandler = () => {
     openLoadingModal();
     dispatch(signUp(store)).then((response) => {
-      if (response.type == "signUp_success") {
+      if (response.type == "register/SIGNUP_SUCCESS") {
         closeLoadingModal();
-        // history.push("/register/result");
         window.location.replace("/register/result");
       }
     });

@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import InputDiv from "../../components/InputDiv";
 import Button from "../../components/Button";
 import { isMbti } from "../../utils/regexes";
-import { sendMbti } from "../../_actions/register_action";
+import { sendMbti } from "../../modules/register";
 import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
 import Footer from "../../components/Footer";

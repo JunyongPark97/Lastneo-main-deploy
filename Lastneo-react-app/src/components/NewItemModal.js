@@ -4,11 +4,11 @@ import { customMedia } from "../styles/GlobalStyle";
 const NewItemModal = styled.div`
   background-color: ${(props) => props.theme.palette.lightGrey};
   color: ${(props) => props.theme.palette.darkGrey};
-  padding: 20px 0px 20px 32px;
-  font-size: 18px;
+  padding: 18px 0px 18px 32px;
   border-radius: 12px;
   display: flex;
   flex-direction: row;
+  align-items: center;
   /* margin-bottom: 40px; */
   img {
     width: 20px;
@@ -17,6 +17,8 @@ const NewItemModal = styled.div`
   }
   p {
     margin-bottom: 0px;
+    font-size: 18px;
+    font-weight: 400;
   }
   p.msg-mobile {
     display: none;
@@ -33,8 +35,7 @@ const NewItemModal = styled.div`
   }}
   ${customMedia.lessThan("mobile")`
   width: 100%;
-  padding: 16px 0px 16px 24px;
-  font-size: 16px;
+  padding: 14px 0px 14px 24px;
   img {
     width: 16px;
     height: 16px;
@@ -43,6 +44,7 @@ const NewItemModal = styled.div`
   p {
     margin-bottom: 0px;
     padding: 0;
+    font-size: 16px;
   }
   p.msg-mobile {
     display: block;

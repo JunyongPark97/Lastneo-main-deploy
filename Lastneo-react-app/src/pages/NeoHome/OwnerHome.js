@@ -11,7 +11,8 @@ import HomeNav from "../../components/HomeNav";
 import FltBtn from "../../components/FltBtn";
 import { customMedia } from "../../styles/GlobalStyle";
 import images from "../../assets";
-import { getOwnerInfo } from "../../_actions/owner_action";
+import { getOwnerInfo } from "../../modules/owner";
+import { setTab, setScroll } from "../../modules/neohome";
 import Modal from "../../components/modals/WelcomeModal";
 import { Helmet } from "react-helmet-async";
 
@@ -20,6 +21,7 @@ function OwnerHome({ nickname }) {
   const store_neohome = useSelector((store) => store.neohome);
   const currentUrl = document.location.href;
   const [modalVisible, setModalVisible] = useState(false);
+  const [fltBtnVisible, setFltBtnVisible] = useState(false);
   const dispatch = useDispatch();
   const tabMenuRef = useRef();
   const { tab } = useSelector((state) => state.neohome);
@@ -29,19 +31,19 @@ function OwnerHome({ nickname }) {
   };
 
   const scrollModal = () => {
-    dispatch({ type: "set_scroll", payload: "question" });
+    dispatch(setScroll("question"));
     setModalVisible(false);
-    dispatch({ type: "set_tab", payload: "neo" });
+    dispatch(setTab("neo"));
   };
 
   const onClickHandler = () => {
     dispatch(getOwnerInfo(nickname)).then((response) => {
       // 캐릭터방-네오방 이동할 때마다 서버에 요청해서 정보 업데이트
-      if (response.type == "owner_info_success") {
+      if (response.type == "owner/OWNER_INFO_SUCCESS") {
         if (tab == "character") {
-          dispatch({ type: "set_tab", payload: "neo" });
+          dispatch(setTab("neo"));
         } else {
-          dispatch({ type: "set_tab", payload: "character" });
+          dispatch(setTab("character"));
         }
       }
     });
@@ -51,8 +53,19 @@ function OwnerHome({ nickname }) {
     if (!store.is_weekend && !store.is_done) {
       setModalVisible(true);
     }
-    dispatch({ type: "set_tab", payload: "character" });
+    dispatch(setTab("character"));
   }, []);
+
+  useEffect(() => {
+    window.addEventListener("wheel", () => {
+      if (tabMenuRef.current.getBoundingClientRect().top < 0) {
+        setFltBtnVisible(true);
+      }
+      if (tabMenuRef.current.getBoundingClientRect().top > 0) {
+        setFltBtnVisible(false);
+      }
+    });
+  });
 
   return (
     <>
@@ -82,7 +95,7 @@ function OwnerHome({ nickname }) {
           <TabBtn
             className="tab-char"
             onClick={() => {
-              dispatch({ type: "set_tab", payload: "character" });
+              dispatch(setTab("character"));
             }}
             color={tab == "character" ? "black" : "white"}
             textColor={tab == "character" ? "white" : "gray"}
@@ -95,7 +108,7 @@ function OwnerHome({ nickname }) {
           <TabBtn
             className="tab-neo"
             onClick={() => {
-              dispatch({ type: "set_tab", payload: "neo" });
+              dispatch(setTab("neo"));
             }}
             color={tab == "neo" ? "black" : "white"}
             textColor={tab == "neo" ? "white" : "gray"}
@@ -110,7 +123,7 @@ function OwnerHome({ nickname }) {
         ) : (
           <NeoRoom store={store} />
         )}
-        <FltBtn onClick={onClickHandler} color="black">
+        <FltBtn onClick={onClickHandler} color="black" visible={fltBtnVisible}>
           {tab == "character" ? <>네오 방 가기</> : <>캐릭터 방 가기</>}
         </FltBtn>
         <HomeFooter />
@@ -140,6 +153,7 @@ const TabBtn = styled.button`
   border-radius: 12px 12px 0 0;
   font-size: 18px;
   font-weight: 500;
+
   img {
     width: 20px;
     height: 20px;
@@ -182,7 +196,7 @@ const TabBtn = styled.button`
   }}
 
   ${customMedia.lessThan("mobile")`
-  width: 164px;
+  width: calc((100% - 48px)/2);
   font-size: 16px;
   button {
     padding: 12px 0;

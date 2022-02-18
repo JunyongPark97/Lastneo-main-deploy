@@ -3,11 +3,10 @@ import React, { useState, useEffect, useRef } from "react";
 import InputDiv from "../../components/InputDiv";
 import Button from "../../components/Button";
 import SmallBtn from "../../components/SmallBtn";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { isPhoneNumber } from "../../utils/regexes";
-import { getAuth } from "../../_actions/register_action";
-import { confirmMarketing } from "../../_actions/register_action";
+import { getAuth } from "../../modules/register";
+import { confirmMarketing } from "../../modules/register";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import checked from "../../assets/checked.png";
@@ -84,7 +83,7 @@ function PhoneNum() {
     };
     dispatch(confirmMarketing(marketing));
     dispatch(getAuth(body)).then((response) => {
-      if (response.type == "auth_req_success") {
+      if (response.type == "register/AUTH_REQ_SUCCESS") {
         history.push("/register/authnum");
       } else if (
         response.payload.non_field_errors[0] == "이미 가입된 정보가 있습니다."
@@ -116,7 +115,7 @@ function PhoneNum() {
           color={msg == 1 || msg == 2 ? "purple" : "pink"}
         >
           <h3>전화번호를 입력해주세요</h3>
-          <h4>네오의 집 주소나 비밀번호를 까먹었을 때 필요해요</h4>
+          <h4>네오의 집 주소나 비밀번호를 찾을 때 필요해요</h4>
           <FormDiv>
             <form onFocus={onFocusHandler} ref={myRef}>
               <label>전화번호</label>

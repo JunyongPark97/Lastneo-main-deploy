@@ -208,7 +208,7 @@ function Frame({ store, owner }) {
   };
   return (
     <SectionContainer color="pink" frame owner={owner}>
-      <p>액자</p>
+      <p className="section-title">액자</p>
       <h3 className={!modal ? "broad-margin" : undefined}>
         네오 소유권과 함께
         <br />

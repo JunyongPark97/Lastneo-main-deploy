@@ -2,12 +2,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import InputDiv from "../../components/InputDiv";
 import Button from "../../components/Button";
-import { isPassword } from "../../utils/regexes";
-import { login } from "../../_actions/neohome_action";
 import { useHistory } from "react-router-dom";
+import { login } from "../../modules/neohome";
 import SmallBtn from "../../components/SmallBtn";
 import styled from "styled-components";
-import images from "../../assets";
 import FormDiv from "../../components/FormDiv";
 import { customMedia } from "../../styles/GlobalStyle";
 import { css } from "styled-components";
@@ -48,7 +46,7 @@ function EnterPw({ nickname }) {
       password,
     };
     login(body).then((response) => {
-      if (response.status) {
+      if (response.type == "neohome/FRONTDOOR_LOGIN_SUCCESS") {
         history.push({
           pathname: `/${nickname}`,
           state: { from: "frontdoor", status: 0 },

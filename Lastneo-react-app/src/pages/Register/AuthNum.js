@@ -4,10 +4,10 @@ import InputDiv from "../../components/InputDiv";
 import Button from "../../components/Button";
 import SmallBtn from "../../components/SmallBtn";
 import { isAuthNumber } from "../../utils/regexes";
-import { enterAuth } from "../../_actions/register_action";
+import { enterAuth } from "../../modules/register";
+import { getAuth } from "../../modules/register";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import { getAuth } from "../../_actions/register_action";
 import Footer from "../../components/Footer";
 import Container from "../../components/Container";
 import FormDiv from "../../components/FormDiv";
@@ -46,10 +46,9 @@ function AuthNum() {
       confirm_key: authNum,
     };
     dispatch(enterAuth(body)).then((response) => {
-      if (response.type == "auth_success") {
+      if (response.type == "register/AUTH_SUCCESS") {
         history.push("/register/mbti");
       } else {
-        // 오류 종류에 따라 다른 에러 메시지를 띄워줄건지 아님 하나로 통일할건지
         setErrMsg(true);
       }
     });

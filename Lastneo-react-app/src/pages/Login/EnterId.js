@@ -3,10 +3,10 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { enterAddress } from "../../_actions/login_actions";
+import { enterAddress } from "../../modules/login";
+import { isNickname, isPhoneNumber } from "../../utils/regexes";
 import Button from "../../components/Button";
 import InputDiv from "../../components/InputDiv";
-import { isNickname, isPhoneNumber } from "../../utils/regexes";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import Container from "../../components/Container";

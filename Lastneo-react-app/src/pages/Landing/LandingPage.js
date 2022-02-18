@@ -244,6 +244,8 @@ const Section4 = styled.section`
     img {
       width: 16px;
       height: 16px;
+      position: relative;
+      bottom: 0.5px;
     }
   }
   .story-btn {
@@ -266,6 +268,10 @@ const Section4 = styled.section`
   }
   button {
     font-size: 16px;
+    img {
+      width: 12px;
+      height: 12px;
+    }
   }
 
   `}

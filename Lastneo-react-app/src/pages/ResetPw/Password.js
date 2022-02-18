@@ -2,7 +2,7 @@
 
 import InputDiv from "../../components/InputDiv";
 import React, { useState, useEffect, useRef } from "react";
-import { enterNewPw } from "../../_actions/neohome_action";
+import { enterNewPw } from "../../modules/neohome";
 import Button from "../../components/Button";
 import { isPassword } from "../../utils/regexes";
 import { useHistory, useLocation } from "react-router";

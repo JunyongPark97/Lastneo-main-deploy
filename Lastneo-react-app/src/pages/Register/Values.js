@@ -4,7 +4,7 @@ import InputDiv from "../../components/InputDiv";
 import { useDispatch } from "react-redux";
 import values from "../../assets/values";
 import styled, { css } from "styled-components";
-import { sendValues } from "../../_actions/register_action";
+import { sendValues } from "../../modules/register";
 import { useHistory } from "react-router";
 import { customMedia } from "../../styles/GlobalStyle";
 import Footer from "../../components/Footer";
@@ -77,6 +77,7 @@ function Values() {
             disabled={count != 5}
             onClick={onSumbmitHandler}
             color={count != 5 ? "lightPink" : "pink"}
+            visible={true}
           >
             {msg}
           </FltBtn>

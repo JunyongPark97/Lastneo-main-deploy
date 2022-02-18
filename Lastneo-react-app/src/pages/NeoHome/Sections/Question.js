@@ -4,16 +4,31 @@ import SectionContainer from "../../../components/SectionContainer";
 import styled, { css } from "styled-components";
 import images from "../../../assets";
 import Button from "../../../components/Button";
-import { sendBig5 } from "../../../_actions/owner_action";
+import { sendBig5 } from "../../../modules/owner";
 import { useDispatch } from "react-redux";
 import { customMedia } from "../../../styles/GlobalStyle";
 import { useSelector } from "react-redux";
 import Modal from "../../../components/modals/Modal";
 import LoadingModal from "../../../components/modals/LoadingModal";
-import { getOwnerInfo } from "../../../_actions/owner_action";
+import { getOwnerInfo } from "../../../modules/owner";
+import { setBig5Answers, setScroll, setTab } from "../../../modules/neohome";
 
 const checked = [images.c1, images.c2, images.c3, images.c4, images.c5];
 const unchecked = [images.uc1, images.uc2, images.uc3, images.uc4, images.uc5];
+const checked_mono = [
+  images.c1_mono,
+  images.c2_mono,
+  images.c3_mono,
+  images.c4_mono,
+  images.c5_mono,
+];
+const unchecked_mono = [
+  images.uc1_mono,
+  images.uc2_mono,
+  images.uc3_mono,
+  images.uc4_mono,
+  images.uc5_mono,
+];
 
 function Question({ store }) {
   const dispatch = useDispatch();
@@ -40,8 +55,8 @@ function Question({ store }) {
   };
   const scrollModal = () => {
     // 아이템 지급 모달 - '캐릭터 보기' => Charater.js useEffect에서 scroll = true면 주인정보 새로 요청
-    dispatch({ type: "set_tab", payload: "character" });
-    dispatch({ type: "set_scroll", payload: "character_room" });
+    dispatch(setTab("character"));
+    dispatch(setScroll("character_room"));
   };
 
   const openLoadingModal = () => {
@@ -70,9 +85,10 @@ function Question({ store }) {
     };
     openLoadingModal();
     dispatch(sendBig5(body)).then((response) => {
-      if (response.type == "send_big5_success") {
-        setDone(true);
+      if (response.type == "owner/SEND_BIG5_SUCCESS") {
         setOpen(false);
+        dispatch(setBig5Answers(arr));
+        setDone(true);
         if (!response.payload.item_status) {
           setItemName(null);
           setItemImg(null);
@@ -120,7 +136,7 @@ function Question({ store }) {
   };
   return (
     <SectionContainer color="yellow" question>
-      <p>인격담기</p>
+      <p className="section-title">인격담기</p>
       <h3>
         매일 질문 5개에 답변하고
         <br />
@@ -130,7 +146,7 @@ function Question({ store }) {
         <span className="date">{store.today_datetime}</span>
         {descGenerator(store)}
         {open && (
-          <Questions>
+          <Questions color={weekend || done ? "lightGrey" : "paleYellow"}>
             {store.neo_questions.map((item, i) => {
               const arr = [0, 1, 2, 3, 4];
               const sizes = [60, 50, 40, 50, 60];
@@ -144,7 +160,7 @@ function Question({ store }) {
               ];
               return (
                 <SingleQuestion key={i}>
-                  <p>
+                  <p className="question">
                     {i + 1}. {item.question}
                   </p>
                   <div className="btns-wrapper">
@@ -159,23 +175,44 @@ function Question({ store }) {
                               newArr[i] = idx + 1;
                               setAnswers(newArr);
                             }}
+                            disabled={done}
                           >
-                            <BtnImg
-                              size={sizes[idx]}
-                              mSize={mSizes[idx]}
-                              color={colors[idx]}
-                              key={idx}
-                              checked={answers[i] == idx + 1}
-                            >
-                              <img
-                                src={
-                                  answers[i] == idx + 1
-                                    ? checked[idx]
-                                    : unchecked[idx]
-                                }
-                              />
-                              <span></span>
-                            </BtnImg>
+                            {!done ? (
+                              <BtnImg
+                                size={sizes[idx]}
+                                mSize={mSizes[idx]}
+                                color={colors[idx]}
+                                key={idx}
+                                checked={answers[i] == idx + 1}
+                                done={false}
+                              >
+                                <img
+                                  src={
+                                    answers[i] == idx + 1
+                                      ? checked[idx]
+                                      : unchecked[idx]
+                                  }
+                                />
+                                <span></span>
+                              </BtnImg>
+                            ) : (
+                              <BtnImg
+                                size={sizes[idx]}
+                                mSize={mSizes[idx]}
+                                key={idx}
+                                done={true}
+                              >
+                                <img
+                                  src={
+                                    store_neohome.big5_answers[i].result ==
+                                    idx + 1
+                                      ? checked_mono[idx]
+                                      : unchecked_mono[idx]
+                                  }
+                                />
+                                <span></span>
+                              </BtnImg>
+                            )}
                           </button>
                         );
                       })}
@@ -191,12 +228,8 @@ function Question({ store }) {
             })}
           </Questions>
         )}
-        <ToggleBtn onClick={toggleHandler} disabled={weekend || done}>
-          <img
-            src={
-              weekend || done || open ? images.toggleclose : images.toggleopen
-            }
-          />
+        <ToggleBtn onClick={toggleHandler} disabled={weekend}>
+          <img src={weekend || open ? images.toggleclose : images.toggleopen} />
         </ToggleBtn>
       </QuestionsContainer>
       <DescDiv>
@@ -302,8 +335,11 @@ const QuestionsContainer = styled.div`
   margin-bottom: 60px;
   padding: 32px;
   p.main-desc {
+    font-weight: 500;
     font-size: 18px;
     margin-bottom: 32px;
+    color: ${(props) => props.theme.palette.darkGrey};
+
     span {
       color: ${(props) => props.theme.palette.yellow};
     }
@@ -312,7 +348,6 @@ const QuestionsContainer = styled.div`
     font-size: 14px;
     font-weight: 400;
     color: ${(props) => props.theme.palette.darkGrey};
-    margin-bottom: 6px;
   }
   .mobile {
     display: none;
@@ -326,6 +361,7 @@ const QuestionsContainer = styled.div`
   }
   p.main-desc {
     font-size: 16px;
+    margin-bottom: 24px;
   }
   .web {
     display: none;
@@ -337,7 +373,19 @@ const QuestionsContainer = styled.div`
 `}
 `;
 
-const Questions = styled.div``;
+const Questions = styled.div`
+  width: 100%;
+  ${(props) => {
+    const selected = props.theme.palette[props.color];
+    return css`
+      border-top: solid 1px ${selected};
+    `;
+  }}
+  padding-top: 32px;
+  ${customMedia.lessThan("mobile")`
+  padding-top: 24px;
+  `}
+`;
 const YellowBtns = styled.div`
   flex-direction: row;
   justify-content: center;
@@ -353,14 +401,20 @@ const DescDiv = styled.div`
     display: flex;
     align-items: center;
     img {
-      width: 16px;
-      height: 16px;
-      margin-right: 16px;
+      width: 20px;
+      height: 20px;
+      margin-right: 20px;
     }
   }
   ${customMedia.lessThan("mobile")`
   p {
     font-size: 12px;
+    margin-bottom: 16px;
+    img {
+      width: 16px;
+      height: 16px;
+      margin-right: 16px;
+    }
   }
   `}
 `;
@@ -368,33 +422,37 @@ const DescDiv = styled.div`
 const SingleQuestion = styled.div`
   align-items: center;
   margin-bottom: 32px;
+  text-align: center;
   div.btns-wrapper {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    /* background: red; */
     span {
       color: ${(props) => props.theme.palette.gray};
       font-weight: 400;
     }
   }
+  span.desc-web {
+    font-size: 14px;
+  }
   div.desc-mobile {
     display: none;
     width: 100%;
     margin-top: 4px;
-    /* background: green; */
     justify-content: space-between;
   }
   button {
-    background-color: rgba(0, 0, 0, 0);
+    background-color: transparent;
     padding: 0px;
   }
-  p {
+  p.question {
     color: ${(props) => props.theme.palette.black};
     margin-bottom: 20px;
     font-size: 18px;
+    font-weight: 500;
   }
   ${customMedia.lessThan("mobile")`
+  margin-bottom: 24px;
     div.btns-wrapper {
       flex-direction: column;
       span {
@@ -439,8 +497,8 @@ const BtnImg = styled.div`
     width: ${(props) => props.size}px;
     height: ${(props) => props.size}px;
   }
-  ${({ checked }) => {
-    if (!checked) {
+  ${({ checked, done }) => {
+    if (!checked && !done) {
       return css`
         &:hover {
           img {
@@ -480,7 +538,7 @@ const StyledButton = styled(Button)`
     color: ${(props) => props.theme.palette.grey};
   }
   ${customMedia.lessThan("mobile")`
-    margin-top: 12px;
+    margin-top: 8px;
   `}
 `;
 

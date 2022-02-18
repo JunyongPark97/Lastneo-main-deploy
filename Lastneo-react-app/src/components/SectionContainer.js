@@ -6,7 +6,9 @@ const SectionContainer = styled.div`
   /* background-color: green; */
   border-bottom: solid 1px ${(props) => props.theme.palette.paleGrey};
   padding: 60px 0 60px 0;
-  p {
+  width: 640px;
+  margin: auto;
+  p.section-title {
     font-size: 16px;
     font-weight: 400;
     color: ${(props) => props.theme.palette.darkGrey};
@@ -24,12 +26,19 @@ const SectionContainer = styled.div`
     margin-bottom: 60px;
   }
   ${customMedia.lessThan("mobile")`
-  padding: 24px 24px 48px 24px;
-  p {
+  padding: 24px 0 48px 0;
+  margin: 0 24px;
+  width: calc(100% - 48px);
+  p.section-title {
     font-size: 14px;
   }
   h3 {
     font-size: 20px;
+    margin: 24px 0;
+    line-height: 29px;
+  }
+  h3.broad-margin {
+    margin-bottom: 48px;
   }
   `}
 

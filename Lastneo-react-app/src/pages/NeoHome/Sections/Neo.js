@@ -5,11 +5,11 @@ import images from "../../../assets";
 import { customMedia } from "../../../styles/GlobalStyle";
 
 const DescSection = styled.section`
-  width: 640px;
   padding: 60px 0;
   border-bottom: solid 1px ${(props) => props.theme.palette.paleGrey};
   color: ${(props) => props.theme.palette.darkGrey};
-
+  width: 640px;
+  margin: auto;
   h2 {
     margin-bottom: 12px;
     font-size: 28px;
@@ -44,6 +44,7 @@ const DescSection = styled.section`
     p {
       margin-bottom: 0px;
       font-size: 14px;
+      color: ${(props) => props.theme.palette.gray};
     }
     button {
       background-color: rgba(0, 0, 0, 0);
@@ -61,22 +62,33 @@ const DescSection = styled.section`
     }
   }
   ${customMedia.lessThan("mobile")`
-  width: 100%;
-  padding: 24px 24px 48px 24px;
+  padding: 24px 0px 48px 0px;
+  width: calc(100% - 48px);
+  margin: 0 24px;
   p {
     font-size: 14px;
     margin-bottom: 8px;
   }
   h2 {
     font-size: 24px;
+    margin-bottom: 8px;
   }
   h3 {
     font-size: 20px;
   }
   h4 {
     font-size: 16px;
+    margin-bottom: 48px;
+  }
+  span {
+    font-size: 28px;
   }
   div {
+    margin-top: 24px;
+    img {
+      margin-bottom: 24px;
+      width: 80px;
+    }
     p {
       font-size: 12px;
     }

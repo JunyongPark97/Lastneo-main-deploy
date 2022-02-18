@@ -225,7 +225,7 @@ class NeoHomeOwnerInfoRetrieveSerializer(serializers.ModelSerializer):
         value_items = ValuesItems.objects.filter(neo=neo).last()
         dic['item_name'] = value_items.item_meta.name
         dic['item_image'] = value_items.item_meta.item_image.url
-        daytime = value_items.created_at + datetime.timedelta(hours=9, minutes=0)
+        daytime = value_items.created_at
         daytime = DateFormat(daytime).format('Y.m.d')
         dic["created_at"] = daytime
         today_daytime = DateFormat(datetime.datetime.today()).format('Y.m.d')
@@ -242,7 +242,7 @@ class NeoHomeOwnerInfoRetrieveSerializer(serializers.ModelSerializer):
             dic = {}
             dic["item_name"] = big5_item.item_meta.name
             dic["item_image"] = big5_item.item_meta.item_image.url
-            daytime = big5_item.created_at + datetime.timedelta(hours=9, minutes=0)
+            daytime = big5_item.created_at
             daytime = DateFormat(daytime).format('Y.m.d')
             dic["created_at"] = daytime
             today_daytime = DateFormat(datetime.datetime.today()).format('Y.m.d')
@@ -269,7 +269,7 @@ class NeoHomeOwnerInfoRetrieveSerializer(serializers.ModelSerializer):
             dic = {}
             nft_qs = NFT.objects.filter(pk=nft.id).last()
             dic["nft_image"] = nft_qs.nft_image.url
-            daytime = nft_qs.created_at + datetime.timedelta(hours=9, minutes=0)
+            daytime = nft_qs.created_at
             daytime = DateFormat(daytime).format('Y.m.d')
             dic["created_at"] = daytime
             today_daytime = DateFormat(datetime.datetime.today()).format('Y.m.d')
