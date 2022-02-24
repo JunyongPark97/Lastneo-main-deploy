@@ -53,8 +53,8 @@ function AuthNum() {
       phone: location.state.phone,
       confirm_key: authNum,
     };
-    enterAuth(body).then((response) => {
-      if (response.type == "neohome/RESET_PW_AUTH_SUCCESS") {
+    enterAuth(body)
+      .then(() => {
         history.push({
           pathname: "/resetpw/password",
           state: {
@@ -63,10 +63,10 @@ function AuthNum() {
             confirm_key: authNum,
           },
         });
-      } else {
+      })
+      .catch(() => {
         setErrMsg(true);
-      }
-    });
+      });
   };
   const onClickHandler = (event) => {
     setTimeout(() => {
@@ -78,7 +78,7 @@ function AuthNum() {
       nickname: location.state.nickname,
       phone: location.state.phone,
     };
-    dispatch(getAuth(body));
+    getAuth(body);
   };
   return (
     <>

@@ -5,15 +5,15 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { customMedia } from "../../styles/GlobalStyle";
 
-function Modal({
+function ItemModal({
   className,
   onClose,
-  onShowNext,
+  onScroll,
   maskClosable,
   closable,
   visible,
   children,
-  noItem,
+  newItem,
 }) {
   const onMaskClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -21,17 +21,17 @@ function Modal({
     }
   };
 
-  const showNext = (e) => {
-    if (onShowNext) {
-      onShowNext(e);
-    }
-  };
   const close = (e) => {
     if (onClose) {
       onClose(e);
     }
   };
 
+  const scroll = (e) => {
+    if (onScroll) {
+      onScroll(e);
+    }
+  };
   return (
     <>
       <ModalOverlay visible={visible} />
@@ -43,9 +43,17 @@ function Modal({
       >
         <ModalInner tabIndex="0" className="modal-inner">
           {children}
+          {newItem && (
+            <button className="modal-scroll" onClick={scroll}>
+              캐릭터 보기
+            </button>
+          )}
           {closable && (
-            <button className="modal-close" onClick={noItem ? close : showNext}>
-              {noItem ? "닫기" : "설명 보기"}
+            <button
+              className={newItem ? "modal-close" : "modal-close-wide"}
+              onClick={close}
+            >
+              닫기
             </button>
           )}
         </ModalInner>
@@ -54,7 +62,7 @@ function Modal({
   );
 }
 
-Modal.propTypes = {
+ItemModal.propTypes = {
   visible: PropTypes.bool,
 };
 
@@ -95,8 +103,37 @@ const ModalInner = styled.div`
   top: 50%;
   transform: translateY(-50%);
   margin: 0 auto;
-  padding: 40px;
+  /* padding: 40px; */
+  button.modal-close,
+  button.modal-scroll {
+    position: absolute;
+    bottom: 40px;
+    width: 228px;
+    height: 62px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 500;
+  }
   button.modal-close {
+    background-color: ${(props) => props.theme.palette.lightGrey};
+    color: ${(props) => props.theme.palette.powderGrey};
+    right: 40px;
+    &:hover {
+      background-color: ${(props) => props.theme.palette.grey};
+      color: ${(props) => props.theme.palette.darkGrey};
+    }
+  }
+  button.modal-scroll {
+    background-color: ${(props) => props.theme.palette.black};
+    color: ${(props) => props.theme.palette.white};
+    left: 40px;
+    &:hover {
+      background-color: ${(props) => props.theme.palette.powderGrey};
+      color: ${(props) => props.theme.palette.grey};
+    }
+  }
+
+  button.modal-close-wide {
     position: absolute;
     bottom: 40px;
     left: 50%;
@@ -114,11 +151,23 @@ const ModalInner = styled.div`
       color: ${(props) => props.theme.palette.darkGrey};
     }
   }
+
   ${customMedia.lessThan("mobile")`
     width: 327px;
     height: 592px;
-    padding: 24px;
+    button.modal-close, button.modal-scroll {
+      width: 132px;
+      height: 52px;
+      bottom: 22px;
+      font-size: 16px;
+    }
     button.modal-close {
+      right: 24px;
+    }
+    button.modal-scroll {
+        left: 24px;
+    }
+    button.modal-close-wide {
       width: calc(100% - 48px);
       height: 52px;
       bottom: 22px;
@@ -132,4 +181,4 @@ const ModalInner = styled.div`
   `}
 `;
 
-export default Modal;
+export default ItemModal;

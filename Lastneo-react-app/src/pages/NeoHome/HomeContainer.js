@@ -5,7 +5,7 @@ import GuestHome from "./GuestHome";
 import OwnerHome from "./OwnerHome";
 import { isOwner } from "../../utils/auth";
 import { getOwnerInfo } from "../../modules/owner";
-import { getGuestInfo } from "../../modules/guest";
+import guest, { getGuestInfo } from "../../modules/guest";
 import { setNickname } from "../../modules/neohome";
 import { useDispatch, useSelector } from "react-redux";
 import HomeNavbar from "../../components/HomeNavbar";
@@ -23,10 +23,8 @@ function HomeContainer({ match, history }) {
     const data = location.state;
     if (typeof data !== "undefined") {
       if (data.from == "frontdoor" && data.status == 1) {
-        dispatch(getGuestInfo(match.params.id)).then((response) => {
-          if (response.type == "guest/GUEST_INFO_SUCCESS") {
-            setShowGuest(true);
-          }
+        dispatch(getGuestInfo(match.params.id)).then(() => {
+          setShowGuest(true);
         });
       } else if (data.from == "frontdoor" && data.status == 0) {
         dispatch(getOwnerInfo(match.params.id)).then((response) => {

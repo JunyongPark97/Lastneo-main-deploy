@@ -58,11 +58,8 @@ function Password() {
       confirm_key: location.state.confirm_key,
       password: password,
     };
-    enterNewPw(body).then((response) => {
-      if (response.status) {
-        history.push(`/${store.nickname}`); // 집으로 이동
-      } else {
-      }
+    enterNewPw(body).then(() => {
+      history.push(`/${store.nickname}`); // 집으로 이동
     });
   };
 

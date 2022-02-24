@@ -9,9 +9,11 @@ import { useDispatch } from "react-redux";
 import { customMedia } from "../../../styles/GlobalStyle";
 import { useSelector } from "react-redux";
 import Modal from "../../../components/modals/Modal";
+import ItemModal from "../../../components/modals/ItemModal";
+import ItemModalContent from "../../../components/modals/ItemModalContent";
 import LoadingModal from "../../../components/modals/LoadingModal";
 import { getOwnerInfo } from "../../../modules/owner";
-import { setBig5Answers, setScroll, setTab } from "../../../modules/neohome";
+import { setScroll, setTab } from "../../../modules/neohome";
 
 const checked = [images.c1, images.c2, images.c3, images.c4, images.c5];
 const unchecked = [images.uc1, images.uc2, images.uc3, images.uc4, images.uc5];
@@ -41,19 +43,31 @@ function Question({ store }) {
   const [weekend, setWeekend] = useState(store.is_weekend);
   const [itemName, setItemName] = useState("");
   const [itemImg, setItemImg] = useState("");
+  const [itemDesc, setItemDesc] = useState("");
+
   const [modalVisible, setModalVisible] = useState(false);
+  const [itemModalVisible, setItemModalVisible] = useState(false);
   const [loadingModalVisible, setLoadingModalVisible] = useState(false);
 
   const openModal = () => {
     setModalVisible(true);
   };
   const closeModal = () => {
-    // 아이템 지급 모달 - '닫기' => 주인정보 새로 요청
     dispatch(getOwnerInfo(store_neohome.nickname)).then(() => {
       setModalVisible(false);
     });
   };
-  const scrollModal = () => {
+  const showNextModal = () => {
+    setModalVisible(false);
+    setItemModalVisible(true);
+  };
+  const closeItemModal = () => {
+    // 아이템 지급 모달 - '닫기' => 주인정보 새로 요청
+    dispatch(getOwnerInfo(store_neohome.nickname)).then(() => {
+      setItemModalVisible(false);
+    });
+  };
+  const scrollItemModal = () => {
     // 아이템 지급 모달 - '캐릭터 보기' => Charater.js useEffect에서 scroll = true면 주인정보 새로 요청
     dispatch(setTab("character"));
     dispatch(setScroll("character_room"));
@@ -84,21 +98,18 @@ function Question({ store }) {
       questions: arr,
     };
     openLoadingModal();
-    dispatch(sendBig5(body)).then((response) => {
-      if (response.type == "owner/SEND_BIG5_SUCCESS") {
-        setOpen(false);
-        dispatch(setBig5Answers(arr));
-        setDone(true);
-        if (!response.payload.item_status) {
-          setItemName(null);
-          setItemImg(null);
-        } else {
-          setItemName(response.payload.item_name);
-          setItemImg(response.payload.item_image);
-        }
-        closeLoadingModal();
-        openModal();
+    sendBig5(body).then((response) => {
+      setOpen(false);
+      setDone(true);
+      if (!response.payload.item_status) {
+        setItemName(null);
+        setItemImg(null);
+      } else {
+        setItemName(response.payload.item_name);
+        setItemImg(response.payload.item_image);
       }
+      closeLoadingModal();
+      openModal();
     });
   };
 
@@ -146,87 +157,12 @@ function Question({ store }) {
         <span className="date">{store.today_datetime}</span>
         {descGenerator(store)}
         {open && (
-          <Questions color={weekend || done ? "lightGrey" : "paleYellow"}>
-            {store.neo_questions.map((item, i) => {
-              const arr = [0, 1, 2, 3, 4];
-              const sizes = [60, 50, 40, 50, 60];
-              const mSizes = [48, 40, 32, 40, 48];
-              const colors = [
-                "#FFF0C1",
-                "#FFE194",
-                "#FFC859",
-                "#FFAA00",
-                "#CC7E00",
-              ];
-              return (
-                <SingleQuestion key={i}>
-                  <p className="question">
-                    {i + 1}. {item.question}
-                  </p>
-                  <div className="btns-wrapper">
-                    <span className="desc-web">전혀 아니다</span>
-                    <YellowBtns>
-                      {arr.map((idx) => {
-                        return (
-                          <button
-                            key={idx}
-                            onClick={() => {
-                              const newArr = [...answers];
-                              newArr[i] = idx + 1;
-                              setAnswers(newArr);
-                            }}
-                            disabled={done}
-                          >
-                            {!done ? (
-                              <BtnImg
-                                size={sizes[idx]}
-                                mSize={mSizes[idx]}
-                                color={colors[idx]}
-                                key={idx}
-                                checked={answers[i] == idx + 1}
-                                done={false}
-                              >
-                                <img
-                                  src={
-                                    answers[i] == idx + 1
-                                      ? checked[idx]
-                                      : unchecked[idx]
-                                  }
-                                />
-                                <span></span>
-                              </BtnImg>
-                            ) : (
-                              <BtnImg
-                                size={sizes[idx]}
-                                mSize={mSizes[idx]}
-                                key={idx}
-                                done={true}
-                              >
-                                <img
-                                  src={
-                                    store_neohome.big5_answers[i].result ==
-                                    idx + 1
-                                      ? checked_mono[idx]
-                                      : unchecked_mono[idx]
-                                  }
-                                />
-                                <span></span>
-                              </BtnImg>
-                            )}
-                          </button>
-                        );
-                      })}
-                    </YellowBtns>
-                    <span className="desc-web">매우 그렇다</span>
-                    <div className="desc-mobile">
-                      <span>전혀 아니다</span>
-                      <span>매우 그렇다</span>
-                    </div>
-                  </div>
-                </SingleQuestion>
-              );
-            })}
-          </Questions>
+          <Questions
+            questions={!done ? store.neo_questions : store.last_neo_questions}
+            answers={answers}
+            setAnswers={setAnswers}
+            done={done}
+          />
         )}
         <ToggleBtn onClick={toggleHandler} disabled={weekend}>
           <img src={weekend || open ? images.toggleclose : images.toggleopen} />
@@ -255,14 +191,23 @@ function Question({ store }) {
           네오에게 인격 담기
         </StyledButton>
       </div>
-
+      {loadingModalVisible && (
+        <LoadingModal
+          visible={loadingModalVisible}
+          closable={true}
+          maskClosable={true}
+          onClose={closeLoadingModal}
+          item
+        ></LoadingModal>
+      )}
       {modalVisible && (
         <Modal
           visible={modalVisible}
           closable={true}
           maskClosable={true}
           onClose={closeModal}
-          onScroll={scrollModal}
+          onShowNext={showNextModal}
+          noItem={itemName == null}
         >
           <ModalContent>
             {/* 아래 정의되어 있음 */}
@@ -306,20 +251,118 @@ function Question({ store }) {
           </ModalContent>
         </Modal>
       )}
-
-      {loadingModalVisible && (
-        <LoadingModal
-          visible={loadingModalVisible}
+      {itemModalVisible && (
+        <ItemModal
+          visible={itemModalVisible}
           closable={true}
           maskClosable={true}
-          onClose={closeLoadingModal}
-          item
-        ></LoadingModal>
+          onClose={closeItemModal}
+          onScroll={scrollItemModal}
+          newItem={true}
+        >
+          <ItemModalContent>
+            <div className="img-container">
+              <img src={itemImg} className="item-modal-img" />
+            </div>
+            <h3 className="item-modal-name">{itemName}</h3>
+            <div className="desc-container">
+              <p className="item-modal-desc">{itemDesc}</p>
+            </div>
+          </ItemModalContent>
+        </ItemModal>
       )}
     </SectionContainer>
   );
 }
+2;
 export default Question;
+
+function Questions({ questions, answers, setAnswers, done }) {
+  const arr = [0, 1, 2, 3, 4];
+  const sizes = [60, 50, 40, 50, 60];
+  const mSizes = [48, 40, 32, 40, 48];
+  const colors = ["#FFF0C1", "#FFE194", "#FFC859", "#FFAA00", "#CC7E00"];
+  return (
+    <InnerContainer color={done ? "paleGrey" : "powderYellow"}>
+      {questions.map((item, i) => {
+        return (
+          <SingleQuestion key={i}>
+            <p className="question">
+              {i + 1}. {item.question}
+            </p>
+            <div className="btns-wrapper">
+              <span className="desc-web">전혀 아니다</span>
+              {!done ? (
+                <YellowBtns>
+                  {arr.map((idx) => {
+                    return (
+                      <button
+                        key={idx}
+                        onClick={() => {
+                          const newArr = [...answers];
+                          newArr[i] = idx + 1;
+                          setAnswers(newArr);
+                        }}
+                      >
+                        <BtnImg
+                          size={sizes[idx]}
+                          mSize={mSizes[idx]}
+                          color={colors[idx]}
+                          key={idx}
+                          checked={answers[i] == idx + 1}
+                          done={done}
+                        >
+                          <img
+                            src={
+                              answers[i] == idx + 1
+                                ? checked[idx]
+                                : unchecked[idx]
+                            }
+                          />
+                          <span></span>
+                        </BtnImg>
+                      </button>
+                    );
+                  })}
+                </YellowBtns>
+              ) : (
+                <MonoBtns>
+                  {arr.map((idx) => {
+                    return (
+                      <button key={idx} disabled={true}>
+                        <BtnImg
+                          size={sizes[idx]}
+                          mSize={mSizes[idx]}
+                          key={idx}
+                          checked={item.result[i] == idx + 1}
+                          done={true}
+                        >
+                          <img
+                            src={
+                              item.result == idx + 1
+                                ? checked_mono[idx]
+                                : unchecked_mono[idx]
+                            }
+                          />
+                          <span></span>
+                        </BtnImg>
+                      </button>
+                    );
+                  })}
+                </MonoBtns>
+              )}
+              <span className="desc-web">매우 그렇다</span>
+              <div className="desc-mobile">
+                <span>전혀 아니다</span>
+                <span>매우 그렇다</span>
+              </div>
+            </div>
+          </SingleQuestion>
+        );
+      })}
+    </InnerContainer>
+  );
+}
 
 const QuestionsContainer = styled.div`
   ${(props) => {
@@ -373,7 +416,7 @@ const QuestionsContainer = styled.div`
 `}
 `;
 
-const Questions = styled.div`
+const InnerContainer = styled.div`
   width: 100%;
   ${(props) => {
     const selected = props.theme.palette[props.color];
@@ -392,6 +435,11 @@ const YellowBtns = styled.div`
   align-items: center;
 `;
 
+const MonoBtns = styled.div`
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
 const DescDiv = styled.div`
   p {
     margin-bottom: 20px;
@@ -508,6 +556,11 @@ const BtnImg = styled.div`
             display: block;
           }
         }
+      `;
+    }
+    if (done) {
+      return css`
+        cursor: auto;
       `;
     }
   }}

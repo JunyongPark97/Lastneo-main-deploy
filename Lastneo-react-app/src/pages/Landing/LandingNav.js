@@ -36,7 +36,7 @@ function LandingNav() {
             <button
               onClick={() => {
                 setOpen(false);
-                setModalOpen(true);
+                window.location.href = "story";
               }}
             >
               스토리 보기

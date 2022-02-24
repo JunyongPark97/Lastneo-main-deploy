@@ -50,12 +50,10 @@ function GetNft({ store, remain }) {
   const onSubmitHandler = (e) => {
     e.preventDefault();
     openLoadingModal();
-    dispatch(createNft()).then((response) => {
-      if (response.type == "owner/CREATE_NFT_SUCCESS") {
-        setNftImg(response.payload.nft_image);
-        closeLoadingModal();
-        openModal();
-      }
+    createNft().then((response) => {
+      setNftImg(response.payload.nft_image);
+      closeLoadingModal();
+      openModal();
     });
   };
 
@@ -269,19 +267,12 @@ const StyledButton = styled(Button)`
 
 const generateDates = (store) => {
   const arr = [];
-  const items = store.items;
-  if (items[0].today_received) {
-    // 가치관 아이템 추가
-    arr.push({ idx: 1, date: "오늘" });
-  } else {
-    arr.push({ idx: 1, date: items[0].created_at });
-  }
-  const reverse_items = items.slice(1).reverse(); // 가치관 아이템 제외한 아이템 배열을 역순으로 만듦
-  reverse_items.map((item, idx) => {
-    if (item.today_received) {
-      arr.push({ idx: idx + 2, date: "오늘" }); // 가치관 아이템이 1번째이므로 2번째부터 시작
+  const dates = store.neodata_infos;
+  dates.map((date, idx) => {
+    if (date == store.today_datetime) {
+      arr.push({ idx: idx + 1, date: "오늘" });
     } else {
-      arr.push({ idx: idx + 2, date: item.created_at });
+      arr.push({ idx: idx + 1, date: date });
     }
   });
 

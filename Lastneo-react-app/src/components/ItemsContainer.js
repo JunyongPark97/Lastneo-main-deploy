@@ -9,7 +9,6 @@ const ItemsContainer = styled.div`
   padding: 32px 32px 16px 32px;
   border-radius: 24px;
   width: 640px;
-  height: 634px;
   p.title {
     margin-bottom: 32px;
     font-size: 18px;
@@ -23,7 +22,6 @@ const ItemsContainer = styled.div`
   }
   ${customMedia.lessThan("mobile")`
   width: calc(100vw - 48px);
-  height: calc((100vw - 48px) * 0.9908);
   padding: 24px 24px 12px 24px;
   p.title {
     font-size: 16px;

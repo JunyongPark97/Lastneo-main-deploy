@@ -11,7 +11,6 @@ import images from "../../assets";
 import { customMedia } from "../../styles/GlobalStyle";
 import FltBtn from "../../components/FltBtn";
 import { useHistory, useLocation } from "react-router";
-import { Helmet } from "react-helmet-async";
 const GuestHome = () => {
   const history2 = useHistory();
   const tabMenuRef = useRef();
@@ -21,28 +20,17 @@ const GuestHome = () => {
     history2.push("/register");
   };
 
-  useEffect(() => {
-    window.addEventListener("wheel", () => {
-      if (tabMenuRef.current.getBoundingClientRect().top < 0) {
-        setFltBtnVisible(true);
-      }
-      if (tabMenuRef.current.getBoundingClientRect().top > 0) {
-        setFltBtnVisible(false);
-      }
-    });
-  });
-
   return (
     <>
       <HomeDiv>
-        <Profile store={store} owner={false} />
+        <Profile store={store.data} owner={false} />
         <HomeNav>
           <TabBtn color="black" textColor="white" ref={tabMenuRef}>
             <img src={images.pinkblock} />
             캐릭터 방
           </TabBtn>
         </HomeNav>
-        <CharacterRoom store={store} owner={false} />
+        <CharacterRoom store={store.data} owner={false} />
         <FltBtn color="pink" onClick={onClickHandler} visible={true}>
           내 네오 만들기
         </FltBtn>

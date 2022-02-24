@@ -245,6 +245,7 @@ class ValuesItems(models.Model):
     neo = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='values_items')
     created_at = models.DateTimeField(null=True, blank=True, auto_now_add=True)
 
+
 class Schwartz(models.Model):
     """
     가치관을 판단하는 Schwartz 의 보편적 가치 이론 모델을 저장합니다.

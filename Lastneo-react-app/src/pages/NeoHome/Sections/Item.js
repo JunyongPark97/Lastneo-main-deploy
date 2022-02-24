@@ -1,8 +1,10 @@
 /* eslint-disable */
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useSelector } from "react-redux";
 import NewItemModal from "../../../components/NewItemModal";
+import Modal from "../../../components/modals/ItemModal";
+import ItemModalContent from "../../../components/modals/ItemModalContent";
 import ItemsContainer from "../../../components/ItemsContainer";
 import yellowalert from "../../../assets/yellowalert.png";
 import SectionContainer from "../../../components/SectionContainer";
@@ -11,8 +13,23 @@ import images from "../../../assets";
 
 function Item({ store }) {
   const localstore = store.items;
-  const { items, newItem } = generateCell(localstore);
+  const [modalItem, setModalItem] = useState(-1);
+  const [showItemModal, setShowItemModal] = useState(false);
+  const [gridAmount, setGridAmount] = useState(
+    3 * Math.ceil(localstore.length / 3)
+  );
+  const { items, newItem } = generateCell(
+    localstore,
+    setShowItemModal,
+    setModalItem
+  );
   const [modal, setModal] = useState(newItem);
+  const openModal = () => {
+    setShowItemModal(true);
+  };
+  const closeModal = () => {
+    setShowItemModal(false);
+  };
   return (
     <SectionContainer color="pink">
       <p className="section-title">아이템</p>
@@ -39,10 +56,10 @@ function Item({ store }) {
           네오 캐릭터의 <span>아이템</span>이에요!
         </p>
         <GridContainer>
-          {[...Array(6)].map((e, i) => {
+          {[...Array(gridAmount)].map((e, i) => {
             return (
               items[i] || (
-                <GridItem>
+                <GridItem key={i} empty={true}>
                   <div className="item-wrapper">
                     <img className="item-bg" src={images.itembg} />
                     <img className="item-img" src={images.emptycell} />
@@ -53,6 +70,33 @@ function Item({ store }) {
             );
           })}
         </GridContainer>
+        {showItemModal && (
+          <Modal
+            visible={showItemModal}
+            closable={true}
+            maskClosable={true}
+            onClose={closeModal}
+            newItem={false}
+          >
+            <ItemModalContent>
+              {/* 아래 정의되어 있음 */}
+              <div className="img-container">
+                <img
+                  src={localstore[modalItem].item_image}
+                  className="item-modal-img"
+                />
+              </div>
+              <h3 className="item-modal-name">
+                {localstore[modalItem].item_name}
+              </h3>
+              <div className="desc-container">
+                <p className="item-modal-desc">
+                  -&nbsp;{localstore[modalItem].item_description}
+                </p>
+              </div>
+            </ItemModalContent>
+          </Modal>
+        )}
       </ItemsContainer>
     </SectionContainer>
   );
@@ -67,24 +111,33 @@ const GridContainer = styled.div`
   padding-top: 32px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 1fr);
+  grid-auto-rows: auto;
   gap: 16px 30px;
   grid-gap: 16px 30px;
   ${customMedia.lessThan("mobile")`
     padding-top: 24px;
     gap: 12px 24px;
     grid-gap: 12px 24px;
-  `}
+  `};
+  /* background: black; */
 `;
 
 const GridItem = styled.div`
   position: relative;
+  /* background: lavender; */
   .item-wrapper {
     position: relative;
     width: 100%;
     padding-bottom: 100%;
     border-radius: 16px;
     margin-bottom: 8px;
+  }
+
+  .item-cover {
+    width: 100%;
+    z-index: 10;
+    position: absolute;
+    visibility: hidden;
   }
 
   .item-img {
@@ -120,6 +173,19 @@ const GridItem = styled.div`
       line-height: 17px;
     }
   `}
+
+  ${({ empty }) => {
+    if (!empty) {
+      return css`
+        cursor: pointer;
+        &:hover {
+          .item-cover {
+            visibility: visible;
+          }
+        }
+      `;
+    }
+  }}
 `;
 
 const NewAlert = styled.span`
@@ -137,7 +203,7 @@ const NewAlert = styled.span`
     font-size: 12px;
   `}
 `;
-const generateCell = (data) => {
+const generateCell = (data, setShowItemModal, setModalItem) => {
   const items = [];
   const newItem = data.some((item) => {
     if (item.today_received) {
@@ -148,11 +214,19 @@ const generateCell = (data) => {
 
   // 가치관 아이템 추가
   items.push(
-    <GridItem key="0">
+    <GridItem
+      key="0"
+      onClick={() => {
+        setModalItem(0);
+        setShowItemModal(true);
+      }}
+      empty={false}
+    >
       <div className="item-wrapper">
         <img src={data[0].item_image} className="item-img" />
         <img src={images.itembg} className="item-bg" />
         {data[0].today_received && <NewAlert>N</NewAlert>}
+        <img className="item-cover" src={images.opacityblack} />
       </div>
       <p className="item-desc">{data[0].item_name}</p>
     </GridItem>
@@ -161,11 +235,19 @@ const generateCell = (data) => {
   const reverse_items = data.slice(1).reverse();
   reverse_items.map((item, i) => {
     const cell = (
-      <GridItem key={i + 1}>
+      <GridItem
+        key={i + 1}
+        onClick={() => {
+          setModalItem(data.length - (i + 1));
+          setShowItemModal(true);
+        }}
+        empty={false}
+      >
         <div className="item-wrapper">
           <img src={item.item_image} className="item-img" />
           <img src={images.itembg} className="item-bg" />
           {item.today_received && <NewAlert>N</NewAlert>}
+          <img className="item-cover" src={images.opacityblack} />
         </div>
         <p className="item-desc">{item.item_name}</p>
       </GridItem>

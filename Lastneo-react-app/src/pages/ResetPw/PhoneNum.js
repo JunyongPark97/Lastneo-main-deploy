@@ -48,18 +48,16 @@ function PhoneNum() {
   const onSubmitHandler = (e) => {
     e.preventDefault();
     let body = { nickname: store.nickname, phone: phoneNum };
-    getAuth(body).then((response) => {
-      if (response.type == "neohome/RESET_PW_AUTH_REQ_SUCCESS") {
+    getAuth(body)
+      .then(() => {
         history.push({
           pathname: "/resetpw/authnum",
           state: { phone: phoneNum, nickname: store.nickname },
         });
-      } else if (response.payload.non_field_errors[0] == "정보 없음") {
+      })
+      .catch(() => {
         setMsg(2);
-      } else {
-        setMsg(2);
-      }
-    });
+      });
   };
 
   const onFocusHandler = (event) => {

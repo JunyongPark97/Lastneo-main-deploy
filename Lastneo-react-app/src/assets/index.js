@@ -74,7 +74,9 @@ import shiningnft from "./shiningnft.png";
 import emptyframe from "./emptyframe.png";
 import goleft from "./goleft.png";
 import goright from "./goright.png";
+import opacityblack from "./opacityblack.png";
 const images = {
+  opacityblack,
   goright,
   goleft,
   emptyframe,

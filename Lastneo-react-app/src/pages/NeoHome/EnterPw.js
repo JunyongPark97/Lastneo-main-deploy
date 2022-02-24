@@ -45,16 +45,16 @@ function EnterPw({ nickname }) {
       nickname,
       password,
     };
-    login(body).then((response) => {
-      if (response.type == "neohome/FRONTDOOR_LOGIN_SUCCESS") {
+    login(body)
+      .then(() => {
         history.push({
           pathname: `/${nickname}`,
           state: { from: "frontdoor", status: 0 },
         });
-      } else {
+      })
+      .catch(() => {
         setMsg(2);
-      }
-    });
+      });
   };
 
   const onSmallBtnHandler = () => {

@@ -102,6 +102,7 @@ class NeoHomeGuestInfoRetrieveSerializer(serializers.ModelSerializer):
         value_items = ValuesItems.objects.filter(neo=neo).last()
         dic['item_name'] = value_items.item_meta.name
         dic['item_image'] = value_items.item_meta.item_image.url
+        dic['item_description'] = value_items.item_meta.description
         daytime = value_items.created_at
         daytime = DateFormat(daytime).format('Y.m.d')
         dic["created_at"] = daytime
@@ -119,6 +120,7 @@ class NeoHomeGuestInfoRetrieveSerializer(serializers.ModelSerializer):
             dic = {}
             dic["item_name"] = big5_item.item_meta.name
             dic["item_image"] = big5_item.item_meta.item_image.url
+            dic["item_description"] = big5_item.item_meta.description
             daytime = big5_item.created_at
             daytime = DateFormat(daytime).format('Y.m.d')
             dic["created_at"] = daytime
@@ -175,11 +177,14 @@ class NeoHomeOwnerInfoRetrieveSerializer(serializers.ModelSerializer):
     mbti_name = serializers.SerializerMethodField()
     is_done = serializers.SerializerMethodField()
     is_weekend = serializers.SerializerMethodField()
+    neodata_infos = serializers.SerializerMethodField()
+    last_neo_questions = serializers.SerializerMethodField()
 
     class Meta:
         model = NeoHome
         fields = ["neo_room_image", "mini_profile", "home_address", "mbti", "mbti_name", "description", "neo_image",
-                  "value_items", "items", "nfts_info", "today_datetime", "neo_questions", "neo_blocks", "is_done", "is_weekend"]
+                  "value_items", "items", "nfts_info", "today_datetime", "neo_questions", "neo_blocks", "is_done",
+                  "is_weekend", "neodata_infos", "last_neo_questions"]
         lookup_field = 'nickname'
 
     def get_neo_room_image(self, obj):
@@ -225,6 +230,7 @@ class NeoHomeOwnerInfoRetrieveSerializer(serializers.ModelSerializer):
         value_items = ValuesItems.objects.filter(neo=neo).last()
         dic['item_name'] = value_items.item_meta.name
         dic['item_image'] = value_items.item_meta.item_image.url
+        dic['item_description'] = value_items.item_meta.description
         daytime = value_items.created_at
         daytime = DateFormat(daytime).format('Y.m.d')
         dic["created_at"] = daytime
@@ -242,6 +248,7 @@ class NeoHomeOwnerInfoRetrieveSerializer(serializers.ModelSerializer):
             dic = {}
             dic["item_name"] = big5_item.item_meta.name
             dic["item_image"] = big5_item.item_meta.item_image.url
+            dic["item_description"] = big5_item.item_meta.description
             daytime = big5_item.created_at
             daytime = DateFormat(daytime).format('Y.m.d')
             dic["created_at"] = daytime
@@ -320,7 +327,8 @@ class NeoHomeOwnerInfoRetrieveSerializer(serializers.ModelSerializer):
     def get_is_done(self, obj):
         from datetime import datetime, time, timedelta
         today = datetime.now().date()
-        if Big5Answer.objects.filter(big5_question__section=self.today_section, neo=obj.neo, created_at__gte=today - timedelta(hours=9, minutes=0)).exists():
+        if Big5Answer.objects.filter(big5_question__section=self.today_section, neo=obj.neo,
+                                     created_at__gte=today - timedelta(hours=9, minutes=0)).exists():
             return True
         return False
 
@@ -346,6 +354,44 @@ class NeoHomeOwnerInfoRetrieveSerializer(serializers.ModelSerializer):
             return True
         else:
             return False
+
+    def get_neodata_infos(self, obj):
+        neodata_created_at_list = []
+        big5_created_at_list = []
+        neo = obj.neo
+        value_items = ValuesItems.objects.filter(neo=neo).last()
+        daytime = value_items.created_at
+        daytime = DateFormat(daytime).format('Y.m.d')
+        neodata_created_at_list.append(daytime)
+
+        big5_answer_qs = Big5Answer.objects.filter(neo=neo).order_by('created_at')
+        for big5_answer in big5_answer_qs.iterator():
+            daytime = big5_answer.created_at
+            daytime = DateFormat(daytime).format('Y.m.d')
+            if daytime in big5_created_at_list:
+                pass
+            else:
+                big5_created_at_list.append(daytime)
+
+        for i in range(len(big5_created_at_list)):
+            neodata_created_at_list.append(big5_created_at_list[i])
+
+        return neodata_created_at_list
+
+    def get_last_neo_questions(self, obj):
+        question_list = []
+        big5answer_qs = Big5Answer.objects.filter(neo=obj.neo,
+                                                  created_at__gte=datetime.datetime.now().date() - datetime.timedelta(hours=9))
+        for big5answer in big5answer_qs.iterator():
+            dic = {}
+            dic["section"] = big5answer.big5_question.section
+            dic["question"] = big5answer.big5_question.question
+            if big5answer.big5_question.weighted_value == -1:
+                dic["result"] = 6 - big5answer.result
+            else:
+                dic["result"] = big5answer.result
+            question_list.append(dic)
+        return question_list
 
 
 
